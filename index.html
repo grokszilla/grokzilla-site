@@ -4,61 +4,55 @@
   <meta charset="UTF-8">
   <title>Grokzilla Token</title>
   <style>
- body {
-  margin: 0;
-  padding: 0;
-  background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/5c2172e3-8d2c-4e8b-9154-b55f8fe641be.png') no-repeat center top;
-  background-size: cover;
-  background-color: #000000; /* PRETO NAS BORDAS */
-  color: #ffffff;
-  font-family: Arial, sans-serif;
-  text-align: center;
-}
+  body {
+    margin: 0;
+    padding: 0;
+    background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/5c2172e3-8d2c-4e8b-9154-b55f8fe641be.png') no-repeat center top;
+    background-size: cover;
+    background-color: #000000; /* PRETO NAS BORDAS */
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
 
+  .content {
+    background-color: rgba(0, 0, 0, 0.45);
+    padding: 60px 20px;
+    min-height: 100vh;
+    margin-top: 60px;
+  }
 
-    .content {
-      background-color: rgba(0, 0, 0, 0.45);
-      padding: 60px 20px;
-      min-height: 100vh;
-    }
+  p {
+    font-size: 1.2rem;
+  }
 
-    h1 {
-      color: #00ffcc;
-      font-size: 2.5rem;
-    }
+  a.button {
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 10px;
+    display: inline-block;
+    font-size: 1rem;
+    transition: all 0.2s ease-in-out;
+  }
 
-    p {
-      max-width: 600px;
-      margin: 0 auto 30px;
-      font-size: 1.2rem;
-    }
+  a.button.whitepaper {
+    background-color: #007bff; /* azul */
+    color: white;
+  }
 
-    a.button {
-      padding: 12px 20px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      margin: 10px;
-      display: inline-block;
-      font-size: 1rem;
-      transition: all 0.2s ease-in-out;
-    }
+  a.button.buy {
+    background-color: #28a745; /* verde */
+    color: white;
+  }
 
-    a.button.whitepaper {
-      background-color: #007bff; /* azul */
-      color: white;
-    }
+  a.button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+</style>
 
-    a.button.buy {
-      background-color: #28a745; /* verde */
-      color: white;
-    }
-
-    a.button:hover {
-      transform: scale(1.05);
-      opacity: 0.9;
-    }
-  </style>
 </head>
 <body>
   <div class="content">
