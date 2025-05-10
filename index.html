@@ -172,31 +172,40 @@
       }, 100);
     }
 
-    async function addToMetaMask() {
-      const btn = document.querySelector('.button.metamask');
-      if (typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask) {
-        try {
-          await ethereum.request({ method: 'eth_requestAccounts' });
+  async function addToMetaMask() {
+  const btn = document.querySelector('.button.metamask');
+  if (typeof window.ethereum === 'undefined') {
+    alert('MetaMask não está instalada.');
+    return;
+  }
 
-          const wasAdded = await ethereum.request({
-            method: 'wallet_watchAsset',
-            params: {
-              type: 'ERC20',
-              options: {
-                address: '0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',
-                symbol: 'GROKZILLA',
-                decimals: 18,
-                image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
-              }
-            }
-          });
+  try {
+    await ethereum.request({ method: 'eth_requestAccounts' });
 
-          btn.textContent = wasAdded ? '✅ Adicionado!' : '⚠️ Cancelado';
-        } catch (error) {
-          console.error(error);
-          btn.textContent = '❌ Erro';
+    const wasAdded = await ethereum.request({
+      method: 'wallet_watchAsset',
+      params: {
+        type: 'ERC20',
+        options: {
+          address: '0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',
+          symbol: 'GROKZILLA',
+          decimals: 18,
+          image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
         }
-      } else {
+      }
+    });
+
+    if (wasAdded) {
+      btn.textContent = '✅ Adicionado!';
+    } else {
+      btn.textContent = '⚠️ Cancelado';
+    }
+  } catch (err) {
+    console.error(err);
+    btn.textContent = '❌ Erro';
+  }
+}
+ else {
         alert('MetaMask não está instalada ou não é compatível.');
       }
     }
