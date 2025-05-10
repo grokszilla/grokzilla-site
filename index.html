@@ -16,8 +16,8 @@
       text-align: center;
     }
     .content {
-      background-color: rgba(0, 0, 0, 0.45);
-      padding: 100px 20px 60px 20px;
+      background-color: rgba(0,0,0,0.45);
+      padding: 100px 20px 60px;
       min-height: 100vh;
     }
     h1#title::after {
@@ -25,8 +25,8 @@
       animation: blink 1s infinite;
     }
     @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+      0%,100% { opacity: 1; }
+      50%     { opacity: 0; }
     }
     p {
       font-size: 1.2rem;
@@ -40,21 +40,21 @@
       margin: 10px;
       display: inline-block;
       font-size: 1rem;
-      transition: all 0.2s ease-in-out;
+      transition: all .2s ease-in-out;
     }
-    a.button.whitepaper { background-color: #007bff; color: white; }
-    a.button.buy { background-color: #28a745; color: white; }
-    a.button.bscscan { background-color: #ffc107; color: #000; }
-    button.button.metamask { background-color: #f6851b; color: white; border: none; }
+    a.button.whitepaper { background-color: #007bff; color: #fff; }
+    a.button.buy        { background-color: #28a745; color: #fff; }
+    a.button.bscscan    { background-color: #ffc107; color: #000; }
+    button.button.metamask { background-color: #f6851b; color: #fff; border: none; }
     a.button:hover, button.button:hover {
       transform: scale(1.05);
-      opacity: 0.9;
+      opacity: .9;
     }
     .lang-switch {
       margin-top: 20px;
     }
     .lang-switch button {
-      background-color: #ffffff;
+      background-color: #fff;
       color: #000;
       border: none;
       padding: 8px 14px;
@@ -62,15 +62,15 @@
       font-weight: bold;
       border-radius: 6px;
       cursor: pointer;
-      transition: background 0.2s ease-in-out;
+      transition: background .2s ease-in-out;
     }
     .lang-switch button:hover {
       background-color: #e0e0e0;
     }
     footer {
       padding: 20px;
-      font-size: 0.9rem;
-      background-color: rgba(0, 0, 0, 0.6);
+      font-size: .9rem;
+      background-color: rgba(0,0,0,0.6);
       color: #ccc;
     }
     footer a {
@@ -83,9 +83,9 @@
       vertical-align: middle;
       margin-right: 5px;
     }
-    @media (max-width: 768px) {
+    @media(max-width:768px) {
       .content {
-        padding: 60px 10px;
+        padding: 60px 10px 40px;
       }
     }
   </style>
@@ -94,9 +94,18 @@
   <div class="content">
     <h1 id="title"></h1>
     <p id="description"></p>
-    <a class="button whitepaper" href="https://raw.githubusercontent.com/grokszilla/grokzillawhitpaper/7c2462270032e5615447891ed31d934d199726d1/Grokzilla_Whitepaper_Final.pdf" target="_blank" id="whitepaper"></a>
+
+    <a class="button whitepaper"
+       href="https://raw.githubusercontent.com/grokszilla/grokzillawhitpaper/7c2462270032e5615447891ed31d934d199726d1/Grokzilla_Whitepaper_Final.pdf"
+       target="_blank"
+       id="whitepaper"></a>
+
     <a class="button buy" href="#" target="_blank" id="buy"></a>
-    <a class="button bscscan" href="https://bscscan.com/token/0x5C2d9D2b5AAF5E8352dAACC403132622139e355E" target="_blank" id="bscscan"></a>
+    <a class="button bscscan"
+       href="https://bscscan.com/token/0x5C2d9D2b5AAF5E8352dAACC403132622139e355E"
+       target="_blank"
+       id="bscscan"></a>
+
     <button class="button metamask" onclick="addToMetaMask()">🦊 Add to MetaMask</button>
 
     <div class="lang-switch">
@@ -118,67 +127,88 @@
   <script>
     const texts = {
       en: {
-        title: "Grokzilla Token",
+        title:       "Grokzilla Token",
         description: "Monster of memes. Nightmare of markets. Mascot of your next bad decision.\n$GROKZILLA",
-        whitepaper: "📄 Whitepaper",
-        buy: "🚀 Buy on PancakeSwap",
-        bscscan: "🔎 View on BscScan"
+        whitepaper:  "📄 Whitepaper",
+        buy:         "🚀 Buy on PancakeSwap",
+        bscscan:     "🔎 View on BscScan"
       },
       pt: {
-        title: "Token Grokzilla",
+        title:       "Token Grokzilla",
         description: "Monstro dos memes. Pesadelo dos mercados. Mascote da sua próxima má decisão.\n$GROKZILLA",
-        whitepaper: "📄 Whitepaper",
-        buy: "🚀 Comprar na PancakeSwap",
-        bscscan: "🔎 Ver no BscScan"
+        whitepaper:  "📄 Whitepaper",
+        buy:         "🚀 Comprar na PancakeSwap",
+        bscscan:     "🔎 Ver no BscScan"
       }
     };
 
     function setLang(lang) {
       const t = texts[lang];
-      document.getElementById("title").textContent = t.title;
+      document.getElementById("title").textContent       = t.title;
       document.getElementById("description").textContent = t.description;
-      document.getElementById("whitepaper").textContent = t.whitepaper;
-      document.getElementById("buy").textContent = t.buy;
-      document.getElementById("bscscan").textContent = t.bscscan;
+      document.getElementById("whitepaper").textContent  = t.whitepaper;
+      document.getElementById("buy").textContent         = t.buy;
+      document.getElementById("bscscan").textContent     = t.bscscan;
     }
 
-   async function addToMetaMask() {
-  const btn = document.querySelector('.button.metamask');
-  if (!window.ethereum || !window.ethereum.isMetaMask) {
-    alert('MetaMask não está instalada.');
-    return;
-  }
-
-  try {
-    await window.ethereum.request({ method: 'eth_requestAccounts' });
-
-    // Tenta mudar para a BSC Mainnet
-    await window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: '0x38' }]
-    });
-
-    const wasAdded = await window.ethereum.request({
-      method: 'wallet_watchAsset',
-      params: {
-        type: 'ERC20',
-        options: {
-          address: '0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',
-          symbol: 'GROKZILLA',
-          decimals: 18,
-          image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
-        }
+    async function addToMetaMask() {
+      console.log("Add to MetaMask clicked");
+      const btn = document.querySelector('.button.metamask');
+      if (!window.ethereum || !window.ethereum.isMetaMask) {
+        alert('MetaMask não está instalada.');
+        return;
       }
-    });
+      try {
+        // 1) Solicita conexão
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        // 2) Tenta trocar para BSC Mainnet
+        try {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '0x38' }]
+          });
+        } catch (switchError) {
+          // Se não existir, adiciona a rede
+          if (switchError.code === 4902) {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [{
+                chainId: '0x38',
+                chainName: 'Binance Smart Chain',
+                nativeCurrency: {
+                  name: 'Binance Coin',
+                  symbol: 'BNB',
+                  decimals: 18
+                },
+                rpcUrls: ['https://bsc-dataseed.binance.org/'],
+                blockExplorerUrls: ['https://bscscan.com']
+              }]
+            });
+          } else {
+            throw switchError;
+          }
+        }
+        // 3) Adiciona o token
+        const wasAdded = await window.ethereum.request({
+          method: 'wallet_watchAsset',
+          params: {
+            type: 'ERC20',
+            options: {
+              address: '0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',
+              symbol: 'GROKZILLA',
+              decimals: 18,
+              image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
+            }
+          }
+        });
+        btn.textContent = wasAdded ? '✅ Adicionado!' : '⚠️ Cancelado';
+      } catch (error) {
+        console.error("Erro no addToMetaMask:", error);
+        btn.textContent = '❌ Erro';
+      }
+    }
 
-    btn.textContent = wasAdded ? '✅ Adicionado!' : '⚠️ Cancelado';
-  } catch (error) {
-    console.error(error);
-    btn.textContent = '❌ Erro';
-  }
-}
-
-
+    // Inicializa idioma e título
     const userLang = navigator.language.startsWith('pt') ? 'pt' : 'en';
     setLang(userLang);
   </script>
