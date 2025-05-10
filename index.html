@@ -43,9 +43,9 @@
       transition: all .2s ease-in-out;
     }
     a.button.whitepaper { background-color: #007bff; color: #fff; }
-    a.button.buy        { background-color: #28a745; color: #fff; }
-    a.button.bscscan    { background-color: #ffc107; color: #000; }
+    a.button.pinksale   { background-color: #ff69b4; color: #fff; }
     button.button.metamask { background-color: #f6851b; color: #fff; border: none; }
+    button.button.connect { background-color: #00ccff; color: #000; border: none; }
     a.button:hover, button.button:hover {
       transform: scale(1.05);
       opacity: .9;
@@ -99,14 +99,14 @@
        href="https://raw.githubusercontent.com/grokszilla/grokzillawhitpaper/7c2462270032e5615447891ed31d934d199726d1/Grokzilla_Whitepaper_Final.pdf"
        target="_blank" id="whitepaper"></a>
 
-    <a class="button buy" href="#" target="_blank" id="buy"></a>
-    <a class="button bscscan"
-       href="https://bscscan.com/token/0x5C2d9D2b5AAF5E8352dAACC403132622139e355E"
-       target="_blank" id="bscscan"></a>
+    <a class="button pinksale"
+       href="https://www.pinksale.finance/launchpad/SEU_ID_AQUI"
+       target="_blank" id="pinksale">
+       🚀 Pré-venda no PinkSale
+    </a>
 
-    <button class="button metamask" onclick="handleMetaMaskClick()">
-      🦊 Add to MetaMask
-    </button>
+    <button class="button connect" onclick="connectWallet()">🔗 Conectar Carteira</button>
+    <button class="button metamask" onclick="addToken()">🦊 Adicionar $GROKZILLA à MetaMask</button>
 
     <div class="lang-switch">
       <button onclick="setLang('en')">English</button>
@@ -130,15 +130,13 @@
         title:       "Grokzilla Token",
         description: "Monster of memes. Nightmare of markets. Mascot of your next bad decision.\n$GROKZILLA",
         whitepaper:  "📄 Whitepaper",
-        buy:         "🚀 Buy on PancakeSwap",
-        bscscan:     "🔎 View on BscScan"
+        pinksale:    "🚀 Pre-sale on PinkSale"
       },
       pt: {
         title:       "Token Grokzilla",
         description: "Monstro dos memes. Pesadelo dos mercados. Mascote da sua próxima má decisão.\n$GROKZILLA",
         whitepaper:  "📄 Whitepaper",
-        buy:         "🚀 Comprar na PancakeSwap",
-        bscscan:     "🔎 Ver no BscScan"
+        pinksale:    "🚀 Pré-venda no PinkSale"
       }
     };
 
@@ -147,70 +145,52 @@
       document.getElementById("title").textContent       = t.title;
       document.getElementById("description").textContent = t.description;
       document.getElementById("whitepaper").textContent  = t.whitepaper;
-      document.getElementById("buy").textContent         = t.buy;
-      document.getElementById("bscscan").textContent     = t.bscscan;
+      document.getElementById("pinksale").textContent    = t.pinksale;
     }
 
-    async function addToMetaMask() {
-      // 1) conecta a conta
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
-      // 2) tenta mudar/adicionar BSC
-      try {
-        await window.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x38' }]
-        });
-      } catch (switchError) {
-        if (switchError.code === 4902) {
-          await window.ethereum.request({
-            method: 'wallet_addEthereumChain',
-            params: [{
-              chainId: '0x38',
-              chainName: 'Binance Smart Chain',
-              nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
-              rpcUrls: ['https://bsc-dataseed.binance.org/'],
-              blockExplorerUrls: ['https://bscscan.com']
-            }]
-          });
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: '0x38' }]
-          });
-        }
-      }
-      // 3) adiciona o token
-      return window.ethereum.request({
-        method: 'wallet_watchAsset',
-        params: {
-          type: 'ERC20',
-          options: {
-            address: '0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',
-            symbol: 'GROKZILLA',
-            decimals: 18,
-            image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
-          }
-        }
-      });
-    }
-
-    // Botão handler consolida a lógica
-    async function handleMetaMaskClick() {
+    async function connectWallet() {
       if (!window.ethereum) {
-        // leva para download se não instalado
-        window.open('https://metamask.io/download.html', '_blank');
+        alert('Instale a MetaMask: https://metamask.io/download.html');
         return;
       }
       try {
-        const added = await addToMetaMask();
-        const btn = document.querySelector('.button.metamask');
-        btn.textContent = added ? '✅ Adicionado!' : '⚠️ Cancelado';
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        alert('Carteira conectada:\n' + accounts[0]);
       } catch (err) {
-        console.error('MetaMask error:', err);
-        alert('Erro MetaMask: ' + (err.message || err));
+        console.error(err);
+        alert('Conexão rejeitada: ' + (err.message || err));
       }
     }
 
-    // inicia idioma/título
+    async function addToken() {
+      if (!window.ethereum) {
+        alert('Instale a MetaMask: https://metamask.io/download.html');
+        return;
+      }
+      try {
+        const wasAdded = await window.ethereum.request({
+          method: 'wallet_watchAsset',
+          params: {
+            type: 'ERC20',
+            options: {
+              address: '0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',
+              symbol: 'GROKZILLA',
+              decimals: 18,
+              image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
+            }
+          }
+        });
+        if (wasAdded) {
+          alert('✅ Token adicionado à MetaMask!');
+        } else {
+          alert('⚠️ Ação cancelada pelo usuário.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Erro ao adicionar token: ' + (err.message || err));
+      }
+    }
+
     const userLang = navigator.language.startsWith('pt') ? 'pt' : 'en';
     setLang(userLang);
   </script>
