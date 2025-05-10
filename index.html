@@ -52,6 +52,20 @@
     .lang-switch button:hover {
       background-color: #e0e0e0;
     }
+    .sound-toggle {
+      margin-top: 10px;
+      background-color: #ffffff;
+      color: #000000;
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
+    .sound-toggle:hover {
+      background-color: #e0e0e0;
+    }
     footer {
       padding: 20px;
       font-size: 0.9rem;
@@ -93,6 +107,7 @@
       <button onclick="setLang('en')">English</button>
       <button onclick="setLang('pt')">Português</button>
     </div>
+    <button class="sound-toggle" onclick="toggleSound()" id="soundToggle">🔊 Sound On</button>
   </div>
 
   <footer>
@@ -108,6 +123,8 @@
   <audio id="typeSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_a932967b95.mp3"></audio>
 
   <script>
+    let soundEnabled = true;
+
     const texts = {
       en: {
         title: "Grokzilla Token",
@@ -141,11 +158,18 @@
       let i = 0;
       const interval = setInterval(() => {
         el.textContent += text.charAt(i);
-        if (!sound.paused) sound.currentTime = 0;
-        sound.play().catch(() => {});
+        if (soundEnabled) {
+          sound.currentTime = 0;
+          sound.play().catch(() => {});
+        }
         i++;
         if (i >= text.length) clearInterval(interval);
       }, 80);
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById("soundToggle").textContent = soundEnabled ? "🔊 Sound On" : "🔇 Sound Off";
     }
 
     const userLang = navigator.language.startsWith('pt') ? 'pt' : 'en';
