@@ -2,59 +2,84 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Grokzilla Token</title>
   <style>
-  body {
-    margin: 0;
-    padding: 0;
-    background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/5c2172e3-8d2c-4e8b-9154-b55f8fe641be.png') no-repeat center top;
-    background-size: cover;
-    background-color: #000000; /* PRETO NAS BORDAS */
-    color: #ffffff;
-    font-family: Arial, sans-serif;
-    text-align: center;
-  }
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/5c2172e3-8d2c-4e8b-9154-b55f8fe641be.png') no-repeat center top;
+      background-size: cover;
+      background-color: #000000;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
 
-  .content {
-  background-color: rgba(0, 0, 0, 0.45);
-  padding: 100px 20px 60px 20px; /* mais espaço no topo */
-  min-height: 100vh;
-  /* margin-top removido */
-}
+    .content {
+      background-color: rgba(0, 0, 0, 0.45);
+      padding: 100px 20px 60px 20px;
+      min-height: 100vh;
+    }
 
+    p {
+      font-size: 1.2rem;
+    }
 
-  p {
-    font-size: 1.2rem;
-  }
+    a.button {
+      padding: 12px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 10px;
+      display: inline-block;
+      font-size: 1rem;
+      transition: all 0.2s ease-in-out;
+    }
 
-  a.button {
-    padding: 12px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    margin: 10px;
-    display: inline-block;
-    font-size: 1rem;
-    transition: all 0.2s ease-in-out;
-  }
+    a.button.whitepaper {
+      background-color: #007bff;
+      color: white;
+    }
 
-  a.button.whitepaper {
-    background-color: #007bff; /* azul */
-    color: white;
-  }
+    a.button.buy {
+      background-color: #28a745;
+      color: white;
+    }
 
-  a.button.buy {
-    background-color: #28a745; /* verde */
-    color: white;
-  }
+    a.button:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
 
-  a.button:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
-  }
-</style>
+    /* RESPONSIVO PARA CELULAR */
+    @media (max-width: 768px) {
+      .content {
+        padding: 40px 15px;
+      }
 
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      a.button {
+        width: 90%;
+        max-width: 300px;
+        font-size: 1rem;
+      }
+
+      a.button + a.button {
+        margin-top: 10px;
+        display: block;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="content">
     <h1>Grokzilla Token</h1>
@@ -63,7 +88,11 @@
     <a class="button whitepaper" href="https://raw.githubusercontent.com/grokszilla/grokzillawhitpaper/7c2462270032e5615447891ed31d934d199726d1/Grokzilla_Whitepaper_Final.pdf" target="_blank">📄 Whitepaper</a>
     
     <a class="button buy" href="#" target="_blank">🚀 Comprar na PancakeSwap</a>
-  </div>
+<a class="button" href="https://bscscan.com/token/0x5c2d9d2b5aaf5e8352daacc403132622139e355e" target="_blank">🔎 Ver no BscScan</a>
+  </div><footer style="padding: 20px; font-size: 0.9rem; background-color: rgba(0, 0, 0, 0.6); color: #ccc;">
+  © 2025 Grokzilla. All rights reserved. |
+  <a href="https://twitter.com/seu_perfil" target="_blank" style="color: #00acee; text-decoration: none;">Twitter</a> |
+  <a href="https://t.me/seu_canal" target="_blank" style="color: #0088cc; text-decoration: none;">Telegram</a>
+</footer>
 </body>
 </html>
-
