@@ -131,17 +131,33 @@
     }
 
     function addToMetaMask() {
-      if (typeof window.ethereum !== 'undefined') {
-        ethereum.request({
-          method: 'wallet_watchAsset',
-          params: {
-            type: 'ERC20',
-            options: {
-              address: '0x5c2d9d2b5aaf5e8352daacc403132622139e355e',
-              symbol: 'GROKZILLA',
-              decimals: 18,
-              image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
-            }
+  const btn = document.querySelector('.button.metamask');
+  if (typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask) {
+    ethereum.request({
+      method: 'wallet_watchAsset',
+      params: {
+        type: 'ERC20',
+        options: {
+          address: '0x5c2d9d2b5aaf5e8352daacc403132622139e355e',
+          symbol: 'GROKZILLA',
+          decimals: 18,
+          image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
+        }
+      }
+    }).then((success) => {
+      if (success) {
+        btn.textContent = '✅ Adicionado!';
+      } else {
+        btn.textContent = '⚠️ Cancelado';
+      }
+    }).catch((error) => {
+      console.error(error);
+      btn.textContent = '❌ Erro';
+    });
+  } else {
+    alert('MetaMask não está instalado ou não é compatível.');
+  }
+}
           }
         }).then((success) => {
           if (success) console.log('Token added');
@@ -157,4 +173,5 @@
   </script>
 </body>
 </html>
+
 
