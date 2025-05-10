@@ -23,7 +23,7 @@
     p {
       font-size: 1.2rem;
     }
-    a.button {
+    a.button, button.button {
       padding: 12px 20px;
       border-radius: 8px;
       text-decoration: none;
@@ -36,7 +36,8 @@
     a.button.whitepaper { background-color: #007bff; color: white; }
     a.button.buy { background-color: #28a745; color: white; }
     a.button.bscscan { background-color: #ffc107; color: #000; }
-    a.button:hover { transform: scale(1.05); opacity: 0.9; }
+    button.button.metamask { background-color: #f6851b; color: white; border: none; }
+    a.button:hover, button.button:hover { transform: scale(1.05); opacity: 0.9; }
     .lang-switch { margin-top: 20px; }
     .lang-switch button {
       background-color: #ffffff;
@@ -50,20 +51,6 @@
       transition: background 0.2s ease-in-out;
     }
     .lang-switch button:hover {
-      background-color: #e0e0e0;
-    }
-    .sound-toggle {
-      margin-top: 10px;
-      background-color: #ffffff;
-      color: #000000;
-      padding: 8px 14px;
-      border-radius: 6px;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s ease-in-out;
-    }
-    .sound-toggle:hover {
       background-color: #e0e0e0;
     }
     footer {
@@ -90,9 +77,6 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
-    audio {
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -102,12 +86,12 @@
     <a class="button whitepaper" href="https://raw.githubusercontent.com/grokszilla/grokzillawhitpaper/7c2462270032e5615447891ed31d934d199726d1/Grokzilla_Whitepaper_Final.pdf" target="_blank" id="whitepaper"></a>
     <a class="button buy" href="#" target="_blank" id="buy"></a>
     <a class="button bscscan" href="https://bscscan.com/token/0x5c2d9d2b5aaf5e8352daacc403132622139e355e" target="_blank" id="bscscan"></a>
+    <button class="button metamask" onclick="addToMetaMask()">🦊 Add to MetaMask</button>
 
     <div class="lang-switch">
       <button onclick="setLang('en')">English</button>
       <button onclick="setLang('pt')">Português</button>
     </div>
-    <button class="sound-toggle" onclick="toggleSound()" id="soundToggle">🔊 Sound On</button>
   </div>
 
   <footer>
@@ -120,11 +104,7 @@
     </a>
   </footer>
 
-  <audio id="typeSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_a932967b95.mp3"></audio>
-
   <script>
-    let soundEnabled = true;
-
     const texts = {
       en: {
         title: "Grokzilla Token",
@@ -143,33 +123,33 @@
     };
 
     function setLang(lang) {
-      const title = texts[lang].title;
-      typeWriter("title", title);
+      document.getElementById("title").textContent = texts[lang].title;
       document.getElementById("description").textContent = texts[lang].description;
       document.getElementById("whitepaper").textContent = texts[lang].whitepaper;
       document.getElementById("buy").textContent = texts[lang].buy;
       document.getElementById("bscscan").textContent = texts[lang].bscscan;
     }
 
-    function typeWriter(id, text) {
-      const el = document.getElementById(id);
-      const sound = document.getElementById("typeSound");
-      el.textContent = "";
-      let i = 0;
-      const interval = setInterval(() => {
-        el.textContent += text.charAt(i);
-        if (soundEnabled) {
-          sound.currentTime = 0;
-          sound.play().catch(() => {});
-        }
-        i++;
-        if (i >= text.length) clearInterval(interval);
-      }, 80);
-    }
-
-    function toggleSound() {
-      soundEnabled = !soundEnabled;
-      document.getElementById("soundToggle").textContent = soundEnabled ? "🔊 Sound On" : "🔇 Sound Off";
+    function addToMetaMask() {
+      if (typeof window.ethereum !== 'undefined') {
+        ethereum.request({
+          method: 'wallet_watchAsset',
+          params: {
+            type: 'ERC20',
+            options: {
+              address: '0x5c2d9d2b5aaf5e8352daacc403132622139e355e',
+              symbol: 'GROKZILLA',
+              decimals: 18,
+              image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
+            }
+          }
+        }).then((success) => {
+          if (success) console.log('Token added');
+          else console.log('Token not added');
+        }).catch(console.error);
+      } else {
+        alert('MetaMask is not installed');
+      }
     }
 
     const userLang = navigator.language.startsWith('pt') ? 'pt' : 'en';
