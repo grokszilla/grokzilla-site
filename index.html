@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Grokzilla Token</title>
   <style>
     body {
@@ -152,43 +152,50 @@
     }
 
     async function addToMetaMask() {
-      console.log("Add to MetaMask clicked");
+      console.log("→ addToMetaMask chamado");
       const btn = document.querySelector('.button.metamask');
-      if (!window.ethereum || !window.ethereum.isMetaMask) {
-        alert('MetaMask não está instalada.');
+
+      if (!window.ethereum) {
+        alert("❌ MetaMask não detectada (window.ethereum missing)");
         return;
       }
+      console.log("✔️ window.ethereum disponível");
+
       try {
-        // 1) Solicita conexão
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        // 2) Tenta trocar para BSC Mainnet
-        try {
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: '0x38' }]
-          });
-        } catch (switchError) {
-          // Se não existir, adiciona a rede
-          if (switchError.code === 4902) {
+        // 1) conecta conta
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        console.log("✔️ contas:", accounts);
+
+        // 2) troca/ adiciona rede BSC
+        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+        console.log("✔️ chainId atual:", chainId);
+        if (chainId !== '0x38') {
+          try {
             await window.ethereum.request({
-              method: 'wallet_addEthereumChain',
-              params: [{
-                chainId: '0x38',
-                chainName: 'Binance Smart Chain',
-                nativeCurrency: {
-                  name: 'Binance Coin',
-                  symbol: 'BNB',
-                  decimals: 18
-                },
-                rpcUrls: ['https://bsc-dataseed.binance.org/'],
-                blockExplorerUrls: ['https://bscscan.com']
-              }]
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: '0x38' }]
             });
-          } else {
-            throw switchError;
+            console.log("✔️ trocada para BSC");
+          } catch (switchError) {
+            if (switchError.code === 4902) {
+              await window.ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [{
+                  chainId: '0x38',
+                  chainName: 'Binance Smart Chain',
+                  nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
+                  rpcUrls: ['https://bsc-dataseed.binance.org/'],
+                  blockExplorerUrls: ['https://bscscan.com']
+                }]
+              });
+              console.log("✔️ BSC adicionada");
+            } else {
+              throw switchError;
+            }
           }
         }
-        // 3) Adiciona o token
+
+        // 3) adiciona token
         const wasAdded = await window.ethereum.request({
           method: 'wallet_watchAsset',
           params: {
@@ -201,14 +208,15 @@
             }
           }
         });
+        console.log("✔️ wallet_watchAsset:", wasAdded);
         btn.textContent = wasAdded ? '✅ Adicionado!' : '⚠️ Cancelado';
-      } catch (error) {
-        console.error("Erro no addToMetaMask:", error);
+      } catch (err) {
+        console.error("❌ erro geral:", err);
         btn.textContent = '❌ Erro';
       }
     }
 
-    // Inicializa idioma e título
+    // inicializa idioma e título
     const userLang = navigator.language.startsWith('pt') ? 'pt' : 'en';
     setLang(userLang);
   </script>
