@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Grokzilla Token</title>
   <style>
     body {
@@ -15,14 +15,17 @@
       font-family: Arial, sans-serif;
       text-align: center;
     }
+
     .content {
       background-color: rgba(0, 0, 0, 0.45);
       padding: 100px 20px 60px 20px;
       min-height: 100vh;
     }
+
     p {
       font-size: 1.2rem;
     }
+
     a.button, button.button {
       padding: 12px 20px;
       border-radius: 8px;
@@ -33,12 +36,21 @@
       font-size: 1rem;
       transition: all 0.2s ease-in-out;
     }
+
     a.button.whitepaper { background-color: #007bff; color: white; }
     a.button.buy { background-color: #28a745; color: white; }
     a.button.bscscan { background-color: #ffc107; color: #000; }
     button.button.metamask { background-color: #f6851b; color: white; border: none; }
-    a.button:hover, button.button:hover { transform: scale(1.05); opacity: 0.9; }
-    .lang-switch { margin-top: 20px; }
+
+    a.button:hover, button.button:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
+    .lang-switch {
+      margin-top: 20px;
+    }
+
     .lang-switch button {
       background-color: #ffffff;
       color: #000000;
@@ -50,33 +62,40 @@
       cursor: pointer;
       transition: background 0.2s ease-in-out;
     }
+
     .lang-switch button:hover {
       background-color: #e0e0e0;
     }
+
     footer {
       padding: 20px;
       font-size: 0.9rem;
       background-color: rgba(0, 0, 0, 0.6);
       color: #ccc;
     }
+
     footer a {
       color: inherit;
       text-decoration: none;
       margin: 0 10px;
     }
+
     footer img {
       width: 20px;
       vertical-align: middle;
       margin-right: 5px;
     }
+
     #title::after {
       content: '|';
       animation: blink 1s infinite;
     }
+
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
+
     @media (max-width: 768px) {
       .content {
         padding: 60px 10px;
@@ -88,9 +107,10 @@
   <div class="content">
     <h1 id="title"></h1>
     <p id="description"></p>
+
     <a class="button whitepaper" href="https://raw.githubusercontent.com/grokszilla/grokzillawhitpaper/7c2462270032e5615447891ed31d934d199726d1/Grokzilla_Whitepaper_Final.pdf" target="_blank" id="whitepaper"></a>
     <a class="button buy" href="#" target="_blank" id="buy"></a>
-    <a class="button bscscan" href="https://bscscan.com/token/0x5c2d9d2b5aaf5e8352daacc403132622139e355e" target="_blank" id="bscscan"></a>
+    <a class="button bscscan" href="https://bscscan.com/token/0x5C2d9D2b5AAF5E8352dAACC403132622139e355E" target="_blank" id="bscscan"></a>
     <button class="button metamask" onclick="addToMetaMask()">🦊 Add to MetaMask</button>
 
     <div class="lang-switch">
@@ -127,36 +147,57 @@
       }
     };
 
+    let currentLang = 'en';
+
     function setLang(lang) {
-      document.getElementById("title").textContent = texts[lang].title;
+      currentLang = lang;
       document.getElementById("description").textContent = texts[lang].description;
       document.getElementById("whitepaper").textContent = texts[lang].whitepaper;
       document.getElementById("buy").textContent = texts[lang].buy;
       document.getElementById("bscscan").textContent = texts[lang].bscscan;
+      typeTitle(texts[lang].title);
     }
 
-    function addToMetaMask() {
+    function typeTitle(text) {
+      const titleEl = document.getElementById("title");
+      let i = 0;
+      titleEl.textContent = "";
+      const interval = setInterval(() => {
+        titleEl.textContent = text.substring(0, i) + (i % 2 === 0 ? "|" : "");
+        i++;
+        if (i > text.length) {
+          clearInterval(interval);
+          titleEl.textContent = text;
+        }
+      }, 100);
+    }
+
+    async function addToMetaMask() {
       const btn = document.querySelector('.button.metamask');
       if (typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask) {
-        ethereum.request({
-          method: 'wallet_watchAsset',
-          params: {
-            type: 'ERC20',
-            options: {
-              address: '0x5c2d9d2b5aaf5e8352daacc403132622139e355e',
-              symbol: 'GROKZILLA',
-              decimals: 18,
-              image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
+        try {
+          await ethereum.request({ method: 'eth_requestAccounts' });
+
+          const wasAdded = await ethereum.request({
+            method: 'wallet_watchAsset',
+            params: {
+              type: 'ERC20',
+              options: {
+                address: '0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',
+                symbol: 'GROKZILLA',
+                decimals: 18,
+                image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
+              }
             }
-          }
-        }).then(success => {
-          btn.textContent = success ? '✅ Adicionado!' : '⚠️ Cancelado';
-        }).catch(error => {
+          });
+
+          btn.textContent = wasAdded ? '✅ Adicionado!' : '⚠️ Cancelado';
+        } catch (error) {
           console.error(error);
           btn.textContent = '❌ Erro';
-        });
+        }
       } else {
-        alert('MetaMask não está instalado ou não é compatível.');
+        alert('MetaMask não está instalada ou não é compatível.');
       }
     }
 
@@ -165,6 +206,7 @@
   </script>
 </body>
 </html>
+
 
 
 
