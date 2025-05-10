@@ -39,21 +39,19 @@
     a.button:hover { transform: scale(1.05); opacity: 0.9; }
     .lang-switch { margin-top: 20px; }
     .lang-switch button {
-  background-color: #ffffff;
-  color: #000000;
-  border: none;
-  padding: 8px 14px;
-  margin: 0 5px;
-  font-weight: bold;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out;
-}
-
-.lang-switch button:hover {
-  background-color: #e0e0e0;
-}
-
+      background-color: #ffffff;
+      color: #000000;
+      border: none;
+      padding: 8px 14px;
+      margin: 0 5px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
+    .lang-switch button:hover {
+      background-color: #e0e0e0;
+    }
     footer {
       padding: 20px;
       font-size: 0.9rem;
@@ -69,6 +67,17 @@
       width: 20px;
       vertical-align: middle;
       margin-right: 5px;
+    }
+    #title::after {
+      content: '|';
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    audio {
+      display: none;
     }
   </style>
 </head>
@@ -96,6 +105,8 @@
     </a>
   </footer>
 
+  <audio id="typeSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_a932967b95.mp3"></audio>
+
   <script>
     const texts = {
       en: {
@@ -115,11 +126,26 @@
     };
 
     function setLang(lang) {
-      document.getElementById("title").textContent = texts[lang].title;
+      const title = texts[lang].title;
+      typeWriter("title", title);
       document.getElementById("description").textContent = texts[lang].description;
       document.getElementById("whitepaper").textContent = texts[lang].whitepaper;
       document.getElementById("buy").textContent = texts[lang].buy;
       document.getElementById("bscscan").textContent = texts[lang].bscscan;
+    }
+
+    function typeWriter(id, text) {
+      const el = document.getElementById(id);
+      const sound = document.getElementById("typeSound");
+      el.textContent = "";
+      let i = 0;
+      const interval = setInterval(() => {
+        el.textContent += text.charAt(i);
+        if (!sound.paused) sound.currentTime = 0;
+        sound.play().catch(() => {});
+        i++;
+        if (i >= text.length) clearInterval(interval);
+      }, 80);
     }
 
     const userLang = navigator.language.startsWith('pt') ? 'pt' : 'en';
