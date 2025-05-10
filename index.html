@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Grokzilla Token</title>
   <style>
     body {
@@ -10,22 +10,19 @@
       padding: 0;
       background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/5c2172e3-8d2c-4e8b-9154-b55f8fe641be.png') no-repeat center top;
       background-size: cover;
-      background-color: #000000;
-      color: #ffffff;
+      background-color: #000;
+      color: #fff;
       font-family: Arial, sans-serif;
       text-align: center;
     }
-
     .content {
       background-color: rgba(0, 0, 0, 0.45);
       padding: 100px 20px 60px 20px;
       min-height: 100vh;
     }
-
     p {
       font-size: 1.2rem;
     }
-
     a.button {
       padding: 12px 20px;
       border-radius: 8px;
@@ -36,79 +33,91 @@
       font-size: 1rem;
       transition: all 0.2s ease-in-out;
     }
-
-    a.button.whitepaper {
-      background-color: #007bff;
-      color: white;
+    a.button.whitepaper { background-color: #007bff; color: white; }
+    a.button.buy { background-color: #28a745; color: white; }
+    a.button.bscscan { background-color: #ffc107; color: #000; }
+    a.button:hover { transform: scale(1.05); opacity: 0.9; }
+    .lang-switch { margin-top: 20px; }
+    .lang-switch button {
+      background: none;
+      color: #ccc;
+      border: 1px solid #444;
+      padding: 5px 10px;
+      margin: 0 5px;
+      border-radius: 5px;
+      cursor: pointer;
     }
-
-    a.button.buy {
-      background-color: #28a745;
-      color: white;
+    footer {
+      padding: 20px;
+      font-size: 0.9rem;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: #ccc;
     }
-
-    a.button.bscscan {
-      background-color: #ffc107;
-      color: #000;
+    footer a {
+      color: inherit;
+      text-decoration: none;
+      margin: 0 10px;
     }
-
-    a.button:hover {
-      transform: scale(1.05);
-      opacity: 0.9;
-    }
-
-    /* RESPONSIVO PARA CELULAR */
-    @media (max-width: 768px) {
-      .content {
-        padding: 40px 15px;
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
-
-      p {
-        font-size: 1rem;
-      }
-
-      a.button {
-        width: 90%;
-        max-width: 300px;
-        font-size: 1rem;
-      }
-
-      a.button + a.button {
-        margin-top: 10px;
-        display: block;
-      }
+    footer img {
+      width: 20px;
+      vertical-align: middle;
+      margin-right: 5px;
     }
   </style>
 </head>
-
 <body>
   <div class="content">
-    <h1>Grokzilla Token</h1>
-    <p><strong>Monster of memes. Nightmare of markets. Mascot of your next bad decision.</strong><br>$GROKZILLA</p>
+    <h1 id="title"></h1>
+    <p id="description"></p>
+    <a class="button whitepaper" href="https://raw.githubusercontent.com/grokszilla/grokzillawhitpaper/7c2462270032e5615447891ed31d934d199726d1/Grokzilla_Whitepaper_Final.pdf" target="_blank" id="whitepaper"></a>
+    <a class="button buy" href="#" target="_blank" id="buy"></a>
+    <a class="button bscscan" href="https://bscscan.com/token/0x5c2d9d2b5aaf5e8352daacc403132622139e355e" target="_blank" id="bscscan"></a>
 
-    <a class="button whitepaper" href="https://raw.githubusercontent.com/grokszilla/grokzillawhitpaper/7c2462270032e5615447891ed31d934d199726d1/Grokzilla_Whitepaper_Final.pdf" target="_blank">📄 Whitepaper</a>
-    
-    <a class="button buy" href="#" target="_blank">🚀 Comprar na PancakeSwap</a>
-
-    <a class="button bscscan" href="https://bscscan.com/token/0x5c2d9d2b5aaf5e8352daacc403132622139e355e" target="_blank">🔎 Ver no BscScan</a>
+    <div class="lang-switch">
+      <button onclick="setLang('en')">English</button>
+      <button onclick="setLang('pt')">Português</button>
+    </div>
   </div>
 
-  <footer style="padding: 20px; font-size: 0.9rem; background-color: rgba(0, 0, 0, 0.6); color: #ccc;">
+  <footer>
     © 2025 Grokzilla. All rights reserved. |
-    
-    <a href="https://x.com/Grokszilla" target="_blank" style="color: #1da1f2; text-decoration: none; margin: 0 10px;">
-      <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" style="width: 20px; vertical-align: middle; margin-right: 5px;">
-      Twitter
+    <a href="https://x.com/Grokszilla" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter">Twitter
     </a> |
-
-    <a href="https://t.me/seu_canal" target="_blank" style="color: #0088cc; text-decoration: none; margin: 0 10px;">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" style="width: 20px; vertical-align: middle; margin-right: 5px;">
-      Telegram
+    <a href="https://t.me/seu_canal" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram">Telegram
     </a>
   </footer>
+
+  <script>
+    const texts = {
+      en: {
+        title: "Grokzilla Token",
+        description: "Monster of memes. Nightmare of markets. Mascot of your next bad decision.\n$GROKZILLA",
+        whitepaper: "📄 Whitepaper",
+        buy: "🚀 Buy on PancakeSwap",
+        bscscan: "🔎 View on BscScan"
+      },
+      pt: {
+        title: "Token Grokzilla",
+        description: "Monstro dos memes. Pesadelo dos mercados. Mascote da sua próxima má decisão.\n$GROKZILLA",
+        whitepaper: "📄 Whitepaper",
+        buy: "🚀 Comprar na PancakeSwap",
+        bscscan: "🔎 Ver no BscScan"
+      }
+    };
+
+    function setLang(lang) {
+      document.getElementById("title").textContent = texts[lang].title;
+      document.getElementById("description").textContent = texts[lang].description;
+      document.getElementById("whitepaper").textContent = texts[lang].whitepaper;
+      document.getElementById("buy").textContent = texts[lang].buy;
+      document.getElementById("bscscan").textContent = texts[lang].bscscan;
+    }
+
+    const userLang = navigator.language.startsWith('pt') ? 'pt' : 'en';
+    setLang(userLang);
+  </script>
 </body>
 </html>
+
