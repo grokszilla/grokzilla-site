@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Grokzilla Token</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
   <style>
     body {
       margin: 0;
@@ -44,6 +45,7 @@
     }
     a.button.whitepaper { background-color: #007bff; color: #fff; }
     a.button.pinksale   { background-color: #ff69b4; color: #fff; }
+    a.button.bscscan    { background-color: #ffc107; color: #000; }
     button.button.metamask { background-color: #f6851b; color: #fff; border: none; }
     button.button.connect { background-color: #00ccff; color: #000; border: none; }
     a.button:hover, button.button:hover {
@@ -95,15 +97,11 @@
     <h1 id="title"></h1>
     <p id="description"></p>
 
-    <a class="button whitepaper"
-       href="https://raw.githubusercontent.com/grokszilla/grokzillawhitpaper/7c2462270032e5615447891ed31d934d199726d1/Grokzilla_Whitepaper_Final.pdf"
-       target="_blank" id="whitepaper"></a>
+    <a class="button whitepaper" href="https://raw.githubusercontent.com/grokszilla/grokzillawhitpaper/7c2462270032e5615447891ed31d934d199726d1/Grokzilla_Whitepaper_Final.pdf" target="_blank" id="whitepaper"></a>
 
-    <a class="button pinksale"
-       href="https://www.pinksale.finance/launchpad/SEU_ID_AQUI"
-       target="_blank" id="pinksale">
-       🚀 Pré-venda no PinkSale
-    </a>
+    <a class="button pinksale" href="https://www.pinksale.finance/launchpad/SEU_ID_AQUI" target="_blank" id="pinksale">🚀 Pré-venda no PinkSale</a>
+
+    <a class="button bscscan" href="https://bscscan.com/token/0x5C2d9D2b5AAF5E8352dAACC403132622139e355E" target="_blank" id="bscscan">🔎 Ver no BscScan</a>
 
     <button class="button connect" onclick="connectWallet()">🔗 Conectar Carteira</button>
     <button class="button metamask" onclick="addToken()">🦊 Adicionar $GROKZILLA à MetaMask</button>
@@ -127,38 +125,39 @@
   <script>
     const texts = {
       en: {
-        title:       "Grokzilla Token",
+        title: "Grokzilla Token",
         description: "Monster of memes. Nightmare of markets. Mascot of your next bad decision.\n$GROKZILLA",
-        whitepaper:  "📄 Whitepaper",
-        pinksale:    "🚀 Pre-sale on PinkSale"
+        whitepaper: "📄 Whitepaper",
+        pinksale: "🚀 Pre-sale on PinkSale"
       },
       pt: {
-        title:       "Token Grokzilla",
+        title: "Token Grokzilla",
         description: "Monstro dos memes. Pesadelo dos mercados. Mascote da sua próxima má decisão.\n$GROKZILLA",
-        whitepaper:  "📄 Whitepaper",
-        pinksale:    "🚀 Pré-venda no PinkSale"
+        whitepaper: "📄 Whitepaper",
+        pinksale: "🚀 Pré-venda no PinkSale"
       }
     };
 
     function setLang(lang) {
       const t = texts[lang];
-      document.getElementById("title").textContent       = t.title;
+      document.getElementById("title").textContent = t.title;
       document.getElementById("description").textContent = t.description;
-      document.getElementById("whitepaper").textContent  = t.whitepaper;
-      document.getElementById("pinksale").textContent    = t.pinksale;
+      document.getElementById("whitepaper").textContent = t.whitepaper;
+      document.getElementById("pinksale").textContent = t.pinksale;
     }
 
     async function connectWallet() {
-      if (!window.ethereum) {
-        alert('Instale a MetaMask: https://metamask.io/download.html');
+      if (typeof window.ethereum === 'undefined') {
+        alert('Instale a MetaMask primeiro: https://metamask.io/download.html');
         return;
       }
       try {
+        const web3 = new Web3(window.ethereum);
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        alert('Carteira conectada:\n' + accounts[0]);
+        alert('Carteira conectada: ' + accounts[0]);
       } catch (err) {
         console.error(err);
-        alert('Conexão rejeitada: ' + (err.message || err));
+        alert('Erro ao conectar: ' + (err.message || err));
       }
     }
 
@@ -180,11 +179,7 @@
             }
           }
         });
-        if (wasAdded) {
-          alert('✅ Token adicionado à MetaMask!');
-        } else {
-          alert('⚠️ Ação cancelada pelo usuário.');
-        }
+        alert(wasAdded ? '✅ Token adicionado!' : '⚠️ Cancelado pelo usuário.');
       } catch (err) {
         console.error(err);
         alert('Erro ao adicionar token: ' + (err.message || err));
@@ -196,6 +191,7 @@
   </script>
 </body>
 </html>
+
 
 
 
