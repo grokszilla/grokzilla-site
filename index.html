@@ -77,6 +77,11 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
+    @media (max-width: 768px) {
+      .content {
+        padding: 60px 10px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -131,40 +136,27 @@
     }
 
     function addToMetaMask() {
-  const btn = document.querySelector('.button.metamask');
-  if (typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask) {
-    ethereum.request({
-      method: 'wallet_watchAsset',
-      params: {
-        type: 'ERC20',
-        options: {
-          address: '0x5c2d9d2b5aaf5e8352daacc403132622139e355e',
-          symbol: 'GROKZILLA',
-          decimals: 18,
-          image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
-        }
-      }
-    }).then((success) => {
-      if (success) {
-        btn.textContent = '✅ Adicionado!';
-      } else {
-        btn.textContent = '⚠️ Cancelado';
-      }
-    }).catch((error) => {
-      console.error(error);
-      btn.textContent = '❌ Erro';
-    });
-  } else {
-    alert('MetaMask não está instalado ou não é compatível.');
-  }
-}
+      const btn = document.querySelector('.button.metamask');
+      if (typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask) {
+        ethereum.request({
+          method: 'wallet_watchAsset',
+          params: {
+            type: 'ERC20',
+            options: {
+              address: '0x5c2d9d2b5aaf5e8352daacc403132622139e355e',
+              symbol: 'GROKZILLA',
+              decimals: 18,
+              image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
+            }
           }
-        }).then((success) => {
-          if (success) console.log('Token added');
-          else console.log('Token not added');
-        }).catch(console.error);
+        }).then(success => {
+          btn.textContent = success ? '✅ Adicionado!' : '⚠️ Cancelado';
+        }).catch(error => {
+          console.error(error);
+          btn.textContent = '❌ Erro';
+        });
       } else {
-        alert('MetaMask is not installed');
+        alert('MetaMask não está instalado ou não é compatível.');
       }
     }
 
@@ -173,5 +165,6 @@
   </script>
 </body>
 </html>
+
 
 
