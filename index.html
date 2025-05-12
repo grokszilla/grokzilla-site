@@ -32,37 +32,40 @@
     section.culto{background:radial-gradient(circle at center,rgba(17,17,17,0.6) 0%,rgba(0,0,0,0.6)100%);text-align:center;}
     .memeteca h2,.roadmap h2,.culto h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;margin-bottom:40px;text-align:center;text-shadow:1px 1px #9945FF;}
 
-    .gallery-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;}
-    .gallery-nav button,.button-all-nfts{background:#fff;color:#000;padding:10px 16px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;transition:background .2s;text-decoration:none;}
-    .gallery-nav button:hover,.button-all-nfts:hover{background:#14F195;}
+    /* Remover os botões de filtro */
+    .gallery-nav { display: none; }
 
-    .meme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin:0 auto;max-width:1000px;}
-    .meme-card{background:#111;border:2px solid #14F195;padding:16px;border-radius:12px;text-align:center;}
-    .meme-card img{width:100%;border-radius:8px;margin-bottom:10px;}
-
-    section.culto p {
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 1s ease forwards;
-      margin: 12px 0;
-      padding: 12px 20px;  /* Ajuste o padding para que o texto fique centralizado */
-      border-left: 4px solid #14F195;  /* Barra da esquerda */
-      border-right: 4px solid #14F195; /* Barra da direita */
-      background: rgba(20,241,149,0.05);
-      border-radius: 8px;
-      font-size: 1.2rem;
-      color: #fff;
-      margin-left: 10px;   /* Ajuste de margem para garantir que a barra esquerda fique mais próxima da tela */
-      margin-right: 10px;  /* Ajuste de margem para a barra direita */
+    /* Estilo dos três quadradinhos verdes */
+    .meme-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+      gap: 20px;
+      margin: 0 auto;
+      max-width: 1000px;
+      padding: 20px;
     }
-    @keyframes fadeInUp{to{opacity:1;transform:translateY(0);}}
+    .meme-card {
+      background: #111;
+      border: 2px solid #14F195;
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .meme-card img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
 
-    .roadmap-step{background:#222;border:2px dashed #9945FF;padding:20px;border-radius:16px;margin:10px auto;max-width:700px;color:#fff;font-size:1rem;}
+    /* Novo espaço verde para os NFTs */
+    .nft-space {
+      background-color: #14F195;
+      padding: 60px 20px;
+      margin-top: 40px;
+      text-align: center;
+      border-radius: 8px;
+    }
 
-    footer{background:#000;color:#ccc;padding:20px;font-size:.9rem;text-align:center;}
-    footer span,footer a{vertical-align:middle;}
-    footer a{margin:0 10px;color:inherit;text-decoration:none;}
-    footer img{width:20px;margin-right:5px;vertical-align:middle;}
   </style>
 </head>
 <body>
@@ -85,48 +88,30 @@
   </section>
 
   <section class="memeteca">
-    <h2 id="memetecaTitle"></h2>
-    <div class="gallery-nav">
-      <button id="filterAllBtn" onclick="filterMemes('todos')"></button>
-      <button id="filterHoldersBtn" onclick="filterMemes('holders')"></button>
-      <button id="filterDevBtn" onclick="filterMemes('dev')"></button>
-      <button id="filterFudBtn" onclick="filterMemes('fud')"></button>
-      <a id="allNftsLink" class="button-all-nfts" href="#"></a>
-    </div>
+    <h2 id="memetecaTitle">Oficial Memeteca</h2>
     <div class="meme-grid">
-      <div class="meme-card" data-category="dev">
-        <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme1.png" alt="Dev Sumido">
-        <strong id="meme1Title"></strong>
-        <p id="meme1Desc"></p>
+      <!-- Coloque seus memes de NFTs aqui -->
+      <div class="meme-card">
+        <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme1.png" alt="NFT Meme 1">
+        <strong>NFT Meme 1</strong>
+        <p>Descrição do Meme 1</p>
       </div>
-      <div class="meme-card" data-category="holders">
-        <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme2.png" alt="Briga de Holders">
-        <strong id="meme2Title"></strong>
-        <p id="meme2Desc"></p>
+      <div class="meme-card">
+        <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme2.png" alt="NFT Meme 2">
+        <strong>NFT Meme 2</strong>
+        <p>Descrição do Meme 2</p>
       </div>
-      <div class="meme-card" data-category="fud">
-        <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme3.png" alt="Pump fake">
-        <strong id="meme3Title"></strong>
-        <p id="meme3Desc"></p>
+      <div class="meme-card">
+        <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme3.png" alt="NFT Meme 3">
+        <strong>NFT Meme 3</strong>
+        <p>Descrição do Meme 3</p>
       </div>
     </div>
   </section>
 
-  <section class="culto">
-    <h2 id="cultTitle"></h2>
-    <p id="cultQuote1"></p>
-    <p id="cultQuote2"></p>
-    <p id="cultQuote3"></p>
-    <p id="cultQuote4"></p>
-    <p id="cultQuote5"></p>
-  </section>
-
-  <section class="roadmap">
-    <h2 id="roadmapTitle"></h2>
-    <div id="roadmapQ1" class="roadmap-step"></div>
-    <div id="roadmapQ2" class="roadmap-step"></div>
-    <div id="roadmapQ3" class="roadmap-step"></div>
-    <div id="roadmapQ4" class="roadmap-step"></div>
+  <section class="nft-space">
+    <h2>Confira nossos NFTs!</h2>
+    <!-- Você pode adicionar mais NFTs aqui ou adicionar funcionalidades de alternância de memes -->
   </section>
 
   <footer>
