@@ -213,20 +213,48 @@ section.culto p {
   </section>
 
   <section class="memeteca">
-    <h2>📚 Memeteca Oficial do GrokZilla</h2>
-    <div class="meme-grid">
-      <div class="meme-card">
-        <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme1.png" alt="Meme 1">
-        <strong>Marketing pesado semana que vem</strong>
-        <p>(spoiler: nunca vem)</p>
-      </div>
-      <div class="meme-card">
-        <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme2.png" alt="Meme 2">
-        <strong>Briga de holders</strong>
-        <p>Quem comprar no topo ganha o direito de xingar no grupo.</p>
-      </div>
+  <h2>📚 Memeteca Oficial do GrokZilla</h2>
+
+  <div class="gallery-nav">
+    <button onclick="filterMemes('todos')">Todos</button>
+    <button onclick="filterMemes('holders')">Holders</button>
+    <button onclick="filterMemes('dev')">Dev Sumido</button>
+    <button onclick="filterMemes('fud')">FUD & Pump</button>
+  </div>
+
+  <div class="meme-grid">
+    <div class="meme-card" data-category="dev">
+      <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme1.png" alt="Dev Sumido">
+      <strong>Marketing pesado semana que vem</strong>
+      <p>(spoiler: nunca vem)</p>
     </div>
-  </section>
+    <div class="meme-card" data-category="holders">
+      <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme2.png" alt="Briga de Holders">
+      <strong>Briga de holders</strong>
+      <p>Quem comprar no topo ganha o direito de xingar no grupo.</p>
+    </div>
+    <div class="meme-card" data-category="fud">
+      <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme3.png" alt="Pump fake">
+      <strong>Fé e FUD</strong>
+      <p>O candle verde apareceu, o grupo reviveu.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+function filterMemes(category) {
+  const cards = document.querySelectorAll('.meme-card');
+  cards.forEach(card => {
+    const cat = card.getAttribute('data-category');
+    if (category === 'todos' || cat === category) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
+
 
  <section class="culto">
   <style>
