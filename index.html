@@ -40,7 +40,21 @@
     .meme-card{background:#111;border:2px solid #14F195;padding:16px;border-radius:12px;text-align:center;}
     .meme-card img{width:100%;border-radius:8px;margin-bottom:10px;}
 
-    section.culto p{opacity:0;transform:translateY(30px);animation:fadeInUp 1s ease forwards;margin:12px 0;padding:12px 10px 12px 2px;border-left:4px solid #14F195;background:rgba(20,241,149,0.05);border-radius:8px;font-size:1.2rem;color:#fff;}
+    section.culto p {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards;
+      margin: 12px 0;
+      padding: 12px 20px;  /* Ajuste o padding para que o texto fique centralizado */
+      border-left: 4px solid #14F195;  /* Barra da esquerda */
+      border-right: 4px solid #14F195; /* Barra da direita */
+      background: rgba(20,241,149,0.05);
+      border-radius: 8px;
+      font-size: 1.2rem;
+      color: #fff;
+      margin-left: 10px;   /* Ajuste de margem para garantir que a barra esquerda fique mais próxima da tela */
+      margin-right: 10px;  /* Ajuste de margem para a barra direita */
+    }
     @keyframes fadeInUp{to{opacity:1;transform:translateY(0);}}
 
     .roadmap-step{background:#222;border:2px dashed #9945FF;padding:20px;border-radius:16px;margin:10px auto;max-width:700px;color:#fff;font-size:1rem;}
