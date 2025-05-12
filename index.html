@@ -19,42 +19,52 @@
     .hero::after { content:""; position:absolute; inset:0; background:rgba(0,0,0,0.7); z-index:1; }
     .hero-content { position:relative; z-index:2; padding:100px 20px 60px; }
     .hero h1 { font-family:'Press Start 2P',cursive; font-size:2.2rem; color:#14F195; text-shadow:2px 2px #9945FF; margin-bottom:20px; }
-    .hero p { font-size:1.3rem; white-space:pre-line; }
+    .hero p { font-size:1.3rem; white-space:pre-line; color:#FFF; text-shadow:2px 2px #14F195, -2px -2px #9945FF; margin-bottom:40px; }
 
     /* Buttons */
     a.button, button.button { padding:16px 28px; border-radius:12px; font-weight:bold; margin:12px; display:inline-block; font-size:1rem; transition:transform .2s,opacity .2s; box-shadow:0 0 10px #14F195; text-decoration:none; }
-    .whitepaper{background:#2E2EFF;color:#fff;} .pinksale{background:#ff69b4;color:#fff;} .bscscan{background:#ffc107;color:#000;}
-    .connect{background:#14F195;color:#000;border:none;} .metamask{background:#f6851b;color:#fff;border:none;}
-    a.button:hover,button.button:hover{transform:scale(1.1);opacity:.9;}
+    .whitepaper { background:#2E2EFF; color:#fff; }
+    .pinksale   { background:#ff69b4; color:#fff; }
+    .bscscan    { background:#ffc107; color:#000; }
+    .connect    { background:#14F195; color:#000; border:none; }
+    .metamask   { background:#f6851b; color:#fff; border:none; }
+    a.button:hover, button.button:hover { transform:scale(1.1); opacity:.9; }
 
     /* Language Switch */
-    .lang-switch{margin-top:30px;} .lang-switch button{background:#fff;color:#000;border:none;padding:10px 18px;margin:0 5px;border-radius:6px;cursor:pointer;transition:background .2s;} .lang-switch button:hover{background:#e0e0e0;}
+    .lang-switch { margin-top:30px; }
+    .lang-switch button { background:#fff; color:#000; border:none; padding:10px 18px; margin:0 5px; font-weight:bold; border-radius:6px; cursor:pointer; transition:background .2s; }
+    .lang-switch button:hover { background:#e0e0e0; }
 
     /* Sections */
     section.memeteca, section.culto, section.roadmap { background:rgba(0,0,0,0.6); position:relative; z-index:1; overflow:hidden; padding:60px 20px; }
-    section.culto { background: radial-gradient(circle at center, rgba(17,17,17,0.6) 0%, rgba(0,0,0,0.6) 100%); text-align:center; }
+    section.culto { background:radial-gradient(circle at center, rgba(17,17,17,0.6) 0%, rgba(0,0,0,0.6) 100%); text-align:center; }
     section.roadmap { background:rgba(17,17,17,0.6); }
 
     /* Titles */
-    .memeteca h2, .roadmap h2, .culto h2 { font-family:'Press Start 2P'; color:#14F195; font-size:1.8rem; margin-bottom:40px; text-align:center; }
+    .memeteca h2, .roadmap h2, .culto h2 { font-family:'Press Start 2P'; color:#14F195; font-size:1.8rem; margin-bottom:40px; text-align:center; text-shadow:1px 1px #9945FF; }
 
     /* Gallery Nav */
-    .gallery-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;} .gallery-nav button, .button-all-nfts{background:#fff;color:#000;padding:10px 16px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;transition:background .2s;text-decoration:none;} .gallery-nav button:hover, .button-all-nfts:hover{background:#14F195;}
+    .gallery-nav { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; }
+    .gallery-nav button, .button-all-nfts { background:#fff; color:#000; padding:10px 16px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; transition:background .2s; text-decoration:none; }
+    .gallery-nav button:hover, .button-all-nfts:hover { background:#14F195; }
 
     /* Meme Grid */
-    .meme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:1000px;margin:0 auto;} .meme-card{background:#111;border:2px solid #14F195;padding:16px;border-radius:12px;text-align:center;} .meme-card img{width:100%;border-radius:8px;margin-bottom:10px;}
+    .meme-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; max-width:1000px; margin:0 auto; }
+    .meme-card { background:#111; border:2px solid #14F195; padding:16px; border-radius:12px; text-align:center; }
+    .meme-card img { width:100%; border-radius:8px; margin-bottom:10px; }
 
     /* Culto Quotes */
-    section.culto p { opacity:0; transform:translateY(30px); animation:fadeInUp 1s ease forwards; margin:12px 0;
-                    padding:12px 20px 12px 10px; /* left padding reduced to bring bar closer */
-                    border-left:4px solid #14F195; background:rgba(20,241,149,0.05); border-radius:8px; font-size:1.2rem; color:#fff; }
-    @keyframes fadeInUp{ to{opacity:1;transform:translateY(0);} }
+    section.culto p { opacity:0; transform:translateY(30px); animation:fadeInUp 1s ease forwards; margin:12px 0; padding:12px 20px 12px 5px; border-left:4px solid #14F195; background:rgba(20,241,149,0.05); border-radius:8px; font-size:1.2rem; color:#fff; }
+    @keyframes fadeInUp { to { opacity:1; transform:translateY(0); } }
 
     /* Roadmap Steps */
-    .roadmap-step{background:#222;border:2px dashed #9945FF;padding:20px;border-radius:16px;margin:10px auto;max-width:700px;font-size:1rem;color:#fff;}
+    .roadmap-step { background:#222; border:2px dashed #9945FF; padding:20px; border-radius:16px; margin:10px auto; max-width:700px; font-size:1rem; color:#fff; }
 
     /* Footer */
-    footer{background:#000;color:#ccc;padding:20px;font-size:.9rem;text-align:center;} footer span, footer a{vertical-align:middle;} footer a{margin:0 10px;color:inherit;text-decoration:none;} footer img{width:20px;margin-right:5px;vertical-align:middle;}
+    footer { background:#000; color:#ccc; padding:20px; font-size:.9rem; text-align:center; }
+    footer span, footer a { vertical-align:middle; }
+    footer a { margin:0 10px; color:inherit; text-decoration:none; }
+    footer img { width:20px; margin-right:5px; vertical-align:middle; }
   </style>
 </head>
 <body>
@@ -129,22 +139,82 @@
 
   <script>
     const translations = {
-      en: { hero: { title: "Grokzilla Token", description: "Monster of memes. Nightmare of markets. Mascot of your next bad decision.\n$GROKZILLA", whitepaper: "📄 Whitepaper", pinksale: "🚀 Pre-sale on PinkSale", bscscan: "🔎 View on BscScan", connect: "🔗 Connect Wallet", metamask: "🦊 Add to MetaMask" },
-            memeteca: { title: "📚 Official Memeteca", filterAll: "All", filterHolders: "Holders", filterDev: "Dev MIA", filterFud: "FUD & Pump", allNfts: "View All NFTs",
-                        meme1: { title: "Heavy marketing next week", desc: "(spoiler: never comes)" },
-                        meme2: { title: "Holders fight", desc: "Buy at top to troll the chat." },
-                        meme3: { title: "Faith & FUD", desc: "Green candle revived the group." } },
-            cult: { title: "🛐 The GrokZilla Cult", quote1: "Grok is my shepherd, the chart shall not want.", quote2: "In FUD I trust.", quote3: "Only those who held to the bottom will be exalted.", quote4: "Rug? Only plushies.", quote5: "Every pump starts with faith and a good meme." },
-            roadmap: { title: "📈 Chaotic Roadmap", q1: "Q1 – Promised rug... delivered nothing.", q2: "Q2 – DEX listing if dev wakes from hype coma.", q3: "Q3 – Official merch maybe.", q4: "Q4 – Trend on X or bust." },
-            footer: { copy: "© 2025 Grokzilla. All rights reserved." } },
-      pt: { hero: { title: "Token Grokzilla", description: "Monstro dos memes. Pesadelo dos mercados. Mascote da sua próxima má decisão.\n$GROKZILLA", whitepaper: "📄 Whitepaper", pinksale: "🚀 Pré-venda no PinkSale", bscscan: "🔎 Ver no BscScan", connect: "🔗 Conectar Carteira", metamask: "🦊 Adicionar à MetaMask" },
-            memeteca: { title: "📚 Memeteca Oficial", filterAll: "Todos", filterHolders: "Holders", filterDev: "Dev Sumido", filterFud: "FUD & Pump", allNfts: "Ver Todos NFTs",
-                        meme1: { title: "Marketing pesado semana que vem", desc: "(spoiler: nunca vem)" },
-                        meme2: { title: "Briga de holders", desc: "Quem comprar no topo ganha xingar no grupo." },
-                        meme3: { title: "Fé e FUD", desc: "O candle verde reviveu o grupo." } },
-            cult: { title: "🛐 O Culto GrokZilla", quote1: "Grok é meu pastor, o gráfico não faltará.", quote2: "Em dias de FUD, confiarei no dino.", quote3: "Só quem segurou até o fundo será exaltado.", quote4: "Rug? Só pelúcia.", quote5: "Todo pump começa com fé e um bom meme." },
-            roadmap: { title: "📈 Roadmap Caótico", q1: "Q1 – Prometemos rug, mas nada entregue.", q2: "Q2 – Listagem em DEX se o dev acordar.", q3: "Q3 – Merch oficial: camisetas e adesivos talvez.", q4: "Q4 – Tentativa de virar trend no X." },
-            footer: { copy: "© 2025 Grokzilla. Todos os direitos." } }
+      en: {
+        hero: {
+          title: "Grokzilla Token",
+          description: "Monster of memes. Nightmare of markets. Mascot of your next bad decision.\n$GROKZILLA",
+          whitepaper: "📄 Whitepaper",
+          pinksale: "🚀 Pre- sale on PinkSale",
+          bscscan: "🔎 View on BscScan",
+          connect: "🔗 Connect Wallet",
+          metamask: "🦊 Add to MetaMask"
+        },
+        memeteca: {
+          title: "📚 Official Memeteca",
+          filterAll: "All",
+          filterHolders: "Holders",
+          filterDev: "Dev MIA",
+          filterFud: "FUD & Pump",
+          allNfts: "View All NFTs",
+          meme1: { title: "Heavy marketing next week", desc: "(spoiler: never comes)" },
+          meme2: { title: "Holders fight", desc: "Buy at top to troll the chat." },
+          meme3: { title: "Faith & FUD", desc: "Green candle revived the group." }
+        },
+        cult: {
+          title: "🛐 The GrokZilla Cult",
+          quote1: "Grok is my shepherd, the chart shall not want.",
+          quote2: "In FUD I trust.",
+          quote3: "Only those who held to the bottom will be exalted.",
+          quote4: "Rug? Only plushies.",
+          quote5: "Every pump starts with faith and a good meme."
+        },
+        roadmap: {
+          title: "📈 Chaotic Roadmap",
+          q1: "Q1 – Promised rug... delivered nothing.",
+          q2: "Q2 – DEX listing if dev wakes from hype coma.",
+          q3: "Q3 – Official merch maybe.",
+          q4: "Q4 – Trend on X or bust."
+        },
+        footer: { copy: "© 2025 Grokzilla. All rights reserved." }
+      },
+      pt: {
+        hero: {
+          title: "Token Grokzilla",
+          description: "Monstro dos memes. Pesadelo dos mercados. Mascote da sua próxima má decisão.\n$GROKZILLA",
+          whitepaper: "📄 Whitepaper",
+          pinksale: "🚀 Pré-venda no PinkSale",
+          bscscan: "🔎 Ver no BscScan",
+          connect: "🔗 Conectar Carteira",
+          metamask: "🦊 Adicionar à MetaMask"
+        },
+        memeteca: {
+          title: "📚 Memeteca Oficial",
+          filterAll: "Todos",
+          filterHolders: "Holders",
+          filterDev: "Dev Sumido",
+          filterFud: "FUD & Pump",
+          allNfts: "Ver Todos NFTs",
+          meme1: { title: "Marketing pesado semana que vem", desc: "(spoiler: nunca vem)" },
+          meme2: { title: "Briga de holders", desc: "Quem comprar no topo ganha xingar no grupo." },
+          meme3: { title: "Fé e FUD", desc: "O candle verde reviveu o grupo." }
+        },
+        cult: {
+          title: "🛐 O Culto GrokZilla",
+          quote1: "Grok é meu pastor, o gráfico não faltará.",
+          quote2: "Em dias de FUD, confiarei no dino.",
+          quote3: "Só quem segurou até o fundo será exaltado.",
+          quote4: "Rug? Só pelúcia.",
+          quote5: "Todo pump começa com fé e um bom meme."
+        },
+        roadmap: {
+          title: "📈 Roadmap Caótico",
+          q1: "Q1 – Prometemos rug, mas nada entregue.",
+          q2: "Q2 – Listagem em DEX se o dev acordar.",
+          q3: "Q3 – Merch oficial: camisetas e adesivos talvez.",
+          q4: "Q4 – Tentativa de virar trend no X."
+        },
+        footer: { copy: "© 2025 Grokzilla. Todos os direitos." }
+      }
     };
     function setLang(lang) {
       localStorage.setItem('lang', lang);
@@ -152,48 +222,6 @@
       const t = translations[lang];
       document.getElementById('title').textContent = t.hero.title;
       document.getElementById('description').textContent = t.hero.description;
-      document.getElementById('whitepaper').textContent = t.hero.whitepaper;
-      document.getElementById('pinksale').textContent = t.hero.pinksale;
-      document.getElementById('bscscan').textContent = t.hero.bscscan;
-      document.getElementById('connectBtn').textContent = t.hero.connect;
-      document.getElementById('metamaskBtn').textContent = t.hero.metamask;
-      document.getElementById('memetecaTitle').textContent = t.memeteca.title;
-      document.getElementById('filterAllBtn').textContent = t.memeteca.filterAll;
-      document.getElementById('filterHoldersBtn').textContent = t.memeteca.filterHolders;
-      document.getElementById('filterDevBtn').textContent = t.memeteca.filterDev;
-      document.getElementById('filterFudBtn').textContent = t.memeteca.filterFud;
-      document.getElementById('allNftsLink').textContent = t.memeteca.allNfts;
-      document.getElementById('meme1Title').textContent = t.memeteca.meme1.title;
-      document.getElementById('meme1Desc').textContent = t.memeteca.meme1.desc;
-      document.getElementById('meme2Title').textContent = t.memeteca.meme2.title;
-      document.getElementById('meme2Desc').textContent = t.memeteca.meme2.desc;
-      document.getElementById('meme3Title').textContent = t.memeteca.meme3.title;
-      document.getElementById('meme3Desc').textContent = t.memeteca.meme3.desc;
-      document.getElementById('cultTitle').textContent = t.cult.title;
-      document.getElementById('cultQuote1').textContent = t.cult.quote1;
-      document.getElementById('cultQuote2').textContent = t.cult.quote2;
-      document.getElementById('cultQuote3').textContent = t.cult.quote3;
-      document.getElementById('cultQuote4').textContent = t.cult.quote4;
-      document.getElementById('cultQuote5').textContent = t.cult.quote5;
-      document.getElementById('roadmapTitle').textContent = t.roadmap.title;
-      document.getElementById('roadmapQ1').textContent = t.roadmap.q1;
-      document.getElementById('roadmapQ2').textContent = t.roadmap.q2;
-      document.getElementById('roadmapQ3').textContent = t.roadmap.q3;
-      document.getElementById('roadmapQ4').textContent = t.roadmap.q4;
-      document.getElementById('footerCopy').textContent = t.footer.copy;
-    }
-    function connectWallet() { if(!window.ethereum) return alert('Install MetaMask'); window.ethereum.request({method:'eth_requestAccounts'}).then(acc=>alert('Wallet: '+acc[0])).catch(e=>alert(e.message)); }
-    function addToken() { if(!window.ethereum) return alert('Install MetaMask'); window.ethereum.request({method:'wallet_watchAsset',params:{type:'ERC20',options:{address:'0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',symbol:'GROKZILLA',decimals:18,image:'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'}}}).then(ok=>alert(ok?'✅ Token added!':'❌ Cancelled')).catch(e=>alert(e.message)); }
-    function filterMemes(c) { document.querySelectorAll('.meme-card').forEach(card=>card.style.display=(c==='todos'||card.getAttribute('data-category')===c)?'flex':'none'); }
-    // Init
-    const saved=localStorage.getItem('lang'), defaultLang=navigator.language.startsWith('pt')?'pt':'en'; setLang(saved||defaultLang);
-    // Attach button events
-    document.getElementById('connectBtn').addEventListener('click', connectWallet);
-    document.getElementById('metamaskBtn').addEventListener('click', addToken);
-    // Rain init
-    const rain=document.querySelector('.rain'); for(let i=0;i<100;i++){const d=document.createElement('div');d.className='drop';d.style.left=Math.random()*100+'%';d.style.animationDuration=(0.5+Math.random())+'s';d.style.animationDelay=-Math.random()*5+'s';rain.appendChild(d);}  
-  </script>
-</body>
-</html>
+      document.getElementById
 
 
