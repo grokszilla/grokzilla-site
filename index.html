@@ -212,14 +212,15 @@ section.culto p {
     </div>
   </section>
 
- <section class="memeteca">
+<section class="memeteca">
   <h2>📚 Memeteca Oficial do GrokZilla</h2>
 
-  <div class="gallery-nav" style="text-align:center; margin-bottom: 20px;">
+  <div class="gallery-nav" style="text-align:center; margin-bottom: 30px;">
     <button onclick="filterMemes('todos')">Todos</button>
     <button onclick="filterMemes('holders')">Holders</button>
     <button onclick="filterMemes('dev')">Dev Sumido</button>
     <button onclick="filterMemes('fud')">FUD & Pump</button>
+    <a href="#galeria-nfts" class="button-all-nfts">🎨 Ver Todos NFTs</a>
   </div>
 
   <div class="meme-grid">
@@ -246,17 +247,19 @@ function filterMemes(category) {
   const cards = document.querySelectorAll('.meme-card');
   cards.forEach(card => {
     const cat = card.getAttribute('data-category');
-    if (category === 'todos' || cat === category) {
-      card.style.display = 'flex';
-    } else {
-      card.style.display = 'none';
-    }
+    card.style.display = (category === 'todos' || cat === category) ? 'flex' : 'none';
   });
 }
 </script>
 
 <style>
-.gallery-nav button {
+.gallery-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.gallery-nav button, .button-all-nfts {
   background-color: #fff;
   color: #000;
   padding: 10px 16px;
@@ -266,13 +269,14 @@ function filterMemes(category) {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  display: inline-block;
 }
-.gallery-nav button:hover {
+.gallery-nav button:hover, .button-all-nfts:hover {
   background-color: #14F195;
   color: #000;
 }
 </style>
-
 
  <section class="culto">
   <style>
