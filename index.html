@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -27,167 +28,170 @@ section.hero {
 }
 
 .meme-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 20px;
+width: 100%;
+max-width: 1000px;
+margin: 0 auto;
 }
 
 .roadmap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+display: flex;
+flex-direction: column;
+align-items: center;
 }
 
 .roadmap-step {
-  max-width: 700px;
-  width: 90%;
-  text-align: center;
+max-width: 700px;
+width: 90%;
+text-align: center;
 }
 
 section.culto {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 60px 20px;
-  background: radial-gradient(circle at center, #111 0%, #000 100%);
+text-align: center;
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 60px 20px;
+background: radial-gradient(circle at center, #111 0%, #000 100%);
 }
 
 section.culto p {
-  font-size: 1.2rem;
-  color: #fff;
-  margin: 12px 0;
-  padding: 12px 20px;
-  border-left: 4px solid #14F195;
-  background-color: rgba(20, 241, 149, 0.05);
-  border-radius: 8px;
-  width: fit-content;
-  max-width: 90%;
-  animation: fadeInUp 0.8s ease forwards;
+font-size: 1.2rem;
+color: #fff;
+margin: 12px 0;
+padding: 12px 20px;
+border-left: 4px solid #14F195;
+background-color: rgba(20, 241, 149, 0.05);
+border-radius: 8px;
+width: fit-content;
+max-width: 90%;
+animation: fadeInUp 0.8s ease forwards;
 }
 
-    .hero {
-      background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/5c2172e3-8d2c-4e8b-9154-b55f8fe641be.png') no-repeat center center/cover;
-      position: relative;
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-    }
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-    }
-    .hero h1 {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 2.2rem;
-      color: #14F195;
-      text-shadow: 2px 2px #9945FF;
-      margin-bottom: 20px;
-    }
-    .hero p {
-      font-size: 1.3rem;
-      white-space: pre-line;
-    }
-    a.button, button.button {
-      padding: 16px 28px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: bold;
-      margin: 12px;
-      display: inline-block;
-      font-size: 1rem;
-      transition: all .2s ease-in-out;
-      box-shadow: 0 0 10px #14F195;
-    }
-    a.button.whitepaper { background-color: #2E2EFF; color: #fff; }
-    a.button.pinksale   { background-color: #ff69b4; color: #fff; }
-    a.button.bscscan    { background-color: #ffc107; color: #000; }
-    button.button.metamask { background-color: #f6851b; color: #fff; border: none; }
-    button.button.connect { background-color: #14F195; color: #000; border: none; }
-    a.button:hover, button.button:hover {
-      transform: scale(1.1);
-      opacity: .9;
-    }
-    .lang-switch {
-      margin-top: 30px;
-    }
-    .lang-switch button {
-      background-color: #FFFFFF;
-      color: #000;
-      border: none;
-      padding: 10px 18px;
-      margin: 0 5px;
-      font-weight: bold;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background .2s ease-in-out;
-    }
-    .lang-switch button:hover {
-      background-color: #e0e0e0;
-    }
-    .memeteca h2, .roadmap h2 {
-      font-family: 'Press Start 2P';
-      color: #14F195;
-      font-size: 1.8rem;
-      margin-bottom: 40px;
-      text-align: center;
-    }
-    .meme-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-      width: 100%;
-      max-width: 1000px;
-    }
-    .meme-card {
-      background: #111;
-      border: 2px solid #14F195;
-      padding: 16px;
-      border-radius: 12px;
-      color: #fff;
-    }
-    .meme-card img {
-      width: 100%;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-    .roadmap {
-      background-color: #111;
-    }
-    .roadmap-step {
-      background-color: #222;
-      border: 2px dashed #9945FF;
-      padding: 20px;
-      border-radius: 16px;
-      margin: 10px;
-      font-size: 1rem;
-      max-width: 700px;
-    }
-    footer {
-      padding: 20px;
-      font-size: .9rem;
-      background-color: #000;
-      color: #ccc;
-      text-align: center;
-    }
-    footer a {
-      color: inherit;
-      text-decoration: none;
-      margin: 0 10px;
-    }
-    footer img {
-      width: 20px;
-      vertical-align: middle;
-      margin-right: 5px;
-    }
+```
+.hero {
+  background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/5c2172e3-8d2c-4e8b-9154-b55f8fe641be.png') no-repeat center center/cover;
+  position: relative;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+.hero h1 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 2.2rem;
+  color: #14F195;
+  text-shadow: 2px 2px #9945FF;
+  margin-bottom: 20px;
+}
+.hero p {
+  font-size: 1.3rem;
+  white-space: pre-line;
+}
+a.button, button.button {
+  padding: 16px 28px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 12px;
+  display: inline-block;
+  font-size: 1rem;
+  transition: all .2s ease-in-out;
+  box-shadow: 0 0 10px #14F195;
+}
+a.button.whitepaper { background-color: #2E2EFF; color: #fff; }
+a.button.pinksale   { background-color: #ff69b4; color: #fff; }
+a.button.bscscan    { background-color: #ffc107; color: #000; }
+button.button.metamask { background-color: #f6851b; color: #fff; border: none; }
+button.button.connect { background-color: #14F195; color: #000; border: none; }
+a.button:hover, button.button:hover {
+  transform: scale(1.1);
+  opacity: .9;
+}
+.lang-switch {
+  margin-top: 30px;
+}
+.lang-switch button {
+  background-color: #FFFFFF;
+  color: #000;
+  border: none;
+  padding: 10px 18px;
+  margin: 0 5px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background .2s ease-in-out;
+}
+.lang-switch button:hover {
+  background-color: #e0e0e0;
+}
+.memeteca h2, .roadmap h2 {
+  font-family: 'Press Start 2P';
+  color: #14F195;
+  font-size: 1.8rem;
+  margin-bottom: 40px;
+  text-align: center;
+}
+.meme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1000px;
+}
+.meme-card {
+  background: #111;
+  border: 2px solid #14F195;
+  padding: 16px;
+  border-radius: 12px;
+  color: #fff;
+}
+.meme-card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.roadmap {
+  background-color: #111;
+}
+.roadmap-step {
+  background-color: #222;
+  border: 2px dashed #9945FF;
+  padding: 20px;
+  border-radius: 16px;
+  margin: 10px;
+  font-size: 1rem;
+  max-width: 700px;
+}
+footer {
+  padding: 20px;
+  font-size: .9rem;
+  background-color: #000;
+  color: #ccc;
+  text-align: center;
+}
+footer a {
+  color: inherit;
+  text-decoration: none;
+  margin: 0 10px;
+}
+footer img {
+  width: 20px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+```
+
   </style>
 </head>
 <body>
@@ -196,20 +200,23 @@ section.culto p {
       <h1 id="title"></h1>
       <p id="description"></p>
 
-      <a class="button whitepaper" href="https://raw.githubusercontent.com/grokszilla/grokzillawhitpaper/7c2462270032e5615447891ed31d934d199726d1/Grokzilla_Whitepaper_Final.pdf" target="_blank" id="whitepaper"></a>
+```
+  <a class="button whitepaper" href="https://raw.githubusercontent.com/grokszilla/grokzillawhitpaper/7c2462270032e5615447891ed31d934d199726d1/Grokzilla_Whitepaper_Final.pdf" target="_blank" id="whitepaper"></a>
 
-      <a class="button pinksale" href="https://www.pinksale.finance/launchpad/SEU_ID_AQUI" target="_blank" id="pinksale"></a>
+  <a class="button pinksale" href="https://www.pinksale.finance/launchpad/SEU_ID_AQUI" target="_blank" id="pinksale"></a>
 
-      <a class="button bscscan" href="https://bscscan.com/token/0x5C2d9D2b5AAF5E8352dAACC403132622139e355E" target="_blank" id="bscscan">🔎 Ver no BscScan</a>
+  <a class="button bscscan" href="https://bscscan.com/token/0x5C2d9D2b5AAF5E8352dAACC403132622139e355E" target="_blank" id="bscscan">🔎 Ver no BscScan</a>
 
-      <button class="button connect" onclick="connectWallet()">🔗 Conectar Carteira</button>
-      <button class="button metamask" onclick="addToken()">🦊 Adicionar $GROKZILLA à MetaMask</button>
+  <button class="button connect" onclick="connectWallet()">🔗 Conectar Carteira</button>
+  <button class="button metamask" onclick="addToken()">🦊 Adicionar $GROKZILLA à MetaMask</button>
 
-      <div class="lang-switch">
-        <button onclick="setLang('en')">English</button>
-        <button onclick="setLang('pt')">Português</button>
-      </div>
-    </div>
+  <div class="lang-switch">
+    <button onclick="setLang('en')">English</button>
+    <button onclick="setLang('pt')">Português</button>
+  </div>
+</div>
+```
+
   </section>
 
 <section class="memeteca">
@@ -239,15 +246,6 @@ section.culto p {
       <strong>Fé e FUD</strong>
       <p>O candle verde apareceu, o grupo reviveu.</p>
     </div>
-  </div>
-</section>
-
-<section id="galeria-nfts" style="padding: 60px 20px; text-align: center; background-color: #111;">
-  <h2 style="font-family: 'Press Start 2P'; color: #14F195; font-size: 1.8rem; margin-bottom: 40px;">🖼️ Galeria de NFTs</h2>
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto;">
-    <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/nft1.png" alt="NFT 1" style="width:100%; border-radius: 12px;">
-    <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/nft2.png" alt="NFT 2" style="width:100%; border-radius: 12px;">
-    <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/nft3.png" alt="NFT 3" style="width:100%; border-radius: 12px;">
   </div>
 </section>
 
@@ -300,12 +298,15 @@ function filterMemes(category) {
     .fade-in:nth-child(4) { animation-delay: 1.2s; }
     .fade-in:nth-child(5) { animation-delay: 1.5s; }
 
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+```
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+```
+
   </style>
   <h2 style="font-family: 'Press Start 2P'; color: #14F195; font-size: 1.8rem; text-align: center; margin-bottom: 40px;">🛐 O Culto GrokZilla</h2>
   <div style="max-width: 900px; text-align: center; font-size: 1.1rem; line-height: 1.8; color: #eee;">
@@ -402,9 +403,7 @@ function filterMemes(category) {
     const userLang = navigator.language.startsWith('pt') ? 'pt' : 'en';
     setLang(userLang);
   </script>
+
 </body>
 </html>
-
-
-
 
