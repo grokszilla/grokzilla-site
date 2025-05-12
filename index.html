@@ -16,20 +16,18 @@
       font-family: 'Inter', sans-serif;
     }
 
+    /* Hero Section */
     .hero {
-  background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/bc609512bd2e44a470d230de15567b17ac307ba6/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center center;
-  background-size: cover;
-  background-attachment: fixed;
-  background-color: #000; /* fallback */
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  text-align: center;
-}
-
-
+      background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/66a0a5a3e1b9bf8b06548c05c3450d52cc63587d/65fb4ab5-4c41-4e20-acb7-ad894ea162f8.png') no-repeat center top;
+      background-size: contain;
+      background-color: #0A0A0A;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
     .hero::after {
       content: "";
       position: absolute;
@@ -37,14 +35,11 @@
       background: rgba(0, 0, 0, 0.7);
       z-index: 1;
     }
-
     .hero-content {
       position: relative;
       z-index: 2;
-      text-align: center;
       padding: 100px 20px 60px;
     }
-
     .hero h1 {
       font-family: 'Press Start 2P', cursive;
       font-size: 2.2rem;
@@ -52,7 +47,6 @@
       text-shadow: 2px 2px #9945FF;
       margin-bottom: 20px;
     }
-
     .hero p {
       font-size: 1.3rem;
       white-space: pre-line;
@@ -61,32 +55,26 @@
     a.button, button.button {
       padding: 16px 28px;
       border-radius: 12px;
-      text-decoration: none;
       font-weight: bold;
       margin: 12px;
       display: inline-block;
       font-size: 1rem;
-      transition: all .2s ease-in-out;
+      transition: transform .2s ease-in-out, opacity .2s ease-in-out;
       box-shadow: 0 0 10px #14F195;
+      text-decoration: none;
     }
-
     a.button.whitepaper { background-color: #2E2EFF; color: #fff; }
     a.button.pinksale   { background-color: #ff69b4; color: #fff; }
     a.button.bscscan    { background-color: #ffc107; color: #000; }
     button.button.metamask { background-color: #f6851b; color: #fff; border: none; }
-    button.button.connect { background-color: #14F195; color: #000; border: none; }
-
-    a.button:hover, button.button:hover {
-      transform: scale(1.1);
-      opacity: .9;
-    }
+    button.button.connect  { background-color: #14F195; color: #000; border: none; }
+    a.button:hover, button.button:hover { transform: scale(1.1); opacity: .9; }
 
     .lang-switch {
       margin-top: 30px;
     }
-
     .lang-switch button {
-      background-color: #FFFFFF;
+      background-color: #fff;
       color: #000;
       border: none;
       padding: 10px 18px;
@@ -94,47 +82,39 @@
       font-weight: bold;
       border-radius: 6px;
       cursor: pointer;
-      transition: background .2s ease-in-out;
+      transition: background .2s;
     }
+    .lang-switch button:hover { background-color: #e0e0e0; }
 
-    .lang-switch button:hover {
-      background-color: #e0e0e0;
-    }
-
+    /* Meme & Roadmap Titles */
     .memeteca h2, .roadmap h2 {
       font-family: 'Press Start 2P';
       color: #14F195;
       font-size: 1.8rem;
       margin-bottom: 40px;
-      text-align: center;
     }
 
+    /* Gallery Nav */
     .gallery-nav {
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
       gap: 10px;
+      flex-wrap: wrap;
     }
-
     .gallery-nav button, .button-all-nfts {
       background-color: #fff;
       color: #000;
       padding: 10px 16px;
-      margin: 5px;
       border: none;
       border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
-      transition: all 0.2s ease-in-out;
+      transition: background .2s;
       text-decoration: none;
-      display: inline-block;
     }
+    .gallery-nav button:hover, .button-all-nfts:hover { background-color: #14F195; }
 
-    .gallery-nav button:hover, .button-all-nfts:hover {
-      background-color: #14F195;
-      color: #000;
-    }
-
+    /* Meme Grid */
     .meme-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -142,102 +122,88 @@
       max-width: 1000px;
       margin: 0 auto;
     }
-
     .meme-card {
       background: #111;
       border: 2px solid #14F195;
       padding: 16px;
       border-radius: 12px;
-      color: #fff;
-    }
-
-    .meme-card img {
-      width: 100%;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-
-    section.culto {
       text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 60px 20px;
-      background: radial-gradient(circle at center, #111 0%, #000 100%);
     }
+    .meme-card img { width: 100%; border-radius: 8px; margin-bottom: 10px; }
 
+    /* Cult Section */
+    section.culto {
+      background: radial-gradient(circle at center, #111 0%, #000 100%);
+      padding: 60px 20px;
+      text-align: center;
+    }
     section.culto p {
       font-size: 1.2rem;
-      color: #fff;
       margin: 12px 0;
       padding: 12px 20px;
       border-left: 4px solid #14F195;
-      background-color: rgba(20, 241, 149, 0.05);
+      background-color: rgba(20,241,149,0.05);
       border-radius: 8px;
-      max-width: 90%;
       animation: fadeInUp 0.8s ease forwards;
     }
-
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 1s ease forwards;
-    }
-
+    .fade-in { opacity: 0; transform: translateY(30px); animation: fadeInUp 1s ease forwards; }
     .fade-in:nth-child(1) { animation-delay: 0.3s; }
     .fade-in:nth-child(2) { animation-delay: 0.6s; }
     .fade-in:nth-child(3) { animation-delay: 0.9s; }
     .fade-in:nth-child(4) { animation-delay: 1.2s; }
     .fade-in:nth-child(5) { animation-delay: 1.5s; }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
+    /* Roadmap */
     .roadmap {
       background-color: #111;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       padding: 60px 20px;
     }
-
     .roadmap-step {
       background-color: #222;
       border: 2px dashed #9945FF;
       padding: 20px;
       border-radius: 16px;
-      margin: 10px;
-      font-size: 1rem;
+      margin: 10px auto;
       max-width: 700px;
-      text-align: center;
     }
 
+    /* Neon Rain Effect */
+    .rain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .rain .drop {
+      position: absolute;
+      bottom: 100%;
+      width: 2px;
+      height: 15px;
+      background: rgba(20,241,149,0.8);
+      opacity: 0.7;
+      animation: fall linear infinite;
+    }
+    @keyframes fall { to { transform: translateY(100vh); opacity: 0; } }
+
+    /* Footer */
     footer {
-      padding: 20px;
-      font-size: .9rem;
       background-color: #000;
       color: #ccc;
+      padding: 20px;
+      font-size: .9rem;
       text-align: center;
     }
-
-    footer a {
-      color: inherit;
-      text-decoration: none;
-      margin: 0 10px;
-    }
-
-    footer img {
-      width: 20px;
-      vertical-align: middle;
-      margin-right: 5px;
-    }
+    footer a { color: inherit; text-decoration: none; margin: 0 10px; }
+    footer img { width: 20px; vertical-align: middle; margin-right: 5px; }
   </style>
 </head>
 <body>
+  <div class="rain"></div>
   <section class="hero">
     <div class="hero-content">
       <h1 id="title"></h1>
@@ -264,6 +230,7 @@
       <a href="#galeria-nfts" class="button-all-nfts">🎨 Ver Todos NFTs</a>
     </div>
     <div class="meme-grid">
+
       <div class="meme-card" data-category="dev">
         <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme1.png" alt="Dev Sumido">
         <strong>Marketing pesado semana que vem</strong>
