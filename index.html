@@ -12,17 +12,22 @@
     .rain .drop { position:absolute; bottom:100%; width:2px; height:15px; opacity:0.7; animation:fall linear infinite; }
     @keyframes fall { to { transform:translateY(100vh); opacity:0; } }
 
-    .hero { background:url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/bc609512bd2e44a470d230de15567b17ac307ba6/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center/cover fixed #000; position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; }
+    /* Corrigir fundo da tela */
+    body {
+      background-color: #0A0A0A;
+    }
+
+    /* Hero section */
+    .hero { 
+      background:url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/bc609512bd2e44a470d230de15567b17ac307ba6/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center/cover fixed;
+      position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; 
+    }
     .hero::after { content:""; position:absolute; inset:0; background:rgba(0,0,0,0.7); z-index:1; }
     .hero-content { position:relative; z-index:2; padding:100px 20px 60px; }
     .hero h1 { font-family:'Press Start 2P',cursive; font-size:2.2rem; color:#14F195; text-shadow:2px 2px #9945FF; margin-bottom:20px; }
     .hero p { font-size:1.3rem; white-space:pre-line; color:#FFF; text-shadow:2px 2px #14F195,-2px -2px #9945FF; margin-bottom:40px; }
 
-    /* Remover as animações indesejadas */
-    .rain .drop {
-      display: none;
-    }
-
+    /* Fixar o efeito do botão */
     a.button, button.button { padding:16px 28px; border-radius:12px; font-weight:bold; margin:12px; display:inline-block; font-size:1rem; transition:transform .2s,opacity .2s; box-shadow:0 0 10px #14F195; text-decoration:none; }
     .whitepaper { background:#2E2EFF; color:#fff; }
     .pinksale   { background:#ff69b4; color:#fff; }
@@ -33,11 +38,13 @@
 
     .lang-switch{margin-top:30px;} .lang-switch button{background:#fff;color:#000;border:none;padding:10px 18px;margin:0 5px;border-radius:6px;cursor:pointer;transition:background .2s;} .lang-switch button:hover{background:#e0e0e0;}
 
-    section.memeteca,section.culto,section.roadmap{padding:60px 20px;position:relative;z-index:1;overflow:hidden;background:rgba(0,0,0,0.6);}
-    section.culto{background:radial-gradient(circle at center,rgba(17,17,17,0.6) 0%,rgba(0,0,0,0.6)100%);text-align:center;}
-    .memeteca h2,.roadmap h2,.culto h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;margin-bottom:40px;text-align:center;text-shadow:1px 1px #9945FF;}
+    /* Resetando fundo da rain e deixando apenas os memes */
+    .rain { display:none; }
 
-    /* Remover os botões de filtro */
+    section.memeteca, section.culto, section.roadmap { padding:60px 20px; position:relative; z-index:1; background:rgba(0,0,0,0.6); }
+    section.culto { background:radial-gradient(circle at center, rgba(17,17,17,0.6) 0%, rgba(0,0,0,0.6)100%); text-align:center; }
+    .memeteca h2, .roadmap h2, .culto h2 { font-family:'Press Start 2P'; color:#14F195; font-size:1.8rem; margin-bottom:40px; text-align:center; text-shadow:1px 1px #9945FF; }
+
     .gallery-nav { display: none; }
 
     /* Estilo dos três quadradinhos verdes */
@@ -74,20 +81,23 @@
       margin: 0 auto; /* Centralizar a seção */
     }
 
+    footer { background:#000; color:#ccc; padding:20px; font-size:.9rem; text-align:center; }
+    footer span, footer a { vertical-align:middle; }
+    footer a { margin:0 10px; color:inherit; text-decoration:none; }
+    footer img { width:20px; margin-right:5px; vertical-align:middle; }
   </style>
 </head>
 <body>
-  <div class="rain"></div>
 
   <section class="hero">
     <div class="hero-content">
-      <h1 id="title"></h1>
-      <p id="description"></p>
-      <a id="whitepaper" class="button whitepaper" href="#" target="_blank"></a>
-      <a id="pinksale" class="button pinksale" href="#" target="_blank"></a>
-      <a id="bscscan" class="button bscscan" href="#" target="_blank"></a>
-      <button id="connectBtn" class="button connect"></button>
-      <button id="metamaskBtn" class="button metamask"></button>
+      <h1 id="title">Grokzilla Token</h1>
+      <p id="description">Monstro dos memes. Pesadelo dos mercados. Mascote da sua próxima má decisão.\n$GROKZILLA</p>
+      <a id="whitepaper" class="button whitepaper" href="#" target="_blank">📄 Whitepaper</a>
+      <a id="pinksale" class="button pinksale" href="#" target="_blank">🚀 Pré-venda no PinkSale</a>
+      <a id="bscscan" class="button bscscan" href="#" target="_blank">🔎 Ver no BscScan</a>
+      <button id="connectBtn" class="button connect">🔗 Conectar Carteira</button>
+      <button id="metamaskBtn" class="button metamask">🦊 Adicionar à MetaMask</button>
       <div class="lang-switch">
         <button onclick="setLang('pt')">Português</button>
         <button onclick="setLang('en')">English</button>
@@ -96,9 +106,8 @@
   </section>
 
   <section class="memeteca">
-    <h2 id="memetecaTitle">Oficial Memeteca</h2>
+    <h2 id="memetecaTitle">📚 Memeteca Oficial</h2>
     <div class="meme-grid">
-      <!-- Coloque seus memes de NFTs aqui -->
       <div class="meme-card">
         <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme1.png" alt="NFT Meme 1">
         <strong>NFT Meme 1</strong>
