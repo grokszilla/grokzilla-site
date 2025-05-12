@@ -2,83 +2,251 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Grokzilla Token</title>
   <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Base */
-    html, body { margin:0; padding:0; scroll-behavior:smooth; background:#0A0A0A; color:#FFF; font-family:'Inter',sans-serif; }
-    /* Global Rain */
-    .rain { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:hidden; z-index:0; }
-    .rain .drop { position:absolute; bottom:100%; width:2px; height:15px; background:rgba(20,241,149,0.8); opacity:0.7; animation:fall linear infinite; }
-    @keyframes fall { to { transform:translateY(100vh); opacity:0; } }
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      background-color: #0A0A0A;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+    }
 
-    /* Hero */
-    .hero { background:url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/bc609512bd2e44a470d230de15567b17ac307ba6/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center/cover fixed #000; position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; }
-    .hero::after { content:""; position:absolute; inset:0; background:rgba(0,0,0,0.7); z-index:1; }
-    .hero-content { position:relative; z-index:2; padding:100px 20px 60px; }
-    .hero h1 { font-family:'Press Start 2P',cursive; font-size:2.2rem; color:#14F195; text-shadow:2px 2px #9945FF; margin-bottom:20px; }
-    .hero p { font-size:1.3rem; white-space:pre-line; color:#FFF; text-shadow:2px 2px #14F195, -2px -2px #9945FF; margin-bottom:40px; }
+    .hero {
+  background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/bc609512bd2e44a470d230de15567b17ac307ba6/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: #000; /* fallback */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-align: center;
+}
 
-    /* Buttons */
-    a.button, button.button { padding:16px 28px; border-radius:12px; font-weight:bold; margin:12px; display:inline-block; font-size:1rem; transition:transform .2s,opacity .2s; box-shadow:0 0 10px #14F195; text-decoration:none; }
-    .whitepaper { background:#2E2EFF; color:#fff; }
-    .pinksale   { background:#ff69b4; color:#fff; }
-    .bscscan    { background:#ffc107; color:#000; }
-    .connect    { background:#14F195; color:#000; border:none; }
-    .metamask   { background:#f6851b; color:#fff; border:none; }
-    a.button:hover, button.button:hover { transform:scale(1.1); opacity:.9; }
 
-    /* Language Switch */
-    .lang-switch { margin-top:30px; }
-    .lang-switch button { background:#fff; color:#000; border:none; padding:10px 18px; margin:0 5px; font-weight:bold; border-radius:6px; cursor:pointer; transition:background .2s; }
-    .lang-switch button:hover { background:#e0e0e0; }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1;
+    }
 
-    /* Sections */
-    section.memeteca, section.culto, section.roadmap { background:rgba(0,0,0,0.6); position:relative; z-index:1; overflow:hidden; padding:60px 20px; }
-    section.culto { background:radial-gradient(circle at center, rgba(17,17,17,0.6) 0%, rgba(0,0,0,0.6) 100%); text-align:center; }
-    section.roadmap { background:rgba(17,17,17,0.6); }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 100px 20px 60px;
+    }
 
-    /* Titles */
-    .memeteca h2, .roadmap h2, .culto h2 { font-family:'Press Start 2P'; color:#14F195; font-size:1.8rem; margin-bottom:40px; text-align:center; text-shadow:1px 1px #9945FF; }
+    .hero h1 {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 2.2rem;
+      color: #14F195;
+      text-shadow: 2px 2px #9945FF;
+      margin-bottom: 20px;
+    }
 
-    /* Gallery Nav */
-    .gallery-nav { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; }
-    .gallery-nav button, .button-all-nfts { background:#fff; color:#000; padding:10px 16px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; transition:background .2s; text-decoration:none; }
-    .gallery-nav button:hover, .button-all-nfts:hover { background:#14F195; }
+    .hero p {
+      font-size: 1.3rem;
+      white-space: pre-line;
+    }
 
-    /* Meme Grid */
-    .meme-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; max-width:1000px; margin:0 auto; }
-    .meme-card { background:#111; border:2px solid #14F195; padding:16px; border-radius:12px; text-align:center; }
-    .meme-card img { width:100%; border-radius:8px; margin-bottom:10px; }
+    a.button, button.button {
+      padding: 16px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 12px;
+      display: inline-block;
+      font-size: 1rem;
+      transition: all .2s ease-in-out;
+      box-shadow: 0 0 10px #14F195;
+    }
 
-    /* Culto Quotes */
-    section.culto p { opacity:0; transform:translateY(30px); animation:fadeInUp 1s ease forwards; margin:12px 0; padding:12px 20px 12px 5px; border-left:4px solid #14F195; background:rgba(20,241,149,0.05); border-radius:8px; font-size:1.2rem; color:#fff; }
-    @keyframes fadeInUp { to { opacity:1; transform:translateY(0); } }
+    a.button.whitepaper { background-color: #2E2EFF; color: #fff; }
+    a.button.pinksale   { background-color: #ff69b4; color: #fff; }
+    a.button.bscscan    { background-color: #ffc107; color: #000; }
+    button.button.metamask { background-color: #f6851b; color: #fff; border: none; }
+    button.button.connect { background-color: #14F195; color: #000; border: none; }
 
-    /* Roadmap Steps */
-    .roadmap-step { background:#222; border:2px dashed #9945FF; padding:20px; border-radius:16px; margin:10px auto; max-width:700px; font-size:1rem; color:#fff; }
+    a.button:hover, button.button:hover {
+      transform: scale(1.1);
+      opacity: .9;
+    }
 
-    /* Footer */
-    footer { background:#000; color:#ccc; padding:20px; font-size:.9rem; text-align:center; }
-    footer span, footer a { vertical-align:middle; }
-    footer a { margin:0 10px; color:inherit; text-decoration:none; }
-    footer img { width:20px; margin-right:5px; vertical-align:middle; }
+    .lang-switch {
+      margin-top: 30px;
+    }
+
+    .lang-switch button {
+      background-color: #FFFFFF;
+      color: #000;
+      border: none;
+      padding: 10px 18px;
+      margin: 0 5px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .2s ease-in-out;
+    }
+
+    .lang-switch button:hover {
+      background-color: #e0e0e0;
+    }
+
+    .memeteca h2, .roadmap h2 {
+      font-family: 'Press Start 2P';
+      color: #14F195;
+      font-size: 1.8rem;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .gallery-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .gallery-nav button, .button-all-nfts {
+      background-color: #fff;
+      color: #000;
+      padding: 10px 16px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .gallery-nav button:hover, .button-all-nfts:hover {
+      background-color: #14F195;
+      color: #000;
+    }
+
+    .meme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .meme-card {
+      background: #111;
+      border: 2px solid #14F195;
+      padding: 16px;
+      border-radius: 12px;
+      color: #fff;
+    }
+
+    .meme-card img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    section.culto {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+      background: radial-gradient(circle at center, #111 0%, #000 100%);
+    }
+
+    section.culto p {
+      font-size: 1.2rem;
+      color: #fff;
+      margin: 12px 0;
+      padding: 12px 20px;
+      border-left: 4px solid #14F195;
+      background-color: rgba(20, 241, 149, 0.05);
+      border-radius: 8px;
+      max-width: 90%;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    .fade-in:nth-child(1) { animation-delay: 0.3s; }
+    .fade-in:nth-child(2) { animation-delay: 0.6s; }
+    .fade-in:nth-child(3) { animation-delay: 0.9s; }
+    .fade-in:nth-child(4) { animation-delay: 1.2s; }
+    .fade-in:nth-child(5) { animation-delay: 1.5s; }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .roadmap {
+      background-color: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+    }
+
+    .roadmap-step {
+      background-color: #222;
+      border: 2px dashed #9945FF;
+      padding: 20px;
+      border-radius: 16px;
+      margin: 10px;
+      font-size: 1rem;
+      max-width: 700px;
+      text-align: center;
+    }
+
+    footer {
+      padding: 20px;
+      font-size: .9rem;
+      background-color: #000;
+      color: #ccc;
+      text-align: center;
+    }
+
+    footer a {
+      color: inherit;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    footer img {
+      width: 20px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
   </style>
 </head>
 <body>
-  <div class="rain"></div>
-
   <section class="hero">
     <div class="hero-content">
       <h1 id="title"></h1>
       <p id="description"></p>
-      <a id="whitepaper" class="button whitepaper" href="#" target="_blank"></a>
-      <a id="pinksale" class="button pinksale" href="#" target="_blank"></a>
-      <a id="bscscan" class="button bscscan" href="#" target="_blank"></a>
-      <button id="connectBtn" class="button connect"></button>
-      <button id="metamaskBtn" class="button metamask"></button>
+      <a class="button whitepaper" href="https://raw.githubusercontent.com/grokszilla/grokzillawhitpaper/7c2462270032e5615447891ed31d934d199726d1/Grokzilla_Whitepaper_Final.pdf" target="_blank" id="whitepaper"></a>
+      <a class="button pinksale" href="https://www.pinksale.finance/launchpad/SEU_ID_REAL_AQUI" target="_blank" id="pinksale"></a>
+      <a class="button bscscan" href="https://bscscan.com/token/0x5C2d9D2b5AAF5E8352dAACC403132622139e355E" target="_blank">🔎 Ver no BscScan</a>
+      <button class="button connect" onclick="connectWallet()">🔗 Conectar Carteira</button>
+      <button class="button metamask" onclick="addToken()">🦊 Adicionar $GROKZILLA à MetaMask</button>
       <div class="lang-switch">
         <button onclick="setLang('en')">English</button>
         <button onclick="setLang('pt')">Português</button>
@@ -87,63 +255,138 @@
   </section>
 
   <section class="memeteca">
-    <h2 id="memetecaTitle"></h2>
+    <h2>📚 Memeteca Oficial do GrokZilla</h2>
     <div class="gallery-nav">
-      <button id="filterAllBtn" onclick="filterMemes('todos')"></button>
-      <button id="filterHoldersBtn" onclick="filterMemes('holders')"></button>
-      <button id="filterDevBtn" onclick="filterMemes('dev')"></button>
-      <button id="filterFudBtn" onclick="filterMemes('fud')"></button>
-      <a id="allNftsLink" class="button-all-nfts" href="#"></a>
+      <button onclick="filterMemes('todos')">Todos</button>
+      <button onclick="filterMemes('holders')">Holders</button>
+      <button onclick="filterMemes('dev')">Dev Sumido</button>
+      <button onclick="filterMemes('fud')">FUD & Pump</button>
+      <a href="#galeria-nfts" class="button-all-nfts">🎨 Ver Todos NFTs</a>
     </div>
     <div class="meme-grid">
       <div class="meme-card" data-category="dev">
         <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme1.png" alt="Dev Sumido">
-        <strong id="meme1Title"></strong>
-        <p id="meme1Desc"></p>
+        <strong>Marketing pesado semana que vem</strong>
+        <p>(spoiler: nunca vem)</p>
       </div>
       <div class="meme-card" data-category="holders">
         <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme2.png" alt="Briga de Holders">
-        <strong id="meme2Title"></strong>
-        <p id="meme2Desc"></p>
+        <strong>Briga de holders</strong>
+        <p>Quem comprar no topo ganha o direito de xingar no grupo.</p>
       </div>
       <div class="meme-card" data-category="fud">
         <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/meme3.png" alt="Pump fake">
-        <strong id="meme3Title"></strong>
-        <p id="meme3Desc"></p>
+        <strong>Fé e FUD</strong>
+        <p>O candle verde apareceu, o grupo reviveu.</p>
       </div>
     </div>
   </section>
 
   <section class="culto">
-    <h2 id="cultTitle"></h2>
-    <p id="cultQuote1" class="fade-in"></p>
-    <p id="cultQuote2" class="fade-in"></p>
-    <p id="cultQuote3" class="fade-in"></p>
-    <p id="cultQuote4" class="fade-in"></p>
-    <p id="cultQuote5" class="fade-in"></p>
+    <h2>🛐 O Culto GrokZilla</h2>
+    <div>
+      <p class="fade-in">"Grok é meu pastor, o gráfico não faltará."</p>
+      <p class="fade-in">"Em dias de FUD, confiarei no dino."</p>
+      <p class="fade-in">"Só quem segurou até o fundo será exaltado."</p>
+      <p class="fade-in">"Rug? Só se for de pelúcia. Aqui é lealdade ou nada."</p>
+      <p class="fade-in">"Todo pump começa com fé e um bom meme."</p>
+    </div>
   </section>
 
   <section class="roadmap">
-    <h2 id="roadmapTitle"></h2>
-    <div id="roadmapQ1" class="roadmap-step"></div>
-    <div id="roadmapQ2" class="roadmap-step"></div>
-    <div id="roadmapQ3" class="roadmap-step"></div>
-    <div id="roadmapQ4" class="roadmap-step"></div>
+    <h2>📈 Roadmap Caótico</h2>
+    <div class="roadmap-step">Q1 – Prometemos rug, mas não entregamos. Estranho né?</div>
+    <div class="roadmap-step">Q2 – Listagem em DEX... se o dev acordar do coma hype.</div>
+    <div class="roadmap-step">Q3 – Merch oficial: camisetas, adesivos e talvez um pelúcia (ou não).</div>
+    <div class="roadmap-step">Q4 – Tentativa desesperada de virar trend no X.</div>
   </section>
 
   <footer>
-    <span id="footerCopy"></span>
-    <a id="footerTwitter" href="https://x.com/Grokszilla" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
-    <a id="footerTelegram" href="https://t.me/seu_canal" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram"></a>
+    © 2025 Grokzilla. All rights reserved. |
+    <a href="https://x.com/Grokszilla" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter">Twitter
+    </a> |
+    <a href="https://t.me/seu_canal" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram">Telegram
+    </a>
   </footer>
 
   <script>
-    const translations = {
+    const texts = {
       en: {
-        hero: { title: "Grokzilla Token", description: "Monster of memes. Nightmare of markets. Mascot of your next bad decision.\n$GROKZILLA", whitepaper: "📄 Whitepaper", pinksale: "🚀 Pre-sale on PinkSale", bscscan: "🔎 Ver no BscScan", connect: "🔗 Connect Wallet", metamask: "🦊 Add to MetaMask" },
-        memeteca: { title: "📚 Official Memeteca", filterAll: "All", filterHolders: "Holders", filterDev: "Dev MIA", filterFud: "Pump & FUD", allNfts: "View All NFTs", meme1: { title: "Heavy marketing next week", desc: "(spoiler: never comes)" }, meme2: { title: "Holders fight", desc: "Buy at top to troll the chat." }, meme3: { title: "Faith & FUD", desc: "Green candle revived the group." } },
-        cult: { title: "🛐 The GrokZilla Cult", quote1: "Grok is my shepherd, the chart shall not want.", quote2: "In FUD I trust.", quote3: "Only those who held to the bottom will be exalted.", quote4: "Rug? Only plushies.", quote5: "Every pump starts with faith and a good meme." },
-        roadmap: { title:...
-}]}
+        title: "Grokzilla Token",
+        description: "Monster of memes. Nightmare of markets. Mascot of your next bad decision.\n$GROKZILLA",
+        whitepaper: "📄 Whitepaper",
+        pinksale: "🚀 Pre-sale on PinkSale"
+      },
+      pt: {
+        title: "Token Grokzilla",
+        description: "Monstro dos memes. Pesadelo dos mercados. Mascote da sua próxima má decisão.\n$GROKZILLA",
+        whitepaper: "📄 Whitepaper",
+        pinksale: "🚀 Pré-venda no PinkSale"
+      }
+    };
+
+    function setLang(lang) {
+      const t = texts[lang];
+      document.getElementById("title").textContent = t.title;
+      document.getElementById("description").textContent = t.description;
+      document.getElementById("whitepaper").textContent = t.whitepaper;
+      document.getElementById("pinksale").textContent = t.pinksale;
+    }
+
+    async function connectWallet() {
+      if (!window.ethereum) {
+        alert('Instale a MetaMask primeiro: https://metamask.io/download.html');
+        return;
+      }
+      try {
+        const web3 = new Web3(window.ethereum);
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        alert('Carteira conectada: ' + accounts[0]);
+      } catch (err) {
+        console.error(err);
+        alert('Erro ao conectar: ' + (err.message || err));
+      }
+    }
+
+    async function addToken() {
+      if (!window.ethereum) {
+        alert('Instale a MetaMask: https://metamask.io/download.html');
+        return;
+      }
+      try {
+        const wasAdded = await window.ethereum.request({
+          method: 'wallet_watchAsset',
+          params: {
+            type: 'ERC20',
+            options: {
+              address: '0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',
+              symbol: 'GROKZILLA',
+              decimals: 18,
+              image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
+            }
+          }
+        });
+        alert(wasAdded ? '✅ Token adicionado!' : '⚠️ Cancelado pelo usuário.');
+      } catch (err) {
+        console.error(err);
+        alert('Erro ao adicionar token: ' + (err.message || err));
+      }
+    }
+
+    function filterMemes(category) {
+      document.querySelectorAll('.meme-card').forEach(card => {
+        const cat = card.getAttribute('data-category');
+        card.style.display = (category === 'todos' || cat === category) ? 'flex' : 'none';
+      });
+    }
+
+    const userLang = navigator.language.startsWith('pt') ? 'pt' : 'en';
+    setLang(userLang);
+  </script>
+</body>
+</html>
+
 
 
