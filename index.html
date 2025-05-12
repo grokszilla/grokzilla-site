@@ -7,48 +7,54 @@
   <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
+      scroll-behavior: smooth;
       background-color: #0A0A0A;
       color: #FFFFFF;
       font-family: 'Inter', sans-serif;
-      text-align: center;
+    }
+    section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 80px 20px;
     }
     .hero {
-      background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/5c2172e3-8d2c-4e8b-9154-b55f8fe641be.png') no-repeat center top;
-      background-size: cover;
-      padding: 100px 20px 60px;
+      background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/5c2172e3-8d2c-4e8b-9154-b55f8fe641be.png') no-repeat center center/cover;
       position: relative;
     }
     .hero::after {
       content: "";
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
+      inset: 0;
+      background: rgba(0,0,0,0.7);
     }
     .hero-content {
       position: relative;
       z-index: 2;
+      text-align: center;
     }
-    h1 {
+    .hero h1 {
       font-family: 'Press Start 2P', cursive;
-      font-size: 2rem;
+      font-size: 2.2rem;
       color: #14F195;
       text-shadow: 2px 2px #9945FF;
       margin-bottom: 20px;
     }
-    p {
-      font-size: 1.2rem;
+    .hero p {
+      font-size: 1.3rem;
       white-space: pre-line;
     }
     a.button, button.button {
-      padding: 14px 24px;
+      padding: 16px 28px;
       border-radius: 12px;
       text-decoration: none;
       font-weight: bold;
-      margin: 10px;
+      margin: 12px;
       display: inline-block;
       font-size: 1rem;
       transition: all .2s ease-in-out;
@@ -60,7 +66,7 @@
     button.button.metamask { background-color: #f6851b; color: #fff; border: none; }
     button.button.connect { background-color: #14F195; color: #000; border: none; }
     a.button:hover, button.button:hover {
-      transform: scale(1.08);
+      transform: scale(1.1);
       opacity: .9;
     }
     .lang-switch {
@@ -80,20 +86,19 @@
     .lang-switch button:hover {
       background-color: #e0e0e0;
     }
-    .memeteca {
-      padding: 60px 20px;
-      background: #0A0A0A;
-    }
-    .memeteca h2 {
-      color: #14F195;
+    .memeteca h2, .roadmap h2 {
       font-family: 'Press Start 2P';
-      font-size: 1.5rem;
+      color: #14F195;
+      font-size: 1.8rem;
       margin-bottom: 40px;
+      text-align: center;
     }
     .meme-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 20px;
+      width: 100%;
+      max-width: 1000px;
     }
     .meme-card {
       background: #111;
@@ -101,18 +106,30 @@
       padding: 16px;
       border-radius: 12px;
       color: #fff;
-      font-size: 0.9rem;
     }
     .meme-card img {
       width: 100%;
       border-radius: 8px;
       margin-bottom: 10px;
     }
+    .roadmap {
+      background-color: #111;
+    }
+    .roadmap-step {
+      background-color: #222;
+      border: 2px dashed #9945FF;
+      padding: 20px;
+      border-radius: 16px;
+      margin: 10px;
+      font-size: 1rem;
+      max-width: 700px;
+    }
     footer {
       padding: 20px;
       font-size: .9rem;
-      background-color: rgba(0,0,0,0.6);
+      background-color: #000;
       color: #ccc;
+      text-align: center;
     }
     footer a {
       color: inherit;
@@ -124,15 +141,10 @@
       vertical-align: middle;
       margin-right: 5px;
     }
-    @media(max-width:768px) {
-      .hero {
-        padding: 60px 10px 40px;
-      }
-    }
   </style>
 </head>
 <body>
-  <div class="hero">
+  <section class="hero">
     <div class="hero-content">
       <h1 id="title"></h1>
       <p id="description"></p>
@@ -151,7 +163,7 @@
         <button onclick="setLang('pt')">Português</button>
       </div>
     </div>
-  </div>
+  </section>
 
   <section class="memeteca">
     <h2>📚 Memeteca Oficial do GrokZilla</h2>
@@ -167,6 +179,14 @@
         <p>Quem comprar no topo ganha o direito de xingar no grupo.</p>
       </div>
     </div>
+  </section>
+
+  <section class="roadmap">
+    <h2>📈 Roadmap Caótico</h2>
+    <div class="roadmap-step">Q1 – Prometemos rug, mas não entregamos. Estranho né?</div>
+    <div class="roadmap-step">Q2 – Listagem em DEX... se o dev acordar do coma hype.</div>
+    <div class="roadmap-step">Q3 – Merch oficial: camisetas, adesivos e talvez um pelúcia (ou não).</div>
+    <div class="roadmap-step">Q4 – Tentativa desesperada de virar trend no X.</div>
   </section>
 
   <footer>
@@ -248,7 +268,6 @@
   </script>
 </body>
 </html>
-
 
 
 
