@@ -25,7 +25,7 @@
     a.button, button.button { padding:16px 28px; border-radius:12px; font-weight:bold; margin:12px; display:inline-block; font-size:1rem; transition:transform .2s,opacity .2s; box-shadow:0 0 10px #14F195; text-decoration:none; }
     .whitepaper{background:#2E2EFF;color:#fff;} .pinksale{background:#ff69b4;color:#fff;} .bscscan{background:#ffc107;color:#000;}
     .connect{background:#14F195;color:#000;border:none;} .metamask{background:#f6851b;color:#fff;border:none;}
-    a.button:hover, button.button:hover{transform:scale(1.1);opacity:.9;}
+    a.button:hover,button.button:hover{transform:scale(1.1);opacity:.9;}
 
     /* Language Switch */
     .lang-switch{margin-top:30px;} .lang-switch button{background:#fff;color:#000;border:none;padding:10px 18px;margin:0 5px;border-radius:6px;cursor:pointer;transition:background .2s;} .lang-switch button:hover{background:#e0e0e0;}
@@ -45,7 +45,10 @@
     .meme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:1000px;margin:0 auto;} .meme-card{background:#111;border:2px solid #14F195;padding:16px;border-radius:12px;text-align:center;} .meme-card img{width:100%;border-radius:8px;margin-bottom:10px;}
 
     /* Culto Quotes */
-    section.culto p{opacity:0;transform:translateY(30px);animation:fadeInUp 1s ease forwards;margin:12px 0;padding:12px 20px;border-left:4px solid #14F195;background:rgba(20,241,149,0.05);border-radius:8px;font-size:1.2rem;color:#fff;} @keyframes fadeInUp{to{opacity:1;transform:translateY(0);}}
+    section.culto p { opacity:0; transform:translateY(30px); animation:fadeInUp 1s ease forwards; margin:12px 0;
+                    padding:12px 20px 12px 10px; /* left padding reduced to bring bar closer */
+                    border-left:4px solid #14F195; background:rgba(20,241,149,0.05); border-radius:8px; font-size:1.2rem; color:#fff; }
+    @keyframes fadeInUp{ to{opacity:1;transform:translateY(0);} }
 
     /* Roadmap Steps */
     .roadmap-step{background:#222;border:2px dashed #9945FF;padding:20px;border-radius:16px;margin:10px auto;max-width:700px;font-size:1rem;color:#fff;}
@@ -147,7 +150,6 @@
       localStorage.setItem('lang', lang);
       document.documentElement.lang = lang;
       const t = translations[lang];
-      // Hero
       document.getElementById('title').textContent = t.hero.title;
       document.getElementById('description').textContent = t.hero.description;
       document.getElementById('whitepaper').textContent = t.hero.whitepaper;
@@ -155,7 +157,6 @@
       document.getElementById('bscscan').textContent = t.hero.bscscan;
       document.getElementById('connectBtn').textContent = t.hero.connect;
       document.getElementById('metamaskBtn').textContent = t.hero.metamask;
-      // Memeteca
       document.getElementById('memetecaTitle').textContent = t.memeteca.title;
       document.getElementById('filterAllBtn').textContent = t.memeteca.filterAll;
       document.getElementById('filterHoldersBtn').textContent = t.memeteca.filterHolders;
@@ -168,30 +169,29 @@
       document.getElementById('meme2Desc').textContent = t.memeteca.meme2.desc;
       document.getElementById('meme3Title').textContent = t.memeteca.meme3.title;
       document.getElementById('meme3Desc').textContent = t.memeteca.meme3.desc;
-      // Culto
       document.getElementById('cultTitle').textContent = t.cult.title;
       document.getElementById('cultQuote1').textContent = t.cult.quote1;
       document.getElementById('cultQuote2').textContent = t.cult.quote2;
       document.getElementById('cultQuote3').textContent = t.cult.quote3;
       document.getElementById('cultQuote4').textContent = t.cult.quote4;
       document.getElementById('cultQuote5').textContent = t.cult.quote5;
-      // Roadmap
       document.getElementById('roadmapTitle').textContent = t.roadmap.title;
       document.getElementById('roadmapQ1').textContent = t.roadmap.q1;
       document.getElementById('roadmapQ2').textContent = t.roadmap.q2;
       document.getElementById('roadmapQ3').textContent = t.roadmap.q3;
       document.getElementById('roadmapQ4').textContent = t.roadmap.q4;
-      // Footer
       document.getElementById('footerCopy').textContent = t.footer.copy;
     }
-    function connectWallet() { if(!window.ethereum) return alert('Instale MetaMask'); window.ethereum.request({method:'eth_requestAccounts'}).then(acc=>alert('Carteira: '+acc[0])).catch(e=>alert(e.message)); }
-    function addToken() { if(!window.ethereum) return alert('Instale MetaMask'); window.ethereum.request({ method:'wallet_watchAsset', params:{ type:'ERC20', options:{ address:'0x5C2d9D2b5AAF5E8352dAACC403132622139e355E', symbol:'GROKZILLA', decimals:18, image:'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg' }}}).then(ok=>alert(ok?'✅ Token adicionado!':'❌ Cancelado')).catch(e=>alert(e.message)); }
-    function filterMemes(c) { document.querySelectorAll('.meme-card').forEach(card=> card.style.display=(c==='todos'||card.getAttribute('data-category')===c)?'flex':'none'); }
+    function connectWallet() { if(!window.ethereum) return alert('Install MetaMask'); window.ethereum.request({method:'eth_requestAccounts'}).then(acc=>alert('Wallet: '+acc[0])).catch(e=>alert(e.message)); }
+    function addToken() { if(!window.ethereum) return alert('Install MetaMask'); window.ethereum.request({method:'wallet_watchAsset',params:{type:'ERC20',options:{address:'0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',symbol:'GROKZILLA',decimals:18,image:'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'}}}).then(ok=>alert(ok?'✅ Token added!':'❌ Cancelled')).catch(e=>alert(e.message)); }
+    function filterMemes(c) { document.querySelectorAll('.meme-card').forEach(card=>card.style.display=(c==='todos'||card.getAttribute('data-category')===c)?'flex':'none'); }
     // Init
-    const saved = localStorage.getItem('lang'), defaultLang = navigator.language.startsWith('pt')?'pt':'en';
-    setLang(saved||defaultLang);
-    // Rain
-    const rain = document.querySelector('.rain'); for(let i=0;i<100;i++){ const d=document.createElement('div'); d.className='drop'; d.style.left=Math.random()*100+'%'; d.style.animationDuration=(0.5+Math.random())+'s'; d.style.animationDelay=-Math.random()*5+'s'; rain.appendChild(d);}  
+    const saved=localStorage.getItem('lang'), defaultLang=navigator.language.startsWith('pt')?'pt':'en'; setLang(saved||defaultLang);
+    // Attach button events
+    document.getElementById('connectBtn').addEventListener('click', connectWallet);
+    document.getElementById('metamaskBtn').addEventListener('click', addToken);
+    // Rain init
+    const rain=document.querySelector('.rain'); for(let i=0;i<100;i++){const d=document.createElement('div');d.className='drop';d.style.left=Math.random()*100+'%';d.style.animationDuration=(0.5+Math.random())+'s';d.style.animationDelay=-Math.random()*5+'s';rain.appendChild(d);}  
   </script>
 </body>
 </html>
