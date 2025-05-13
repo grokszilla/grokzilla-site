@@ -116,26 +116,11 @@
   </section>
 
   <section class="roadmap">
-    <h2 id="roadmapTitle">📈 Roadmap Caótico</h2>
-    <div id="roadmapQ1" class="roadmap-step">
-      <strong>Q1 – "Prometemos Rug, Mas Nada Entregue"</strong>
-      <p>Objetivo: Fazemos as promessas e a hype, mas nada de concreto ainda! É só o começo do caos. <span>💥</span></p>
-    </div>
-
-    <div id="roadmapQ2" class="roadmap-step">
-      <strong>Q2 – "Listagem em DEX Se o Dev Acordar"</strong>
-      <p>Objetivo: O dev estava dormindo no primeiro trimestre, mas finalmente acorda e começa a negociar com exchanges. <span>⏰</span></p>
-    </div>
-
-    <div id="roadmapQ3" class="roadmap-step">
-      <strong>Q3 – "Merch Oficial: Camisetas, Adesivos e Quem Sabe Uma Caneca ou Botão"</strong>
-      <p>Objetivo: Criar a primeira linha de merch. Camisetas, adesivos, e quem sabe até um bonequinho do Grokzilla ou uma caneca com o logo. <span>🦖☕️</span></p>
-    </div>
-
-    <div id="roadmapQ4" class="roadmap-step">
-      <strong>Q4 – "Tentativa de Virar Trend no X (Ou Não)"</strong>
-      <p>Objetivo: Colocar o Grokzilla no radar de todos e tentar viralizar nas redes sociais. <span>🚀</span></p>
-    </div>
+    <h2 id="roadmapTitle"></h2>
+    <div id="roadmapQ1" class="roadmap-step"></div>
+    <div id="roadmapQ2" class="roadmap-step"></div>
+    <div id="roadmapQ3" class="roadmap-step"></div>
+    <div id="roadmapQ4" class="roadmap-step"></div>
   </section>
 
   <footer>
@@ -171,7 +156,14 @@
     }).forEach(([id,text])=>document.getElementById(id).textContent=text);
     }
     function connectWallet(){if(!window.ethereum)return alert('Instale a MetaMask');window.ethereum.request({method:'eth_requestAccounts'}).then(a=>alert('Carteira: '+a[0])).catch(e=>alert(e.message));}
-    function addToken(){if(!window.ethereum)return alert('Instale a MetaMask');window.ethereum.request({method:'wallet_watchAsset',params:{type:'ERC20',options:{address:'0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',symbol:'GROKZILLA',decimals:18,image:'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'}}}).then(ok => alert(ok ? '✅ Token adicionado!' : '❌ Cancelado')).catch(e => alert(e.message));}
+    function addToken(){if(!window.ethereum)return alert('Instale a MetaMask');window.ethereum.request({method:'wallet_watchAsset',params:{type:'ERC20',options:{address:'0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',symbol:'GROKZILLA',decimals:18,image:'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'}}}).then(ok=>alert(ok?'✅ Token adicionado!':'❌ Cancelado')).catch(e=>alert(e.message));}
+    const saved=localStorage.getItem('lang')||'pt';setLang(saved);
+    document.getElementById('connectBtn').addEventListener('click',connectWallet);
+    document.getElementById('metamaskBtn').addEventListener('click',addToken);
+    const rain=document.querySelector('.rain');for(let i=0;i<80;i++){const d=document.createElement('div');d.className='drop';d.style.background=Math.random()>0.5?'rgba(20,241,149,0.8)':'rgba(153,69,255,0.8)';d.style.left=Math.random()*100+'%';d.style.animationDuration=(0.5+Math.random())+'s';d.style.animationDelay=-Math.random()*5+'s';rain.appendChild(d);}    
+  </script>
+</body>
+</html>
 
 
 
