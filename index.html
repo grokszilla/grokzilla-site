@@ -12,12 +12,6 @@
     .rain .drop { position:absolute; bottom:100%; width:2px; height:15px; opacity:0.7; animation:fall linear infinite; }
     @keyframes fall { to { transform:translateY(100vh); opacity:0; } }
 
-    /* Corrigir fundo da tela */
-    body {
-      background-color: #0A0A0A;
-    }
-
-    /* Hero section */
     .hero { 
       background:url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/bc609512bd2e44a470d230de15567b17ac307ba6/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center/cover fixed;
       position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; 
@@ -27,27 +21,35 @@
     .hero h1 { font-family:'Press Start 2P',cursive; font-size:2.2rem; color:#14F195; text-shadow:2px 2px #9945FF; margin-bottom:20px; }
     .hero p { font-size:1.3rem; white-space:pre-line; color:#FFF; text-shadow:2px 2px #14F195,-2px -2px #9945FF; margin-bottom:40px; }
 
-    /* Fixar o efeito do botão */
-    a.button, button.button { padding:16px 28px; border-radius:12px; font-weight:bold; margin:12px; display:inline-block; font-size:1rem; transition:transform .2s,opacity .2s; box-shadow:0 0 10px #14F195; text-decoration:none; }
-    .whitepaper { background:#2E2EFF; color:#fff; }
-    .pinksale   { background:#ff69b4; color:#fff; }
-    .bscscan    { background:#ffc107; color:#000; }
-    .connect    { background:#14F195; color:#000; border:none; }
-    .metamask   { background:#f6851b; color:#fff; border:none; }
-    a.button:hover,button.button:hover{transform:scale(1.1);opacity:.9;}
+    /* Corrigir fundo da tela */
+    body {
+      background-color: #0A0A0A;
+    }
 
-    .lang-switch{margin-top:30px;} .lang-switch button{background:#fff;color:#000;border:none;padding:10px 18px;margin:0 5px;border-radius:6px;cursor:pointer;transition:background .2s;} .lang-switch button:hover{background:#e0e0e0;}
+    /* Ajustar o espaçamento das seções */
+    section {
+      padding: 60px 20px;
+      position: relative;
+      z-index: 1;
+      background: rgba(0,0,0,0.6);
+      margin-bottom: 60px; /* Adicionando margem para dar espaçamento entre as seções */
+    }
 
-    /* Resetando fundo da rain e deixando apenas os memes */
-    .rain { display:none; }
+    /* Hero section */
+    .memeteca h2, .roadmap h2, .culto h2 {
+      font-family: 'Press Start 2P';
+      color: #14F195;
+      font-size: 1.8rem;
+      margin-bottom: 40px;
+      text-align: center;
+      text-shadow: 1px 1px #9945FF;
+    }
 
-    section.memeteca, section.culto, section.roadmap { padding:60px 20px; position:relative; z-index:1; background:rgba(0,0,0,0.6); }
-    section.culto { background:radial-gradient(circle at center, rgba(17,17,17,0.6) 0%, rgba(0,0,0,0.6)100%); text-align:center; }
-    .memeteca h2, .roadmap h2, .culto h2 { font-family:'Press Start 2P'; color:#14F195; font-size:1.8rem; margin-bottom:40px; text-align:center; text-shadow:1px 1px #9945FF; }
+    /* Corrigir a visibilidade da rain */
+    .rain {
+      display: none;
+    }
 
-    .gallery-nav { display: none; }
-
-    /* Estilo dos três quadradinhos verdes */
     .meme-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr); /* 3 colunas */
@@ -56,6 +58,7 @@
       max-width: 1000px;
       padding: 20px;
     }
+
     .meme-card {
       background: #111;
       border: 2px solid #14F195;
@@ -63,22 +66,23 @@
       border-radius: 12px;
       text-align: center;
     }
+
     .meme-card img {
       width: 100%;
       border-radius: 8px;
       margin-bottom: 10px;
     }
 
-    /* Novo espaço verde para os NFTs */
+    /* Estilo dos três quadradinhos verdes */
     .nft-space {
       background-color: #14F195;
-      padding: 40px 20px; /* Menos padding vertical para que a área não fique tão grande */
+      padding: 40px 20px;
       margin-top: 40px;
       text-align: center;
       border-radius: 8px;
-      height: auto; /* Garantir que a altura se ajuste ao conteúdo */
-      max-width: 100%; /* Limitar largura */
-      margin: 0 auto; /* Centralizar a seção */
+      height: auto;
+      max-width: 100%;
+      margin: 0 auto;
     }
 
     footer { background:#000; color:#ccc; padding:20px; font-size:.9rem; text-align:center; }
@@ -186,7 +190,6 @@
   </script>
 </body>
 </html>
-
 
 
 
