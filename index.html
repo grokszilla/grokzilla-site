@@ -174,28 +174,32 @@
 
   <section class="roadmap">
     <h2 id="roadmapTitle"></h2>
+
     <div class="roadmap-step">
       <div class="phase" id="phaseQ1"></div>
       <p><strong><span id="labelObj">Objetivo:</span></strong> <span id="objQ1"></span></p>
-      <p><strong><span id="labelAction">Ação:</span></strong> <span id="actionQ1"></span></p>
+      <p><strong><span id="labelAction">Ação:</span></strong>   <span id="actionQ1"></span></p>
       <p><strong><span id="labelMilestone">Marco:</span></strong> <span id="mileQ1"></span></p>
     </div>
+
     <div class="roadmap-step">
       <div class="phase" id="phaseQ2"></div>
       <p><strong><span id="labelObj2">Objetivo:</span></strong> <span id="objQ2"></span></p>
-      <p><strong><span id="labelAction2">Ação:</span></strong> <span id="actionQ2"></span></p>
+      <p><strong><span id="labelAction2">Ação:</span></strong>   <span id="actionQ2"></span></p>
       <p><strong><span id="labelMilestone2">Marco:</span></strong> <span id="mileQ2"></span></p>
     </div>
+
     <div class="roadmap-step">
       <div class="phase" id="phaseQ3"></div>
       <p><strong><span id="labelObj3">Objetivo:</span></strong> <span id="objQ3"></span></p>
-      <p><strong><span id="labelAction3">Ação:</span></strong> <span id="actionQ3"></span></p>
+      <p><strong><span id="labelAction3">Ação:</span></strong>   <span id="actionQ3"></span></p>
       <p><strong><span id="labelMilestone3">Marco:</span></strong> <span id="mileQ3"></span></p>
     </div>
+
     <div class="roadmap-step">
       <div class="phase" id="phaseQ4"></div>
       <p><strong><span id="labelObj4">Objetivo:</span></strong> <span id="objQ4"></span></p>
-      <p><strong><span id="labelAction4">Ação:</span></strong> <span id="actionQ4"></span></p>
+      <p><strong><span id="labelAction4">Ação:</span></strong>   <span id="actionQ4"></span></p>
       <p><strong><span id="labelMilestone4">Marco:</span></strong> <span id="mileQ4"></span></p>
     </div>
   </section>
@@ -309,8 +313,10 @@
     };
 
     function setLang(lang) {
+      localStorage.setItem('lang', lang);
       document.documentElement.lang = lang;
       const t = translations[lang];
+
       // Hero
       document.getElementById('title').textContent       = t.hero.title;
       document.getElementById('description').textContent = t.hero.description;
@@ -319,79 +325,84 @@
       document.getElementById('bscscan').textContent     = t.hero.bscscan;
       document.getElementById('connectBtn').textContent  = t.hero.connect;
       document.getElementById('metamaskBtn').textContent = t.hero.metamask;
+
       // Memeteca
       document.getElementById('memetecaTitle').textContent = t.memeteca.title;
+
       // Culto
       document.getElementById('cultTitle').textContent   = t.cult.title;
       ['cultQuote1','cultQuote2','cultQuote3','cultQuote4','cultQuote5']
         .forEach((id,i) => document.getElementById(id).textContent = t.cult[`quote${i+1}`]);
-      // Roadmap title & labels
+
+      // Roadmap title
       document.getElementById('roadmapTitle').textContent = t.roadmap.title;
-      ['labelObj','labelAction','labelMilestone']
-        .forEach((id, i) => document.getElementById(id + (i>0?'':'')).textContent = t.labels[id.replace('label','').toLowerCase()]);
-      // Roadmap steps
-      for (let i=1; i<=4; i++) {
-        document.getElementById(`phaseQ${i}`).textContent    = t.roadmap[`q${i}phase`];
-        document.getElementById(`objQ${i}`).textContent      = t.roadmap[`q${i}obj`];
-        document.getElementById(`actionQ${i}`).textContent   = t.roadmap[`q${i}action`];
-        document.getElementById(`mileQ${i}`).textContent     = t.roadmap[`q${i}mile`];
-        document.getElementById(`labelObj${i}`).textContent      = t.labels.obj;
-        document.getElementById(`labelAction${i}`).textContent   = t.labels.action;
-        document.getElementById(`labelMilestone${i}`).textContent= t.labels.mile;
+
+      // Steps Q1–Q4
+      for (let i = 1; i <= 4; i++) {
+        const suf = i === 1 ? '' : i;
+        document.getElementById(`phaseQ${i}`).textContent       = t.roadmap[`q${i}phase`];
+        document.getElementById(`labelObj${suf}`).textContent      = t.labels.obj;
+        document.getElementById(`labelAction${suf}`).textContent   = t.labels.action;
+        document.getElementById(`labelMilestone${suf}`).textContent= t.labels.mile;
+        document.getElementById(`objQ${i}`).textContent        = t.roadmap[`q${i}obj`];
+        document.getElementById(`actionQ${i}`).textContent     = t.roadmap[`q${i}action`];
+        document.getElementById(`mileQ${i}`).textContent       = t.roadmap[`q${i}mile`];
       }
+
       // Footer
       document.getElementById('footerCopy').textContent = t.footer.copy;
-      localStorage.setItem('lang', lang);
     }
 
     function initLangSwitcher() {
-      document.querySelectorAll('.lang-switch button').forEach(btn=>
-        btn.addEventListener('click', ()=> setLang(btn.dataset.lang))
+      document.querySelectorAll('.lang-switch button').forEach(btn =>
+        btn.addEventListener('click', () => setLang(btn.dataset.lang))
       );
     }
 
     function initWalletButtons() {
-      document.getElementById('connectBtn').onclick = ()=>{
+      document.getElementById('connectBtn').onclick = () => {
         if (!window.ethereum) return alert('Instale a MetaMask');
-        window.ethereum.request({method:'eth_requestAccounts'})
-          .then(a=>alert('Carteira: '+a[0])).catch(e=>alert(e.message));
+        window.ethereum.request({ method:'eth_requestAccounts' })
+          .then(a => alert('Carteira: '+a[0])).catch(e => alert(e.message));
       };
-      document.getElementById('metamaskBtn').onclick = ()=>{
+      document.getElementById('metamaskBtn').onclick = () => {
         if (!window.ethereum) return alert('Instale a MetaMask');
         window.ethereum.request({
           method:'wallet_watchAsset',
-          params:{type:'ERC20',options:{
+          params:{ type:'ERC20', options:{
             address:'0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',
-            symbol:'GROKZILLA',decimals:18,
+            symbol:'GROKZILLA', decimals:18,
             image:'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
           }}
         })
-        .then(ok=>alert(ok?'✅ Token adicionado!':'❌ Cancelado'))
-        .catch(e=>alert(e.message));
+        .then(ok => alert(ok?'✅ Token adicionado!':'❌ Cancelado'))
+        .catch(e => alert(e.message));
       };
     }
 
     function initRain() {
-      const c=document.querySelector('.rain');
-      for(let i=0;i<80;i++){
-        const d=document.createElement('div');
-        d.className='drop';
-        d.style.background=Math.random()>0.5
-          ?'rgba(20,241,149,0.8)':'rgba(153,69,255,0.8)';
-        d.style.left=Math.random()*100+'%';
-        d.style.animationDuration=(0.5+Math.random())+'s';
-        d.style.animationDelay=-Math.random()*5+'s';
+      const c = document.querySelector('.rain');
+      for (let i = 0; i < 80; i++) {
+        const d = document.createElement('div');
+        d.className = 'drop';
+        d.style.background = Math.random() > 0.5
+          ? 'rgba(20,241,149,0.8)'
+          : 'rgba(153,69,255,0.8)';
+        d.style.left = Math.random()*100+'%';
+        d.style.animationDuration = (0.5 + Math.random())+'s';
+        d.style.animationDelay = -Math.random()*5+'s';
         c.appendChild(d);
       }
     }
 
-    document.addEventListener('DOMContentLoaded',()=>{
+    document.addEventListener('DOMContentLoaded', () => {
       initLangSwitcher();
       initWalletButtons();
       initRain();
-      setLang(localStorage.getItem('lang')||'pt');
+      setLang(localStorage.getItem('lang') || 'pt');
     });
   </script>
 </body>
 </html>
+
 
