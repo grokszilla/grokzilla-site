@@ -12,8 +12,7 @@
     .rain .drop { position:absolute; bottom:100%; width:2px; height:15px; opacity:0.7; animation:fall linear infinite; }
     @keyframes fall { to { transform:translateY(100vh); opacity:0; } }
 
-    .hero { 
-      background:url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/bc609512bd2e44a470d230de15567b17ac307ba6/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center/cover fixed #000;
+    .hero { background:url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/bc609512bd2e44a470d230de15567b17ac307ba6/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center/cover fixed #000;
       position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center;
     }
     .hero::after { content:""; position:absolute; inset:0; background:rgba(0,0,0,0.7); z-index:1; }
@@ -29,7 +28,9 @@
     .metamask   { background:#f6851b; color:#fff; border:none; }
     a.button:hover,button.button:hover{transform:scale(1.1);opacity:.9;}
 
-    .lang-switch{margin-top:30px;} .lang-switch button{background:#fff;color:#000;border:none;padding:10px 18px;margin:0 5px;border-radius:6px;cursor:pointer;transition:background .2s;} .lang-switch button:hover{background:#e0e0e0;}
+    .lang-switch { margin-top:30px; }
+    .lang-switch button { background:#fff; color:#000; border:none; padding:10px 18px; margin:0 5px; border-radius:6px; cursor:pointer; transition:background .2s; }
+    .lang-switch button:hover { background:#e0e0e0; }
 
     section.memeteca, section.culto, section.roadmap { padding:60px 20px; position:relative; z-index:1; overflow:hidden; background:rgba(0,0,0,0.6); }
     section.culto { background:radial-gradient(circle at center,rgba(17,17,17,0.6) 0%,rgba(0,0,0,0.6)100%); text-align:center; }
@@ -63,8 +64,8 @@
       <button id="connectBtn" class="button connect"></button>
       <button id="metamaskBtn" class="button metamask"></button>
       <div class="lang-switch">
-        <button onclick="setLang('pt')">Português</button>
-        <button onclick="setLang('en')">English</button>
+        <button data-lang="pt">Português</button>
+        <button data-lang="en">English</button>
       </div>
     </div>
   </section>
@@ -94,11 +95,27 @@
   </section>
 
   <section class="roadmap">
-    <h2 id="roadmapTitle"></h2>
-    <div id="roadmapQ1" class="roadmap-step"></div>
-    <div id="roadmapQ2" class="roadmap-step"></div>
-    <div id="roadmapQ3" class="roadmap-step"></div>
-    <div id="roadmapQ4" class="roadmap-step"></div>
+    <h2 id="roadmapTitle">📈 Roadmap Caótico</h2>
+    <div class="roadmap-step" data-phase="Q1 – 'Prometemos Rug, Mas Nada Entregue'">
+      <strong>Objetivo:</strong> Fazemos as promessas e a hype, mas nada de concreto ainda! É só o começo do caos.<br>
+      <strong>Ação:</strong> Lançamos o token, mas ainda estamos tentando não fazer um rug pull. A gente promete que tudo vai dar certo, de verdade!<br>
+      <strong>Marco:</strong> O lançamento do token. Se der errado, culpa do mercado, não nossa. 😎
+    </div>
+    <div class="roadmap-step" data-phase="Q2 – 'Listagem em DEX Se o Dev Acordar'">
+      <strong>Objetivo:</strong> O dev estava dormindo no primeiro trimestre, mas finalmente acorda e começa a negociar com exchanges.<br>
+      <strong>Ação:</strong> As negociações para listar o token nas DEX começam. Vamos tentar fazer isso sem um crash do sistema.<br>
+      <strong>Marco:</strong> Token listado em pelo menos uma exchange (se não for só nas nossas cabeças).
+    </div>
+    <div class="roadmap-step" data-phase="Q3 – 'Merch Oficial: Camisetas, Adesivos e Quem Sabe Uma Caneca ou Botão'">
+      <strong>Objetivo:</strong> Criar a primeira linha de merch. Camisetas, adesivos, talvez até um bonequinho do Grokzilla ou quem sabe uma caneca com o logo. 🦖☕️<br>
+      <strong>Ação:</strong> O dev e o marketing começam a trabalhar juntos, criando produtos de qualidade (ou não).<br>
+      <strong>Marco:</strong> Camisetas e adesivos sendo distribuídos pela comunidade (e quem sabe um botão ou uma caneca para você colocar na sua prateleira).
+    </div>
+    <div class="roadmap-step" data-phase="Q4 – 'Tentativa de Virar Trend no X (Ou Não)'">
+      <strong>Objetivo:</strong> Colocar o Grokzilla no radar de todos. Vamos viralizar nas redes sociais, mas sem forçar, ok?<br>
+      <strong>Ação:</strong> A campanha de marketing vem com memes, posts, e até gifs engraçados para fazer o token bombar.<br>
+      <strong>Marco:</strong> Viralizamos no X (ou talvez seja só uma tentativa desesperada, mas vamos ver o que acontece).
+    </div>
   </section>
 
   <footer>
@@ -108,22 +125,24 @@
   </footer>
 
   <script>
+    // Traduções e setLang
     const translations = {
       pt: {
-        hero: { title:"Token Grokzilla", description:"Monstro dos memes. Pesadelo dos mercados. Mascote da sua próxima má decisão.\n$GROKZILLA", whitepaper:"📄 Whitepaper", pinksale:"🚀 Pré-venda no PinkSale", bscscan:"🔎 Ver no BscScan", connect:"🔗 Conectar Carteira", metamask:"🦊 Adicionar à MetaMask" },
-        memeteca:{ title:"📚 Memeteca GrokZilla" },
-        cult: { title:"🛐 O Culto GrokZilla", quote1:"Grok é meu pastor, o gráfico não faltará.", quote2:"Em dias de FUD, confiarei no dino.", quote3:"Só quem segurou até o fundo será exaltado.", quote4:"Rug? Só pelúcia.", quote5:"Todo pump começa com fé e um bom meme." },
-        roadmap:{ title:"📈 Roadmap Caótico", q1:"Q1 – Prometemos rug, mas nada entregue.", q2:"Q2 – Listagem em DEX se o dev acordar.", q3:"Q3 – Merch oficial: camisetas e adesivos talvez.", q4:"Q4 – Tentativa de virar trend no X." },
-        footer:{ copy:"© 2025 Grokzilla. Todos os direitos." }
+        hero: { title: "Token Grokzilla", description: "Monstro dos memes. Pesadelo dos mercados. Mascote da sua próxima má decisão.\n$GROKZILLA", whitepaper: "📄 Whitepaper", pinksale: "🚀 Pré-venda no PinkSale", bscscan: "🔎 Ver no BscScan", connect: "🔗 Conectar Carteira", metamask: "🦊 Adicionar à MetaMask" },
+        memeteca: { title: "📚 Memeteca GrokZilla" },
+        cult: { title: "🛐 O Culto GrokZilla", quote1: "Grok é meu pastor, o gráfico não faltará.", quote2: "Em dias de FUD, confiarei no dino.", quote3: "Só quem segurou até o fundo será exaltado.", quote4: "Rug? Só pelúcia.", quote5: "Todo pump começa com fé e um bom meme." },
+        roadmap: { title: "📈 Roadmap Caótico", q1: "Q1 – Prometemos rug, mas nada entregue.", q2: "Q2 – Listagem em DEX se o dev acordar.", q3: "Q3 – Merch oficial: camisetas e adesivos talvez.", q4: "Q4 – Tentativa de virar trend no X." },
+        footer: { copy: "© 2025 Grokzilla. Todos os direitos." }
       },
       en: {
-        hero: { title:"Grokzilla Token", description:"Monster of memes. Nightmare of markets. Mascot of your next bad decision.\n$GROKZILLA", whitepaper:"📄 Whitepaper", pinksale:"🚀 Pre-sale on PinkSale", bscscan:"🔎 View on BscScan", connect:"🔗 Connect Wallet", metamask:"🦊 Add to MetaMask" },
-        memeteca:{ title:"📚 Official Memeteca" },
-        cult: { title:"🛐 The GrokZilla Cult", quote1:"Grok is my shepherd, the chart shall not want.", quote2:"In FUD I trust.", quote3:"Only those who held to the bottom will be exalted.", quote4:"Rug? Only plushies.", quote5:"Every pump starts with faith and a good meme." },
-        roadmap:{ title:"📈 Chaotic Roadmap", q1:"Q1 – Promised rug... delivered nothing.", q2:"Q2 – DEX listing if dev wakes from hype coma.", q3:"Q3 – Official merch maybe.", q4:"Q4 – Trend on X or bust." },
-        footer:{ copy:"© 2025 Grokzilla. All rights reserved." }
+        hero: { title: "Grokzilla Token", description: "Monster of memes. Nightmare of markets. Mascot of your next bad decision.\n$GROKZILLA", whitepaper: "📄 Whitepaper", pinksale: "🚀 Pre-sale on PinkSale", bscscan: "🔎 View on BscScan", connect: "🔗 Connect Wallet", metamask: "🦊 Add to MetaMask" },
+        memeteca: { title: "📚 Official Memeteca" },
+        cult: { title: "🛐 The GrokZilla Cult", quote1: "Grok is my shepherd, the chart shall not want.", quote2: "In FUD I trust.", quote3: "Only those who held to the bottom will be exalted.", quote4: "Rug? Only plushies.", quote5: "Every pump starts with faith and a good meme." },
+        roadmap: { title: "📈 Chaotic Roadmap", q1: "Q1 – Promised rug... delivered nothing.", q2: "Q2 – DEX listing if dev wakes from hype coma.", q3: "Q3 – Official merch maybe.", q4: "Q4 – Trend on X or bust." },
+        footer: { copy: "© 2025 Grokzilla. All rights reserved." }
       }
     };
+
     function setLang(lang) {
       localStorage.setItem('lang', lang);
       document.documentElement.lang = lang;
@@ -151,44 +170,51 @@
         footerCopy: t.footer.copy
       };
       Object.entries(map).forEach(([id, text]) => {
-        document.getElementById(id).textContent = text;
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
       });
     }
-    function connectWallet() {
-      if (!window.ethereum) return alert('Instale a MetaMask');
-      window.ethereum.request({ method: 'eth_requestAccounts' })
-        .then(a => alert('Carteira: ' + a[0]))
-        .catch(e => alert(e.message));
+
+    function initLangSwitcher() {
+      document.querySelectorAll('.lang-switch button').forEach(btn => {
+        btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang')));
+      });
     }
-    function addToken() {
-      if (!window.ethereum) return alert('Instale a MetaMask');
-      window.ethereum.request({
-        method: 'wallet_watchAsset',
-        params: {
-          type: 'ERC20',
-          options: {
-            address: '0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',
-            symbol: 'GROKZILLA',
-            decimals: 18,
-            image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
-          }
-        }
-      }).then(ok => alert(ok ? '✅ Token adicionado!' : '❌ Cancelado'))
-        .catch(e => alert(e.message));
+
+    function initWalletButtons() {
+      document.getElementById('connectBtn').addEventListener('click', () => {
+        if (!window.ethereum) return alert('Instale a MetaMask');
+        window.ethereum.request({ method: 'eth_requestAccounts' })
+          .then(a => alert('Carteira: ' + a[0]))
+          .catch(e => alert(e.message));
+      });
+      document.getElementById('metamaskBtn').addEventListener('click', () => {
+        if (!window.ethereum) return alert('Instale a MetaMask');
+        window.ethereum.request({ method: 'wallet_watchAsset', params: { type: 'ERC20', options: { address: '0x5C2d9D2b5AAF5E8352dAACC403132622139e355E', symbol: 'GROKZILLA', decimals: 18, image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg' } } })
+          .then(ok => alert(ok ? '✅ Token adicionado!' : '❌ Cancelado'))
+          .catch(e => alert(e.message));
+      });
     }
-    document.getElementById('connectBtn').addEventListener('click', connectWallet);
-    document.getElementById('metamaskBtn').addEventListener('click', addToken);
-    const saved = localStorage.getItem('lang') || 'pt'; setLang(saved);
-    const rain = document.querySelector('.rain');
-    for (let i = 0; i < 80; i++) {
-      const d = document.createElement('div');
-      d.className = 'drop';
-      d.style.background = Math.random() > 0.5 ? 'rgba(20,241,149,0.8)' : 'rgba(153,69,255,0.8)';
-      d.style.left = Math.random() * 100 + '%';
-      d.style.animationDuration = (0.5 + Math.random()) + 's';
-      d.style.animationDelay = -Math.random() * 5 + 's';
-      rain.appendChild(d);
+
+    function initRain() {
+      const container = document.querySelector('.rain');
+      for (let i = 0; i < 80; i++) {
+        const d = document.createElement('div');
+        d.className = 'drop';
+        d.style.background = Math.random() > 0.5 ? 'rgba(20,241,149,0.8)' : 'rgba(153,69,255,0.8)';
+        d.style.left = Math.random() * 100 + '%';
+        d.style.animationDuration = (0.5 + Math.random()) + 's';
+        d.style.animationDelay = -Math.random() * 5 + 's';
+        container.appendChild(d);
+      }
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setLang(localStorage.getItem('lang') || 'pt');
+      initLangSwitcher();
+      initWalletButtons();
+      initRain();
+    });
   </script>
 </body>
 </html>
