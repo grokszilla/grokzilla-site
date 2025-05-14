@@ -5,107 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Token Grokzilla</title>
   <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
     html, body { margin:0; padding:0; scroll-behavior:smooth; background:#0A0A0A; color:#FFF; font-family:'Inter',sans-serif; }
 
     /* chuva */
-    .rain { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:hidden; z-index:0; }
-    .rain .drop { position:absolute; bottom:100%; width:2px; height:15px; opacity:0.7; animation:fall linear infinite; }
-    @keyframes fall { to { transform:translateY(100vh); opacity:0; } }
+    .rain{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:0;}
+    .rain .drop{position:absolute;bottom:100%;width:2px;height:15px;opacity:0.7;animation:fall linear infinite;}
+    @keyframes fall{to{transform:translateY(100vh);opacity:0;}}
 
     /* hero */
-    .hero {
-      background:url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center/cover fixed #000;
-      position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center;
-    }
-    .hero::after { content:""; position:absolute; inset:0; background:rgba(0,0,0,0.7); z-index:1; }
-    .hero-content { position:relative; z-index:2; padding:100px 20px 60px; }
-    .hero h1 { font-family:'Press Start 2P',cursive; font-size:2.2rem; color:#14F195; text-shadow:2px 2px #9945FF; margin-bottom:20px; }
-    .hero p { font-size:1.3rem; white-space:pre-line; color:#FFF; text-shadow:2px 2px #14F195,-2px -2px #9945FF; margin-bottom:40px; }
+    .hero{background:url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center/cover fixed #000;
+      position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;}
+    .hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.7);z-index:1;}
+    .hero-content{position:relative;z-index:2;padding:100px 20px 60px;}
+    .hero h1{font-family:'Press Start 2P',cursive;font-size:2.2rem;color:#14F195;text-shadow:2px 2px #9945FF;margin-bottom:20px;}
+    .hero p{font-size:1.3rem;white-space:pre-line;color:#FFF;text-shadow:2px 2px #14F195,-2px -2px #9945FF;margin-bottom:40px;}
 
-    /* botões */
-    a.button, button.button {
-      padding:16px 28px; border-radius:12px; font-weight:bold; margin:12px;
-      display:inline-block; font-size:1rem; transition:transform .2s, box-shadow .2s, opacity .2s;
-      box-shadow:0 0 10px #14F195; text-decoration:none; color:inherit;
-    }
-    a.button:hover, button.button:hover {
-      animation:bounce .3s; box-shadow:0 0 20px #9945FF; transform:translateY(-2px); opacity:.9;
-    }
-    @keyframes bounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);} }
+    /* botões base */
+    .button{padding:16px 28px;border-radius:12px;font-weight:bold;margin:12px;display:inline-flex;align-items:center;
+      font-size:1rem;transition:transform .2s,box-shadow .2s,opacity .2s;text-decoration:none;color:inherit;}
+    .button:hover{animation:bounce .3s;transform:translateY(-2px);opacity:.9;}
+    @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+    .btn-icon{width:20px;height:20px;margin-right:8px;vertical-align:middle;}
+
+    /* cores e sombras de cada botão */
+    .whitepaper{background:#2E2EFF;box-shadow:0 0 10px #2E2EFF;color:#fff;}
+    .pinksale  {background:#ff69b4;box-shadow:0 0 10px #ff69b4;color:#fff;}
+    .bscscan   {background:#f0b90b;box-shadow:0 0 10px #f0b90b;color:#000;}
+    .connect   {background:#14F195;box-shadow:0 0 10px #14F195;color:#000;}
+    .telegram  {background:#0088cc;box-shadow:0 0 10px #0088cc;color:#fff;}
 
     /* lang switch */
-    .lang-switch { margin-top:30px; }
-    .lang-switch button {
-      background:#fff; color:#000; border:none; padding:10px 18px; margin:0 5px;
-      border-radius:6px; cursor:pointer; transition:background .2s;
-    }
-    .lang-switch button:hover { background:#e0e0e0; }
+    .lang-switch{margin-top:30px;}
+    .lang-switch button{background:#fff;color:#000;border:none;padding:10px 18px;margin:0 5px;border-radius:6px;cursor:pointer;transition:background .2s;}
+    .lang-switch button:hover{background:#e0e0e0;}
 
     /* memeteca */
-    section.memeteca {
-      padding:60px 20px; background:rgba(0,0,0,0.6);
-    }
-    .memeteca h2 {
-      font-family:'Press Start 2P'; color:#14F195; font-size:1.8rem;
-      text-shadow:1px 1px #9945FF; text-align:center; margin-bottom:40px;
-    }
-    .meme-grid {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-      gap:20px; max-width:1000px; margin:0 auto;
-    }
-    .meme-card {
-      background:#111; border:2px solid #14F195; border-radius:12px;
-      overflow:hidden; text-align:center; transition:transform .3s, box-shadow .3s;
-    }
-    .meme-card:hover {
-      transform:scale(1.05);
-      box-shadow:0 0 10px rgba(20,241,149,0.8),0 0 20px rgba(153,69,255,0.6);
-    }
-    .meme-card img { width:100%; height:auto; border-radius:8px; }
+    section.memeteca{padding:60px 20px;background:rgba(0,0,0,0.6);}
+    .memeteca h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;text-shadow:1px 1px #9945FF;text-align:center;margin-bottom:40px;}
+    .meme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:1000px;margin:0 auto;}
+    .meme-card{background:#111;border:2px solid #14F195;border-radius:12px;overflow:hidden;text-align:center;transition:transform .3s,box-shadow .3s;}
+    .meme-card:hover{transform:scale(1.05);box-shadow:0 0 10px rgba(20,241,149,0.8),0 0 20px rgba(153,69,255,0.6);}
+    .meme-card img{width:100%;height:auto;border-radius:8px;}
 
     /* culto */
-    section.culto {
-      padding:60px 20px; background:radial-gradient(circle at center,rgba(17,17,17,0.6) 0%,rgba(0,0,0,0.6)100%);
-      text-align:center;
-    }
-    .culto h2 {
-      font-family:'Press Start 2P'; color:#14F195; font-size:1.8rem;
-      text-shadow:1px 1px #9945FF; margin-bottom:40px;
-    }
-    .culto p {
-      opacity:0; transform:translateY(30px); animation:fadeInUp 1s ease forwards;
-      margin:12px 0; padding:12px 20px; border-left:4px solid #14F195;
-      border-right:4px solid #14F195; background:rgba(20,241,149,0.05);
-      border-radius:8px; font-size:1.2rem; color:#fff;
-    }
-    @keyframes fadeInUp { to { opacity:1; transform:translateY(0);} }
+    section.culto{padding:60px 20px;background:radial-gradient(circle at center,rgba(17,17,17,0.6) 0%,rgba(0,0,0,0.6)100%);text-align:center;}
+    .culto h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;text-shadow:1px 1px #9945FF;margin-bottom:40px;}
+    .culto p{opacity:0;transform:translateY(30px);animation:fadeInUp 1s ease forwards;margin:12px 0;padding:12px 20px;
+      border-left:4px solid #14F195;border-right:4px solid #14F195;background:rgba(20,241,149,0.05);border-radius:8px;font-size:1.2rem;color:#fff;}
+    @keyframes fadeInUp{to{opacity:1;transform:translateY(0);}}
 
     /* roadmap */
-    section.roadmap {
-      padding:60px 20px; background:rgba(0,0,0,0.6);
-    }
-    .roadmap h2 {
-      font-family:'Press Start 2P'; color:#14F195; font-size:1.8rem;
-      text-shadow:1px 1px #9945FF; text-align:center; margin-bottom:40px;
-    }
-    .roadmap-step {
-      background:#222; border:2px dashed #9945FF; padding:20px;
-      border-radius:16px; max-width:700px; margin:10px auto;
-      color:#fff; font-size:1rem;
-    }
-    .roadmap-step .phase {
-      font-weight:bold; color:#14F195; font-size:1.1rem; margin-bottom:12px;
-    }
-    .roadmap-step p { margin:6px 0; }
+    section.roadmap{padding:60px 20px;background:rgba(0,0,0,0.6);}
+    .roadmap h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;text-shadow:1px 1px #9945FF;text-align:center;margin-bottom:40px;}
+    .roadmap-step{background:#222;border:2px dashed #9945FF;padding:20px;border-radius:16px;max-width:700px;margin:10px auto;color:#fff;font-size:1rem;}
+    .roadmap-step .phase{font-weight:bold;color:#14F195;font-size:1.1rem;margin-bottom:12px;}
+    .roadmap-step p{margin:6px 0;}
 
     /* footer */
-    footer {
-      background:#000; color:#ccc; text-align:center; padding:20px; font-size:.9rem;
-    }
-    footer a { color:inherit; margin:0 10px; text-decoration:none; vertical-align:middle; }
-    footer img { width:20px; vertical-align:middle; margin-right:5px; }
+    footer{background:#000;color:#ccc;text-align:center;padding:20px;font-size:.9rem;}
+    footer a{color:inherit;margin:0 10px;text-decoration:none;vertical-align:middle;}
+    footer img{width:20px;vertical-align:middle;margin-right:5px;}
   </style>
 </head>
 <body>
@@ -116,11 +77,32 @@
     <div class="hero-content">
       <h1 id="title"></h1>
       <p id="description"></p>
-      <a id="whitepaper" class="button whitepaper" href="#" target="_blank"></a>
-      <a id="pinksale"   class="button pinksale"   href="#" target="_blank"></a>
-      <a id="bscscan"    class="button bscscan"    href="#" target="_blank"></a>
-      <button id="connectBtn" class="button connect"></button>
-      <a id="telegramBtn" class="button connect" href="https://t.me/tokengrokzilla" target="_blank"></a>
+
+      <a id="whitepaper" class="button whitepaper" href="#" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" class="btn-icon" alt="">
+        <span id="whitepaperLabel"></span>
+      </a>
+
+      <a id="pinksale" class="button pinksale" href="#" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/3462/3462148.png" class="btn-icon" alt="">
+        <span id="pinksaleLabel"></span>
+      </a>
+
+      <a id="bscscan" class="button bscscan" href="#" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968851.png" class="btn-icon" alt="">
+        <span id="bscscanLabel"></span>
+      </a>
+
+      <button id="connectBtn" class="button connect">
+        <img src="https://cdn-icons-png.flaticon.com/512/1051/1051377.png" class="btn-icon" alt="">
+        <span id="connectLabel"></span>
+      </button>
+
+      <a id="telegramBtn" class="button telegram" href="https://t.me/tokengrokzilla" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" class="btn-icon" alt="">
+        <span id="telegramLabel"></span>
+      </a>
+
       <div class="lang-switch">
         <button data-lang="pt">Português</button>
         <button data-lang="en">English</button>
@@ -145,14 +127,15 @@
   </section>
 
   <!-- CULTO -->
-  <section class="culto">
-    <h2 id="cultTitle"></h2>
-    <p id="cultQuote1"></p>
-    <p id("cultQuote2")></p>
-    <p id="cultQuote3"></p>
-    <p id="cultQuote4"></p>
-    <p id="cultQuote5"></p>
-  </section>
+ <section class="culto">
+  <h2 id="cultTitle"></h2>
+  <p id="cultQuote1"></p>
+  <p id="cultQuote2"></p>   
+  <p id="cultQuote3"></p>
+  <p id="cultQuote4"></p>
+  <p id="cultQuote5"></p>
+</section>
+
 
   <!-- ROADMAP -->
   <section class="roadmap">
@@ -201,44 +184,36 @@
           connect:     "🔗 Conectar Carteira",
           telegram:    "✉️ Telegram"
         },
-        memeteca: {
-          title: "📚 Memeteca GrokZilla"
-        },
+        memeteca: { title:"📚 Memeteca GrokZilla" },
         cult: {
-          title:  "🛐 O Culto GrokZilla",
-          quote1: "Grok é meu pastor, o gráfico não faltará.",
-          quote2: "Em dias de FUD, confiarei no dino.",
-          quote3: "Só quem segurou até o fundo será exaltado.",
-          quote4: "Rug? Só pelúcia.",
-          quote5: "Todo pump começa com fé e um bom meme."
+          title:"🛐 O Culto GrokZilla",
+          quote1:"Grok é meu pastor, o gráfico não faltará.",
+          quote2:"Em dias de FUD, confiarei no dino.",
+          quote3:"Só quem segurou até o fundo será exaltado.",
+          quote4:"Rug? Só pelúcia.",
+          quote5:"Todo pump começa com fé e um bom meme."
         },
         roadmap: {
-          title:    "📈 Roadmap Caótico",
-          q1phase:  "Q1 – Prometemos Rug, Mas Nada Entregue",
-          q1obj:    "Fazemos as promessas e a hype, mas nada de concreto ainda! É só o começo do caos.",
-          q1action: "Lançamos o token, mas ainda estamos tentando não fazer um rug pull.",
-          q1mile:   "O lançamento do token. Se der errado, culpa do mercado, não nossa.",
-          q2phase:  "Q2 – Listagem em DEX Se o Dev Acordar",
-          q2obj:    "O dev estava dormindo no primeiro trimestre, mas finalmente acorda e começa a negociar.",
-          q2action: "As negociações para listar o token nas DEX começam.",
-          q2mile:   "Token listado em pelo menos uma exchange.",
-          q3phase:  "Q3 – Merch Oficial: Camisetas, Adesivos e Quem Sabe Uma Caneca ou Botão",
-          q3obj:    "Criar a primeira linha de merch. Camisetas, adesivos e quem sabe uma caneca.",
-          q3action: "Dev e marketing trabalham juntos na criação dos produtos.",
-          q3mile:   "Merch distribuído à comunidade.",
-          q4phase:  "Q4 – Tentativa de Virar Trend no X (Ou Não)",
-          q4obj:    "Colocar o Grokzilla no radar de todo mundo.",
-          q4action: "Campanha de memes, posts e Gifs.",
-          q4mile:   "Viralizar no X (ou tentar)."
+          title:"📈 Roadmap Caótico",
+          q1phase:"Q1 – Prometemos Rug, Mas Nada Entregue",
+          q1obj:"Fazemos as promessas e a hype, mas nada de concreto ainda! É só o começo do caos.",
+          q1action:"Lançamos o token, mas ainda estamos tentando não fazer um rug pull.",
+          q1mile:"O lançamento do token. Se der errado, culpa do mercado, não nossa.",
+          q2phase:"Q2 – Listagem em DEX Se o Dev Acordar",
+          q2obj:"O dev estava dormindo no primeiro trimestre, mas finalmente acorda e começa a negociar.",
+          q2action:"As negociações para listar o token nas DEX começam.",
+          q2mile:"Token listado em pelo menos uma exchange.",
+          q3phase:"Q3 – Merch Oficial: Camisetas, Adesivos e Quem Sabe Uma Caneca ou Botão",
+          q3obj:"Criar a primeira linha de merch. Camisetas, adesivos e quem sabe uma caneca.",
+          q3action:"Dev e marketing trabalham juntos na criação dos produtos.",
+          q3mile:"Merch distribuído à comunidade.",
+          q4phase:"Q4 – Tentativa de Virar Trend no X (Ou Não)",
+          q4obj:"Colocar o Grokzilla no radar de todo mundo.",
+          q4action:"Campanha de memes, posts e Gifs.",
+          q4mile:"Viralizar no X (ou tentar)."
         },
-        labels: {
-          obj:    "Objetivo:",
-          action: "Ação:",
-          mile:   "Marco:"
-        },
-        footer: {
-          copy: "© 2025 Grokzilla. Todos os direitos."
-        }
+        labels:{ obj:"Objetivo:", action:"Ação:", mile:"Marco:" },
+        footer:{ copy:"© 2025 Grokzilla. Todos os direitos." }
       },
       en: {
         hero: {
@@ -250,119 +225,106 @@
           connect:     "🔗 Connect Wallet",
           telegram:    "✉️ Telegram"
         },
-        memeteca: {
-          title: "📚 Official Memeteca"
+        memeteca:{ title:"📚 Official Memeteca" },
+        cult:{
+          title:"🛐 The GrokZilla Cult",
+          quote1:"Grok is my shepherd, the chart shall not want.",
+          quote2:"In FUD I trust.",
+          quote3:"Only those who held to the bottom will be exalted.",
+          quote4:"Rug? Only plushies.",
+          quote5:"Every pump starts with faith and a good meme."
         },
-        cult: {
-          title:  "🛐 The GrokZilla Cult",
-          quote1: "Grok is my shepherd, the chart shall not want.",
-          quote2: "In FUD I trust.",
-          quote3: "Only those who held to the bottom will be exalted.",
-          quote4: "Rug? Only plushies.",
-          quote5: "Every pump starts with faith and a good meme."
+        roadmap:{
+          title:"📈 Chaotic Roadmap",
+          q1phase:"Q1 – Promised Rug, Delivered Nothing",
+          q1obj:"We make the promises and hype, but nothing concrete yet! It's just the beginning of chaos.",
+          q1action:"We launch the token, but we're still trying not to pull a rug.",
+          q1mile:"Token launch. If it goes wrong, blame the market.",
+          q2phase:"Q2 – DEX Listing if Dev Wakes Up",
+          q2obj:"The dev was sleeping during the first quarter, but finally wakes up and starts negotiating with exchanges.",
+          q2action:"Negotiations to list the token on DEXes begin.",
+          q2mile:"Token listed on at least one exchange.",
+          q3phase:"Q3 – Official Merch: Tees, Stickers, Maybe a Mug or Pin",
+          q3obj:"Create the first merch line: t-shirts, stickers, maybe even a mug.",
+          q3action:"Dev and marketing collaborate on the products.",
+          q3mile:"Merch distributed to the community.",
+          q4phase:"Q4 – Trend on X (Or Try and Fail)",
+          q4obj:"Get Grokzilla on everyone’s radar.",
+          q4action:"Meme campaign across social media.",
+          q4mile:"Go viral on X (or try)."
         },
-        roadmap: {
-          title:    "📈 Chaotic Roadmap",
-          q1phase:  "Q1 – Promised Rug, Delivered Nothing",
-          q1obj:    "We make the promises and hype, but nothing concrete yet! It's just the beginning of chaos.",
-          q1action: "We launch the token, but we're still trying not to pull a rug.",
-          q1mile:   "Token launch. If it goes wrong, blame the market.",
-          q2phase:  "Q2 – DEX Listing if Dev Wakes Up",
-          q2obj:    "The dev was sleeping during the first quarter, but finally wakes up and starts negotiating with exchanges.",
-          q2action: "Negotiations to list the token on DEXes begin.",
-          q2mile:   "Token listed on at least one exchange.",
-          q3phase:  "Q3 – Official Merch: Tees, Stickers, Maybe a Mug or Pin",
-          q3obj:    "Create the first merch line: t-shirts, stickers, maybe even a mug.",
-          q3action: "Dev and marketing collaborate on the products.",
-          q3mile:   "Merch distributed to the community.",
-          q4phase:  "Q4 – Trend on X (Or Try and Fail)",
-          q4obj:    "Get Grokzilla on everyone’s radar.",
-          q4action: "Meme campaign across social media.",
-          q4mile:   "Go viral on X (or try)."
-        },
-        labels: {
-          obj:    "Objective:",
-          action: "Action:",
-          mile:   "Milestone:"
-        },
-        footer: {
-          copy: "© 2025 Grokzilla. All rights reserved."
-        }
+        labels:{ obj:"Objective:", action:"Action:", mile:"Milestone:" },
+        footer:{ copy:"© 2025 Grokzilla. All rights reserved." }
       }
     };
 
-    function setLang(lang) {
-      localStorage.setItem('lang', lang);
-      document.documentElement.lang = lang;
-      const t = translations[lang];
-
+    function setLang(lang){
+      localStorage.setItem('lang',lang);
+      document.documentElement.lang=lang;
+      const t=translations[lang];
       // Hero
-      document.getElementById('title').textContent       = t.hero.title;
-      document.getElementById('description').textContent = t.hero.description;
-      document.getElementById('whitepaper').textContent  = t.hero.whitepaper;
-      document.getElementById('pinksale').textContent    = t.hero.pinksale;
-      document.getElementById('bscscan').textContent     = t.hero.bscscan;
-      document.getElementById('connectBtn').textContent  = t.hero.connect;
-      document.getElementById('telegramBtn').textContent = t.hero.telegram;
-
+      document.getElementById('title').textContent=t.hero.title;
+      document.getElementById('description').textContent=t.hero.description;
+      document.getElementById('whitepaperLabel').textContent=t.hero.whitepaper;
+      document.getElementById('pinksaleLabel').textContent=t.hero.pinksale;
+      document.getElementById('bscscanLabel').textContent=t.hero.bscscan;
+      document.getElementById('connectLabel').textContent=t.hero.connect;
+      document.getElementById('telegramLabel').textContent=t.hero.telegram;
       // Memeteca
-      document.getElementById('memetecaTitle').textContent = t.memeteca.title;
-
+      document.getElementById('memetecaTitle').textContent=t.memeteca.title;
       // Culto
-      document.getElementById('cultTitle').textContent = t.cult.title;
+      document.getElementById('cultTitle').textContent=t.cult.title;
       ['cultQuote1','cultQuote2','cultQuote3','cultQuote4','cultQuote5']
-        .forEach((id,i) => document.getElementById(id).textContent = t.cult[`quote${i+1}`]);
-
+        .forEach((id,i)=>document.getElementById(id).textContent=t.cult[`quote${i+1}`]);
       // Roadmap
-      document.getElementById('roadmapTitle').textContent = t.roadmap.title;
-      for (let i = 1; i <= 4; i++) {
-        const suf = i === 1 ? '' : i;
-        document.getElementById(`phaseQ${i}`).textContent        = t.roadmap[`q${i}phase`];
-        document.getElementById(`labelObj${suf}`).textContent      = t.labels.obj;
-        document.getElementById(`labelAction${suf}`).textContent   = t.labels.action;
-        document.getElementById(`labelMilestone${suf}`).textContent= t.labels.mile;
-        document.getElementById(`objQ${i}`).textContent        = t.roadmap[`q${i}obj`];
-        document.getElementById(`actionQ${i}`).textContent     = t.roadmap[`q${i}action`];
-        document.getElementById(`mileQ${i}`).textContent       = t.roadmap[`q${i}mile`];
+      document.getElementById('roadmapTitle').textContent=t.roadmap.title;
+      for(let i=1;i<=4;i++){
+        const suf=i===1?'':i;
+        document.getElementById(`phaseQ${i}`).textContent=t.roadmap[`q${i}phase`];
+        document.getElementById(`labelObj${suf}`).textContent=t.labels.obj;
+        document.getElementById(`labelAction${suf}`).textContent=t.labels.action;
+        document.getElementById(`labelMilestone${suf}`).textContent=t.labels.mile;
+        document.getElementById(`objQ${i}`).textContent=t.roadmap[`q${i}obj`];
+        document.getElementById(`actionQ${i}`).textContent=t.roadmap[`q${i}action`];
+        document.getElementById(`mileQ${i}`).textContent=t.roadmap[`q${i}mile`];
       }
-
       // Footer
-      document.getElementById('footerCopy').textContent = t.footer.copy;
+      document.getElementById('footerCopy').textContent=t.footer.copy;
     }
 
-    function initLangSwitcher() {
+    function initLangSwitcher(){
       document.querySelectorAll('.lang-switch button')
-        .forEach(btn => btn.addEventListener('click', () => setLang(btn.dataset.lang)));
+        .forEach(btn=>btn.addEventListener('click',()=>setLang(btn.dataset.lang)));
     }
 
-    function initWalletButtons() {
-      document.getElementById('connectBtn').onclick = () => {
-        if (!window.ethereum) return alert('Instale a MetaMask');
-        window.ethereum.request({ method:'eth_requestAccounts' })
-          .then(a => alert('Carteira: '+a[0])).catch(e => alert(e.message));
+    function initWalletButtons(){
+      document.getElementById('connectBtn').onclick=()=>{
+        if(!window.ethereum) return alert('Instale a MetaMask');
+        window.ethereum.request({method:'eth_requestAccounts'})
+          .then(a=>alert('Carteira: '+a[0])).catch(e=>alert(e.message));
       };
     }
 
-    function initRain() {
-      const container = document.querySelector('.rain');
-      for (let i = 0; i < 80; i++) {
-        const d = document.createElement('div');
-        d.className = 'drop';
-        d.style.background = Math.random()>0.5
-          ? 'rgba(20,241,149,0.8)' : 'rgba(153,69,255,0.8)';
-        d.style.left = Math.random()*100 + '%';
-        d.style.animationDuration = (0.5+Math.random())+'s';
-        d.style.animationDelay = -Math.random()*5+'s';
-        container.appendChild(d);
+    function initRain(){
+      const c=document.querySelector('.rain');
+      for(let i=0;i<80;i++){
+        const d=document.createElement('div');
+        d.className='drop';
+        d.style.background=Math.random()>0.5?'rgba(20,241,149,0.8)':'rgba(153,69,255,0.8)';
+        d.style.left=Math.random()*100+'%';
+        d.style.animationDuration=(0.5+Math.random())+'s';
+        d.style.animationDelay=-Math.random()*5+'s';
+        c.appendChild(d);
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded',()=>{
       initLangSwitcher();
       initWalletButtons();
       initRain();
-      setLang(localStorage.getItem('lang') || 'pt');
+      setLang(localStorage.getItem('lang')||'pt');
     });
   </script>
 </body>
 </html>
+
