@@ -13,7 +13,7 @@
     @keyframes fall { to { transform:translateY(100vh); opacity:0; } }
 
     .hero {
-      background:url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/bc609512bd2e44a470d230de15567b17ac307ba6/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center/cover fixed #000;
+      background:url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center/cover fixed #000;
       position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center;
     }
     .hero::after { content:""; position:absolute; inset:0; background:rgba(0,0,0,0.7); z-index:1; }
@@ -44,17 +44,8 @@
     section.culto p { opacity:0; transform:translateY(30px); animation:fadeInUp 1s ease forwards; margin:12px 0; padding:12px 20px; border-left:4px solid #14F195; border-right:4px solid #14F195; background:rgba(20,241,149,0.05); border-radius:8px; font-size:1.2rem; color:#fff; }
     @keyframes fadeInUp { to { opacity:1; transform:translateY(0); } }
 
-    .roadmap-step {
-      background:#222; border:2px dashed #9945FF; padding:20px; border-radius:16px; margin:10px auto; max-width:700px; color:#fff; font-size:1rem;
-      position: relative;
-    }
-    .roadmap-step::before {
-      content: attr(data-phase);
-      display: block;
-      font-weight: bold;
-      margin-bottom: 12px;
-      color: #14F195;
-    }
+    .roadmap-step { background:#222; border:2px dashed #9945FF; padding:20px; border-radius:16px; margin:10px auto; max-width:700px; color:#fff; font-size:1rem; }
+    .roadmap-step .phase { font-weight:bold; margin-bottom:12px; color:#14F195; font-size:1.1rem; }
 
     footer { background:#000; color:#ccc; padding:20px; font-size:.9rem; text-align:center; }
     footer span, footer a { vertical-align:middle; }
@@ -82,17 +73,17 @@
   </section>
 
   <section class="memeteca">
-    <h2 id="memetecaTitle">📚 Memeteca GrokZilla</h2>
+    <h2 id="memetecaTitle"></h2>
     <div class="meme-grid">
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/85b1b5467b2b9fb913c7959bc8d81cb664741cde/18d29146-96d3-4077-b58c-f8f41321d6db.png" alt="Meme 1"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/85b1b5467b2b9fb913c7959bc8d81cb664741cde/28658f52-4474-4012-b190-c94b7a5070ee.png" alt="Meme 2"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/85b1b5467b2b9fb913c7959bc8d81cb664741cde/2ad695b0-3159-47b9-921c-101473e26ea4.png" alt="Meme 3"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/85b1b5467b2b9fb913c7959bc8d81cb664741cde/5760cdc5-a7ef-4a23-afe4-3362a2caa958.png" alt="Meme 4"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/85b1b5467b2b9fb913c7959bc8d81cb664741cde/85b8c366-9501-4a51-a77d-c34f45c7ae20.png" alt="Meme 5"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/6fa0e631e11005b9f219df5f4ae539ea4b41ec4d/112867d8-71ba-49b6-bc2d-a0d1f3aa9903b.png" alt="Meme 6"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/56124a9cc01369644648d9930c878bc3b504e455/8b3655b2-a1f8-4370-bc2d-a79665fd854e.png" alt="Meme 7"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/56124a9cc01369644648d9930c878bc3b504e455/69c1ccb9-cf28-4b6a-832e-ede0532cf1bf.png" alt="Meme 8"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/56124a9cc01369644648d9930c878bc3b504e455/7c753d06-a6b3-43c2-abea-f2d8812af023.png" alt="Meme 9"></div>
+      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/18d29146-96d3-4077-b58c-f8f41321d6db.png" alt="Meme 1"></div>
+      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/28658f52-4474-4012-b190-c94b7a5070ee.png" alt="Meme 2"></div>
+      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/2ad695b0-3159-47b9-921c-101473e26ea4d.png" alt="Meme 3"></div>
+      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/5760cdc5-a7ef-4a23-afe4-3362a2caa958.png" alt="Meme 4"></div>
+      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/85b8c366-9501-4c51-a77d-c34f45c7ae20.png" alt="Meme 5"></div>
+      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/112867d8-71ba-49b6-bc2d-a0d1f3aa9903b.png" alt="Meme 6"></div>
+      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/8b3655b2-a1f8-4370-bc2d-a79665fd854e.png" alt="Meme 7"></div>
+      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/69c1ccb9-cf28-4b6a-832e-ede0532cf1bf.png" alt="Meme 8"></div>
+      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/7c753d06-a6b3-43c2-abea-f2d8812af023.png" alt="Meme 9"></div>
     </div>
   </section>
 
@@ -106,26 +97,31 @@
   </section>
 
   <section class="roadmap">
-    <h2 id="roadmapTitle">📈 Roadmap Caótico</h2>
-    <div id="roadmapQ1" class="roadmap-step" data-phase="Q1 – 'Prometemos Rug, Mas Nada Entregue'">
-      <strong>Objetivo:</strong> Fazemos as promessas e a hype, mas nada de concreto ainda! É só o começo do caos.<br>
-      <strong>Ação:</strong> Lançamos o token, mas ainda estamos tentando não fazer um rug pull. A gente promete que tudo vai dar certo, de verdade!<br>
-      <strong>Marco:</strong> O lançamento do token. Se der errado, culpa do mercado, não nossa. 😎
+    <h2 id="roadmapTitle"></h2>
+
+    <div class="roadmap-step">
+      <div class="phase" id="phaseQ1"></div>
+      <p><strong>Objetivo:</strong> Fazemos as promessas e a hype, mas nada de concreto ainda! É só o começo do caos.</p>
+      <p><strong>Ação:</strong> Lançamos o token, mas ainda estamos tentando não fazer um rug pull. A gente promete que tudo vai dar certo, de verdade!</p>
+      <p><strong>Marco:</strong> O lançamento do token. Se der errado, culpa do mercado, não nossa. 😎</p>
     </div>
-    <div id="roadmapQ2" class="roadmap-step" data-phase="Q2 – 'Listagem em DEX Se o Dev Acordar'">
-      <strong>Objetivo:</strong> O dev estava dormindo no primeiro trimestre, mas finalmente acorda e começa a negociar com exchanges.<br>
-      <strong>Ação:</strong> As negociações para listar o token nas DEX começam. Vamos tentar fazer isso sem um crash do sistema.<br>
-      <strong>Marco:</strong> Token listado em pelo menos uma exchange (se não for só nas nossas cabeças).
+    <div class="roadmap-step">
+      <div class="phase" id="phaseQ2"></div>
+      <p><strong>Objetivo:</strong> O dev estava dormindo no primeiro trimestre, mas finalmente acorda e começa a negociar com exchanges.</p>
+      <p><strong>Ação:</strong> As negociações para listar o token nas DEX começam. Vamos tentar fazer isso sem um crash do sistema.</p>
+      <p><strong>Marco:</strong> Token listado em pelo menos uma exchange (se não for só nas nossas cabeças).</p>
     </div>
-    <div id="roadmapQ3" class="roadmap-step" data-phase="Q3 – 'Merch Oficial: Camisetas, Adesivos e Quem Sabe Uma Caneca ou Botão'">
-      <strong>Objetivo:</strong> Criar a primeira linha de merch. Camisetas, adesivos, talvez até um bonequinho do Grokzilla ou quem sabe uma caneca com o logo. 🦖☕️<br>
-      <strong>Ação:</strong> O dev e o marketing começam a trabalhar juntos, criando produtos de qualidade (ou não).<br>
-      <strong>Marco:</strong> Camisetas e adesivos sendo distribuídos pela comunidade (e quem sabe um botão ou uma caneca para você colocar na sua prateleira).
+    <div class="roadmap-step">
+      <div class="phase" id="phaseQ3"></div>
+      <p><strong>Objetivo:</strong> Criar a primeira linha de merch. Camisetas, adesivos, talvez até um bonequinho do Grokzilla ou quem sabe uma caneca com o logo. 🦖☕️</p>
+      <p><strong>Ação:</strong> O dev e o marketing começam a trabalhar juntos, criando produtos de qualidade (ou não).</p>
+      <p><strong>Marco:</strong> Camisetas e adesivos sendo distribuídos pela comunidade (e quem sabe um botão ou uma caneca para você colocar na sua prateleira).</p>
     </div>
-    <div id="roadmapQ4" class="roadmap-step" data-phase="Q4 – 'Tentativa de Virar Trend no X (Ou Não)'">
-      <strong>Objetivo:</strong> Colocar o Grokzilla no radar de todos. Vamos viralizar nas redes sociais, mas sem forçar, ok?<br>
-      <strong>Ação:</strong> A campanha de marketing vem com memes, posts, e até gifs engraçados para fazer o token bombar.<br>
-      <strong>Marco:</strong> Viralizamos no X (ou talvez seja só uma tentativa desesperada, mas vamos ver o que acontece).
+    <div class="roadmap-step">
+      <div class="phase" id="phaseQ4"></div>
+      <p><strong>Objetivo:</strong> Colocar o Grokzilla no radar de todos. Vamos viralizar nas redes sociais, mas sem forçar, ok?</p>
+      <p><strong>Ação:</strong> A campanha de marketing vem com memes, posts, e até gifs engraçados para fazer o token bombar.</p>
+      <p><strong>Marco:</strong> Viralizamos no X (ou talvez seja só uma tentativa desesperada, mas vamos ver o que acontece).</p>
     </div>
   </section>
 
@@ -138,18 +134,18 @@
   <script>
     const translations = {
       pt: {
-        hero: { title: "Token Grokzilla", description: "Monstro dos memes. Pesadelo dos mercados. Mascote da sua próxima má decisão.\n$GROKZILLA", whitepaper: "📄 Whitepaper", pinksale: "🚀 Pré-venda no PinkSale", bscscan: "🔎 Ver no BscScan", connect: "🔗 Conectar Carteira", metamask: "🦊 Adicionar à MetaMask" },
-        memeteca: { title: "📚 Memeteca GrokZilla" },
-        cult: { title: "🛐 O Culto GrokZilla", quote1: "Grok é meu pastor, o gráfico não faltará.", quote2: "Em dias de FUD, confiarei no dino.", quote3: "Só quem segurou até o fundo será exaltado.", quote4: "Rug? Só pelúcia.", quote5: "Todo pump começa com fé e um bom meme." },
-        roadmap: { title: "📈 Roadmap Caótico", q1: "Q1 – Prometemos Rug, Mas Nada Entregue", q2: "Q2 – Listagem em DEX Se o Dev Acordar", q3: "Q3 – Merch Oficial: Tees, Adesivos e Quem Sabe Uma Caneca ou Pin", q4: "Q4 – Tentativa de Virar Trend no X (Ou Não)" },
-        footer: { copy: "© 2025 Grokzilla. Todos os direitos." }
+        hero:      { title:"Token Grokzilla", description:"Monstro dos memes. Pesadelo dos mercados. Mascote da sua próxima má decisão.\n$GROKZILLA", whitepaper:"📄 Whitepaper", pinksale:"🚀 Pré-venda no PinkSale", bscscan:"🔎 Ver no BscScan", connect:"🔗 Conectar Carteira", metamask:"🦊 Adicionar à MetaMask" },
+        memeteca:  { title:"📚 Memeteca GrokZilla" },
+        cult:      { title:"🛐 O Culto GrokZilla", quote1:"Grok é meu pastor, o gráfico não faltará.", quote2:"Em dias de FUD, confiarei no dino.", quote3:"Só quem segurou até o fundo será exaltado.", quote4:"Rug? Só pelúcia.", quote5:"Todo pump começa com fé e um bom meme." },
+        roadmap:   { title:"📈 Roadmap Caótico", q1:"Q1 – Prometemos Rug, Mas Nada Entregue", q2:"Q2 – Listagem em DEX Se o Dev Acordar", q3:"Q3 – Merch Oficial: Tees, Adesivos e Quem Sabe Uma Caneca ou Pin", q4:"Q4 – Tentativa de Virar Trend no X (Ou Não)" },
+        footer:    { copy:"© 2025 Grokzilla. Todos os direitos." }
       },
       en: {
-        hero: { title: "Grokzilla Token", description: "Monster of memes. Nightmare of markets. Mascot of your next bad decision.\n$GROKZILLA", whitepaper: "📄 Whitepaper", pinksale: "🚀 Pre-sale on PinkSale", bscscan: "🔎 View on BscScan", connect: "🔗 Connect Wallet", metamask: "🦊 Add to MetaMask" },
-        memeteca: { title: "📚 Official Memeteca" },
-        cult: { title: "🛐 The GrokZilla Cult", quote1: "Grok is my shepherd, the chart shall not want.", quote2: "In FUD I trust.", quote3: "Only those who held to the bottom will be exalted.", quote4: "Rug? Only plushies.", quote5: "Every pump starts with faith and a good meme." },
-        roadmap: { title: "📈 Chaotic Roadmap", q1: "Q1 – Promised Rug, Delivered Nothing", q2: "Q2 – DEX Listing if Dev Wakes Up", q3: "Q3 – Official Merch: Tees, Stickers, Maybe a Mug or Pin", q4: "Q4 – Trend on X (Or Try and Fail)" },
-        footer: { copy: "© 2025 Grokzilla. All rights reserved." }
+        hero:      { title:"Grokzilla Token", description:"Monster of memes. Nightmare of markets. Mascot of your next bad decision.\n$GROKZILLA", whitepaper:"📄 Whitepaper", pinksale:"🚀 Pre-sale on PinkSale", bscscan:"🔎 View on BscScan", connect:"🔗 Connect Wallet", metamask:"🦊 Add to MetaMask" },
+        memeteca:  { title:"📚 Official Memeteca" },
+        cult:      { title:"🛐 The GrokZilla Cult", quote1:"Grok is my shepherd, the chart shall not want.", quote2:"In FUD I trust.", quote3:"Only those who held to the bottom will be exalted.", quote4:"Rug? Only plushies.", quote5:"Every pump starts with faith and a good meme." },
+        roadmap:   { title:"📈 Chaotic Roadmap", q1:"Q1 – Promised Rug, Delivered Nothing", q2:"Q2 – DEX Listing if Dev Wakes Up", q3:"Q3 – Official Merch: Tees, Stickers, Maybe a Mug or Pin", q4:"Q4 – Trend on X (Or Try and Fail)" },
+        footer:    { copy:"© 2025 Grokzilla. All rights reserved." }
       }
     };
 
@@ -158,86 +154,75 @@
       document.documentElement.lang = lang;
       const t = translations[lang];
       const map = {
-        title: t.hero.title,
-        description: t.hero.description,
-        whitepaper: t.hero.whitepaper,
-        pinksale: t.hero.pinksale,
-        bscscan: t.hero.bscscan,
-        connectBtn: t.hero.connect,
-        metamaskBtn: t.hero.metamask,
+        title:         t.hero.title,
+        description:   t.hero.description,
+        whitepaper:    t.hero.whitepaper,
+        pinksale:      t.hero.pinksale,
+        bscscan:       t.hero.bscscan,
+        connectBtn:    t.hero.connect,
+        metamaskBtn:   t.hero.metamask,
         memetecaTitle: t.memeteca.title,
-        cultTitle: t.cult.title,
-        cultQuote1: t.cult.quote1,
-        cultQuote2: t.cult.quote2,
-        cultQuote3: t.cult.quote3,
-        cultQuote4: t.cult.quote4,
-        cultQuote5: t.cult.quote5,
-        roadmapTitle: t.roadmap.title,
-        roadmapQ1: t.roadmap.q1,
-        roadmapQ2: t.roadmap.q2,
-        roadmapQ3: t.roadmap.q3,
-        roadmapQ4: t.roadmap.q4,
-        footerCopy: t.footer.copy
+        cultTitle:     t.cult.title,
+        cultQuote1:    t.cult.quote1,
+        cultQuote2:    t.cult.quote2,
+        cultQuote3:    t.cult.quote3,
+        cultQuote4:    t.cult.quote4,
+        cultQuote5:    t.cult.quote5,
+        roadmapTitle:  t.roadmap.title,
+        phaseQ1:       t.roadmap.q1,
+        phaseQ2:       t.roadmap.q2,
+        phaseQ3:       t.roadmap.q3,
+        phaseQ4:       t.roadmap.q4,
+        footerCopy:    t.footer.copy
       };
       Object.entries(map).forEach(([id, text]) => {
         const el = document.getElementById(id);
         if (!el) return;
-        if (id.startsWith('roadmapQ')) {
-          el.setAttribute('data-phase', text);
-        } else {
-          el.textContent = text;
-        }
+        el.textContent = text;
       });
     }
 
     function initLangSwitcher() {
       document.querySelectorAll('.lang-switch button')
-        .forEach(btn => btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang'))));
+        .forEach(btn => btn.addEventListener('click', () => setLang(btn.dataset.lang)));
     }
 
     function initWalletButtons() {
-      document.getElementById('connectBtn').addEventListener('click', () => {
+      document.getElementById('connectBtn').onclick = () => {
         if (!window.ethereum) return alert('Instale a MetaMask');
-        window.ethereum.request({ method: 'eth_requestAccounts' })
-          .then(a => alert('Carteira: ' + a[0]))
-          .catch(e => alert(e.message));
-      });
-      document.getElementById('metamaskBtn').addEventListener('click', () => {
+        window.ethereum.request({ method:'eth_requestAccounts' })
+          .then(a => alert('Carteira: '+a[0])).catch(e => alert(e.message));
+      };
+      document.getElementById('metamaskBtn').onclick = () => {
         if (!window.ethereum) return alert('Instale a MetaMask');
         window.ethereum.request({
-          method: 'wallet_watchAsset',
-          params: {
-            type: 'ERC20',
-            options: {
-              address: '0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',
-              symbol: 'GROKZILLA',
-              decimals: 18,
-              image: 'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
-            }
-          }
+          method:'wallet_watchAsset',
+          params:{ type:'ERC20', options:{
+            address:'0x5C2d9D2b5AAF5E8352dAACC403132622139e355E',
+            symbol:'GROKZILLA', decimals:18,
+            image:'https://raw.githubusercontent.com/grokszilla/grokzilla-assets/main/grokzilla_bscscan_ready.svg'
+          }}
         })
-        .then(ok => alert(ok ? '✅ Token adicionado!' : '❌ Cancelado'))
+        .then(ok => alert(ok?'✅ Token adicionado!':'❌ Cancelado'))
         .catch(e => alert(e.message));
-      });
+      };
     }
 
     function initRain() {
-      const container = document.querySelector('.rain');
-      for (let i = 0; i < 80; i++) {
-        const drop = document.createElement('div');
-        drop.className = 'drop';
-        drop.style.background = Math.random() > 0.5
-          ? 'rgba(20,241,149,0.8)'
-          : 'rgba(153,69,255,0.8)';
-        drop.style.left = Math.random() * 100 + '%';
-        drop.style.animationDuration = (0.5 + Math.random()) + 's';
-        drop.style.animationDelay = -Math.random() * 5 + 's';
-        container.appendChild(drop);
+      const c = document.querySelector('.rain');
+      for (let i=0; i<80; i++){
+        const d = document.createElement('div');
+        d.className='drop';
+        d.style.background = Math.random()>0.5?'rgba(20,241,149,0.8)':'rgba(153,69,255,0.8)';
+        d.style.left = Math.random()*100+'%';
+        d.style.animationDuration = (0.5+Math.random())+'s';
+        d.style.animationDelay = -Math.random()*5+'s';
+        c.appendChild(d);
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      setLang(localStorage.getItem('lang') || 'pt');
+    document.addEventListener('DOMContentLoaded', ()=>{
+      setLang(localStorage.getItem('lang')||'pt');
       initLangSwitcher();
       initWalletButtons();
       initRain();
@@ -245,5 +230,3 @@
   </script>
 </body>
 </html>
-
-
