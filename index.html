@@ -10,12 +10,12 @@
   <style>
     html, body { margin:0; padding:0; scroll-behavior:smooth; background:#0A0A0A; color:#FFF; font-family:'Inter',sans-serif; }
 
-/\* chuva \*/
+/* chuva */
 .rain{position\:fixed;top:0;left:0;width:100%;height:100%;pointer-events\:none;overflow\:hidden;z-index:0;}
 .rain .drop{position\:absolute;bottom:100%;width:2px;height:15px;opacity:0.7;animation\:fall linear infinite;}
 @keyframes fall{to{transform\:translateY(100vh);opacity:0;}}
 
-/\* hero \*/
+/* hero */
 .hero{background\:url('[https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/c1df9791-6857-4bf2-bac9-291fabdc8a45.png](https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/c1df9791-6857-4bf2-bac9-291fabdc8a45.png)') no-repeat center/cover fixed #000;
 position\:relative;min-height:100vh;display\:flex;align-items\:center;justify-content\:center;text-align\:center;}
 .hero::after{content:"";position\:absolute;inset:0;background\:rgba(0,0,0,0.7);z-index:1;}
@@ -23,26 +23,26 @@ position\:relative;min-height:100vh;display\:flex;align-items\:center;justify-co
 .hero h1{font-family:'Press Start 2P',cursive;font-size:2.2rem;color:#14F195;text-shadow:2px 2px #9945FF;margin-bottom:20px;}
 .hero p{font-size:1.3rem;white-space\:pre-line;color:#FFF;text-shadow:2px 2px #14F195,-2px -2px #9945FF;margin-bottom:40px;}
 
-/\* botões base \*/
+/* botões base */
 .button{padding:16px 28px;border-radius:12px;font-weight\:bold;margin:12px;display\:inline-flex;align-items\:center;
 font-size:1rem;transition\:transform .2s,box-shadow .2s,opacity .2s;text-decoration\:none;color\:inherit;}
 .button\:hover
 @keyframes bounce{0%,100%{transform\:translateY(0);}50%{transform\:translateY(-4px);}}
 .btn-icon{width:20px;height:20px;margin-right:8px;vertical-align\:middle;}
 
-/\* cores e sombras de cada botão \*/
+/* cores e sombras de cada botão */
 .whitepaper{background:#2E2EFF;box-shadow:0 0 10px #2E2EFF;color:#fff;}
 .pinksale  {background:#ff69b4;box-shadow:0 0 10px #ff69b4;color:#fff;}
 .bscscan   {background:#f0b90b;box-shadow:0 0 10px #f0b90b;color:#000;}
 .connect   {background:#14F195;box-shadow:0 0 10px #14F195;color:#000;}
 .telegram  {background:#0088cc;box-shadow:0 0 10px #0088cc;color:#fff;}
 
-/\* lang switch \*/
+/* lang switch */
 .lang-switch{margin-top:30px;}
 .lang-switch button{background:#fff;color:#000;border\:none;padding:10px 18px;margin:0 5px;border-radius:6px;cursor\:pointer;transition\:background .2s;}
 .lang-switch button\:hover
 
-/\* memeteca \*/
+/* memeteca */
 section.memeteca{padding:60px 20px;background\:rgba(0,0,0,0.6);}
 .memeteca h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;text-shadow:1px 1px #9945FF;text-align\:center;margin-bottom:40px;}
 .meme-grid{display\:grid;grid-template-columns\:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:1000px;margin:0 auto;}
@@ -50,26 +50,26 @@ section.memeteca{padding:60px 20px;background\:rgba(0,0,0,0.6);}
 .meme-card\:hover{transform\:scale(1.05);box-shadow:0 0 10px rgba(20,241,149,0.8),0 0 20px rgba(153,69,255,0.6);}
 .meme-card img{width:100%;height\:auto;border-radius:8px;}
 
-/\* culto \*/
+/* culto */
 section.culto{padding:60px 20px;background\:radial-gradient(circle at center,rgba(17,17,17,0.6) 0%,rgba(0,0,0,0.6)100%);text-align\:center;}
 .culto h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;text-shadow:1px 1px #9945FF;margin-bottom:40px;}
 .culto p{opacity:0;transform\:translateY(30px);animation\:fadeInUp 1s ease forwards;margin:12px 0;padding:12px 20px;
 border-left:4px solid #14F195;border-right:4px solid #14F195;background\:rgba(20,241,149,0.05);border-radius:8px;font-size:1.2rem;color:#fff;}
 @keyframes fadeInUp{to{opacity:1;transform\:translateY(0);}}
 
-/\* roadmap \*/
+/* roadmap */
 section.roadmap{padding:60px 20px;background\:rgba(0,0,0,0.6);}
 .roadmap h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;text-shadow:1px 1px #9945FF;text-align\:center;margin-bottom:40px;}
 .roadmap-step{background:#222;border:2px dashed #9945FF;padding:20px;border-radius:16px;max-width:700px;margin:10px auto;color:#fff;font-size:1rem;}
 .roadmap-step .phase{font-weight\:bold;color:#14F195;font-size:1.1rem;margin-bottom:12px;}
 .roadmap-step p{margin:6px 0;}
 
-/\* footer \*/
+/* footer */
 footer{background:#000;color:#ccc;text-align\:center;padding:20px;font-size:.9rem;}
 footer a{color\:inherit;margin:0 10px;text-decoration\:none;vertical-align\:middle;}
 footer img{width:20px;vertical-align\:middle;margin-right:5px;}
 
-/\* game \*/
+/* game */
 section.game {
 text-align\:center;
 margin: 40px 0;
