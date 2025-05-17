@@ -67,6 +67,27 @@
     footer{background:#000;color:#ccc;text-align:center;padding:20px;font-size:.9rem;}
     footer a{color:inherit;margin:0 10px;text-decoration:none;vertical-align:middle;}
     footer img{width:20px;vertical-align:middle;margin-right:5px;}
+
+    /* game */
+    section.game {
+      text-align:center;
+      margin: 40px 0;
+    }
+    #gameCanvas {
+      border: 2px solid #14F195;
+      background: #000;
+    }
+    #score {
+      margin-top: 10px;
+      font-size: 1.3rem;
+    }
+    #message {
+      display: none;
+      margin-top: 10px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #14F195;
+    }
   </style>
 </head>
 <body>
@@ -111,7 +132,7 @@
   </section>
 
   <!-- MEMETECA -->
- <section class="memeteca">
+  <section class="memeteca">
     <h2 id="memetecaTitle">📚 Memeteca GrokZilla</h2>
     <div class="meme-grid">
       <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/18d29146-96d3-4077-b58c-f8f41321d6db.png" alt="Meme 1"></div>
@@ -125,7 +146,6 @@
       <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/7c753d06-a6b3-43c2-abea-f2d8812af023.png" alt="Meme 9"></div>
     </div>
   </section>
-
 
   <!-- CULTO -->
   <section class="culto">
@@ -164,6 +184,14 @@
       <p><strong><span id="labelAction4">Ação:</span></strong>    <span id="actionQ4"></span></p>
       <p><strong><span id="labelMilestone4">Marco:</span></strong> <span id="mileQ4"></span></p>
     </div>
+  </section>
+
+  <!-- JOGO -->
+  <section class="game">
+    <h2>🦖 Grokzilla: Dinossauro Rumo à Lua 🚀</h2>
+    <canvas id="gameCanvas" width="600" height="300"></canvas>
+    <div id="score">Pontos: 0</div>
+    <div id="message">Grokzilla rumo à lua! 🌕🚀</div>
   </section>
 
   <footer>
@@ -325,7 +353,111 @@
       setLang(localStorage.getItem('lang')||'pt');
     });
   </script>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('gameCanvas');
+      const ctx = canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = false;
+
+      const dinoImg = new Image();
+      dinoImg.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/425d0d8e9198e8e1ccaeba45b84ad0e9d415c440/91e03545-23a4-493c-bab8-f6b46e5a3926.png';
+
+      const backgroundImg = new Image();
+      backgroundImg.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/425d0d8e9198e8e1ccaeba45b84ad0e9d415c440/ffa89d9c-4e87-4820-85f4-bfdad3965545.png';
+
+      const coinImg = new Image();
+      coinImg.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/425d0d8e9198e8e1ccaeba45b84ad0e9d415c440/ca8b5da4-4278-4c3b-a63f-8ded3e5ef299.png';
+
+      const rocketImg = new Image();
+      rocketImg.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/425d0d8e9198e8e1ccaeba45b84ad0e9d415c440/2209691c-982d-40ef-bd10-ae68c1695175.png';
+
+      const gravity = 0.8;
+      let dino = { x: 50, y: 200, width: 48, height: 48, vy: 0, jumping: false };
+      let coin = { x: 400, y: 220, width: 32, height: 32 };
+      let score = 0;
+      let rocketY = canvas.height + 100;
+      let rocketRising = false;
+      let gameOver = false;
+
+      function isColliding(a, b) {
+        return a.x < b.x + b.width &&
+               a.x + a.width > b.x &&
+               a.y < b.y + b.height &&
+               a.y + a.height > b.y;
+      }
+
+      function placeCoin() {
+        coin.x = Math.random() * (canvas.width - 60) + 250;
+        coin.y = 220;
+      }
+
+      window.addEventListener('keydown', e => {
+        if ((e.code === 'Space' || e.code === 'ArrowUp') && !dino.jumping && !gameOver) {
+          dino.vy = -15;
+          dino.jumping = true;
+        }
+      });
+
+      function update() {
+        if (gameOver) {
+          if (rocketY > 50) {
+            rocketY -= 4;
+          }
+          return;
+        }
+        dino.vy += gravity;
+        dino.y += dino.vy;
+        if (dino.y > 200) {
+          dino.y = 200;
+          dino.vy = 0;
+          dino.jumping = false;
+        }
+        coin.x -= 4;
+        if (coin.x < -coin.width) {
+          placeCoin();
+        }
+        if (isColliding(dino, coin)) {
+          score += 100;
+          placeCoin();
+          if (score >= 1000) {
+            rocketRising = true;
+            gameOver = true;
+            document.getElementById('message').style.display = 'block';
+          }
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(coinImg, coin.x, coin.y, coin.width, coin.height);
+        ctx.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
+        if (rocketRising) {
+          ctx.drawImage(rocketImg, canvas.width - 150, rocketY, 100, 150);
+        }
+        document.getElementById('score').textContent = `Pontos: ${score}`;
+      }
+
+      function gameLoop() {
+        update();
+        draw();
+        requestAnimationFrame(gameLoop);
+      }
+
+      let imagesLoaded = 0;
+      [dinoImg, backgroundImg, coinImg, rocketImg].forEach(img => {
+        img.onload = () => {
+          imagesLoaded++;
+          if (imagesLoaded === 4) {
+            placeCoin();
+            gameLoop();
+          }
+        }
+      });
+    })();
+  </script>
+
 </body>
 </html>
-
 
