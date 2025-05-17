@@ -7,7 +7,10 @@
   <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
-    html, body { margin:0; padding:0; scroll-behavior:smooth; background:#0A0A0A; color:#FFF; font-family:'Inter',sans-serif; }
+    html,   margin:0; padding:0; background:#0A0A0A; color:#FFF; font-family:'Inter',sans-serif;
+      display: flex; justify-content: center; align-items: center; height: 100vh;
+      flex-direction: column;
+    }
 
     /* chuva */
     .rain{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:0;}
@@ -73,20 +76,24 @@
       text-align:center;
       margin: 40px 0;
     }
-    #gameCanvas {
+   #gameCanvas {
       border: 2px solid #14F195;
-      background: #000;
+      background: transparent;
+      display: block;
     }
     #score {
       margin-top: 10px;
       font-size: 1.3rem;
+      color: #14F195;
+      text-shadow: 1px 1px 4px #000;
     }
     #message {
-      display: none;
       margin-top: 10px;
       font-size: 1.4rem;
       font-weight: bold;
       color: #14F195;
+      display: none;
+      text-shadow: 1px 1px 4px #000;
     }
   </style>
 </head>
@@ -189,7 +196,7 @@
   <!-- JOGO -->
   <section class="game">
   <h2 style="text-align:center;">🦖 Grokzilla: Dinossauro Rumo à Lua 🚀</h2>
-  <canvas id="gameCanvas" width="600" height="300"></canvas>
+   <canvas id="gameCanvas" width="600" height="300"></canvas>
   <div id="score">Pontos: 0</div>
   <div id="message">Grokzilla rumo à lua! 🌕🚀</div>
 </section>
@@ -356,216 +363,221 @@
   
 <script>
 (() => {
-  const canvas = document.getElementById('gameCanvas');
-  const ctx = canvas.getContext('2d');
-  ctx.imageSmoothingEnabled = false;
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
 
-  // Sons
-  const jumpSound = new Audio('https://actions.google.com/sounds/v1/cartoon/slide_whistle_to_drum_hit.ogg');
-  const coinSound = new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg');
-  const rocketSound = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
+    // Sons
+    const jumpSound = new Audio('https://actions.google.com/sounds/v1/cartoon/slide_whistle_to_drum_hit.ogg');
+    const coinSound = new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg');
+    const rocketSound = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
 
-  // Imagens
-  const dinoImg = new Image();
-  dinoImg.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/425d0d8e9198e8e1ccaeba45b84ad0e9d415c440/91e03545-23a4-493c-bab8-f6b46e5a3926.png';
+    // Imagens
+    const dinoImg = new Image();
+    dinoImg.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/425d0d8e9198e8e1ccaeba45b84ad0e9d415c440/91e03545-23a4-493c-bab8-f6b46e5a3926.png';
 
-  const coinImg = new Image();
-  coinImg.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/425d0d8e9198e8e1ccaeba45b84ad0e9d415c440/ca8b5da4-4278-4c3b-a63f-8ded3e5ef299.png';
+    const coinImg = new Image();
+    coinImg.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/425d0d8e9198e8e1ccaeba45b84ad0e9d415c440/ca8b5da4-4278-4c3b-a63f-8ded3e5ef299.png';
 
-  const rocketImg = new Image();
-  rocketImg.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/425d0d8e9198e8e1ccaeba45b84ad0e9d415c440/2209691c-982d-40ef-bd10-ae68c1695175.png';
+    const rocketImg = new Image();
+    rocketImg.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/425d0d8e9198e8e1ccaeba45b84ad0e9d415c440/2209691c-982d-40ef-bd10-ae68c1695175.png';
 
-  // Física
-  const gravity = 0.8;
+    // Física
+    const gravity = 0.8;
 
-  // Dino inicial (posição, velocidade, estado)
-  let dino = { x: 50, y: 200, width: 48, height: 48, vy: 0, jumping: false, movingLeft:false, movingRight:false };
+    // Dino inicial
+    let dino = { x: 50, y: 200, width: 48, height: 48, vy: 0, jumping: false, movingLeft:false, movingRight:false };
 
-  // Moeda
-  let coin = { x: 400, y: 220, width: 32, height: 32 };
+    // Moeda
+    let coin = { x: 400, y: 220, width: 32, height: 32 };
 
-  // Fundo das estrelas
-  const stars = [];
-  for(let i=0; i<100; i++) {
-    stars.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      radius: Math.random() * 1.5,
-      alpha: Math.random()
-    });
-  }
-
-  // Score e status do jogo
-  let score = 0;
-  let rocketY = canvas.height + 100;
-  let rocketRising = false;
-  let gameOver = false;
-  let gameStarted = true;
-
-  // Função para desenhar o fundo gradiente noite
-  function drawBackground() {
-    let gradient = ctx.createLinearGradient(0, canvas.height, 0, 0);
-    gradient.addColorStop(0, '#000022'); // azul escuro embaixo
-    gradient.addColorStop(1, '#000000'); // preto no topo
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }
-
-  // Função para desenhar estrelas piscantes
-  function drawStars() {
-    stars.forEach(star => {
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.radius, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha.toFixed(2)})`;
-      ctx.fill();
-
-      star.alpha += (Math.random() - 0.5) * 0.05;
-      if(star.alpha < 0) star.alpha = 0;
-      if(star.alpha > 1) star.alpha = 1;
-    });
-  }
-
-  // Função que verifica colisão simples
-  function isColliding(a, b) {
-    return a.x < b.x + b.width &&
-           a.x + a.width > b.x &&
-           a.y < b.y + b.height &&
-           a.y + a.height > b.y;
-  }
-
-  // Posicionar moeda aleatória
-  function placeCoin() {
-    coin.x = Math.random() * (canvas.width - 60) + 250;
-    coin.y = 220;
-  }
-
-  // Eventos para mover o dino
-  window.addEventListener('keydown', e => {
-    if (!gameStarted) return;
-    if ((e.code === 'Space' || e.code === 'ArrowUp') && !dino.jumping && !gameOver) {
-      dino.vy = -15;
-      dino.jumping = true;
-      jumpSound.play();
+    // Estrelas para o fundo
+    const stars = [];
+    for(let i=0; i<100; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.5,
+        alpha: Math.random()
+      });
     }
-    if (e.code === 'ArrowLeft' || e.code === 'KeyA') dino.movingLeft = true;
-    if (e.code === 'ArrowRight' || e.code === 'KeyD') dino.movingRight = true;
-  });
 
-  window.addEventListener('keyup', e => {
-    if (e.code === 'ArrowLeft' || e.code === 'KeyA') dino.movingLeft = false;
-    if (e.code === 'ArrowRight' || e.code === 'KeyD') dino.movingRight = false;
-  });
+    // Status do jogo
+    let score = 0;
+    let rocketY = canvas.height + 100;
+    let rocketRising = false;
+    let gameOver = false;
+    let gameStarted = true;
 
-  // Função para reiniciar o jogo
-  function restartGame() {
-    score = 0;
-    rocketY = canvas.height + 100;
-    rocketRising = false;
-    gameOver = false;
-    dino.x = 50;
-    dino.y = 200;
-    dino.vy = 0;
-    dino.jumping = false;
-    dino.movingLeft = false;
-    dino.movingRight = false;
-    placeCoin();
-    document.getElementById('message').style.display = 'none';
-    gameStarted = true;
-  }
+    // Fundo gradiente com estrelas e névoa sutil
+    function drawBackground() {
+      // Degradê
+      let gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, '#000011');
+      gradient.addColorStop(1, '#000000');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Atualizar física e estado
-  function update() {
-    if (gameOver) {
-      if (rocketY > 50) {
-        rocketY -= 4;
-        if (!rocketSound.playing) rocketSound.play();
+      // Estrelas piscando
+      stars.forEach(star => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha.toFixed(2)})`;
+        ctx.fill();
+
+        star.alpha += (Math.random() - 0.5) * 0.05;
+        if (star.alpha < 0) star.alpha = 0;
+        if (star.alpha > 1) star.alpha = 1;
+      });
+
+      // Névoa sutil (círculos transparentes animados)
+      const fogColors = ['rgba(255,255,255,0.02)', 'rgba(255,255,255,0.01)'];
+      for(let i=0; i<10; i++) {
+        const fogX = (i * 120 + (Date.now() / 50)) % canvas.width;
+        const fogY = canvas.height / 2 + Math.sin((Date.now()/1000) + i) * 30;
+        const radius = 120 + Math.sin((Date.now()/1000) + i) * 30;
+        ctx.beginPath();
+        let gradientFog = ctx.createRadialGradient(fogX, fogY, radius*0.1, fogX, fogY, radius);
+        gradientFog.addColorStop(0, fogColors[i % fogColors.length]);
+        gradientFog.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = gradientFog;
+        ctx.arc(fogX, fogY, radius, 0, Math.PI * 2);
+        ctx.fill();
       }
-      return;
     }
 
-    // Atualiza velocidade vertical e posição vertical do dino (pulo)
-    dino.vy += gravity;
-    dino.y += dino.vy;
-    if (dino.y > 200) {
+    // Colisão
+    function isColliding(a, b) {
+      return a.x < b.x + b.width &&
+             a.x + a.width > b.x &&
+             a.y < b.y + b.height &&
+             a.y + a.height > b.y;
+    }
+
+    // Posicionar moeda aleatória
+    function placeCoin() {
+      coin.x = Math.random() * (canvas.width - 60) + 250;
+      coin.y = 220;
+    }
+
+    // Controles
+    window.addEventListener('keydown', e => {
+      if (!gameStarted) return;
+      if ((e.code === 'Space' || e.code === 'ArrowUp') && !dino.jumping && !gameOver) {
+        dino.vy = -15;
+        dino.jumping = true;
+        jumpSound.play();
+      }
+      if (e.code === 'ArrowLeft' || e.code === 'KeyA') dino.movingLeft = true;
+      if (e.code === 'ArrowRight' || e.code === 'KeyD') dino.movingRight = true;
+    });
+
+    window.addEventListener('keyup', e => {
+      if (e.code === 'ArrowLeft' || e.code === 'KeyA') dino.movingLeft = false;
+      if (e.code === 'ArrowRight' || e.code === 'KeyD') dino.movingRight = false;
+    });
+
+    // Reiniciar jogo
+    function restartGame() {
+      score = 0;
+      rocketY = canvas.height + 100;
+      rocketRising = false;
+      gameOver = false;
+      dino.x = 50;
       dino.y = 200;
       dino.vy = 0;
       dino.jumping = false;
-    }
-
-    // Movimentação horizontal do dino
-    if (dino.movingRight && dino.x < canvas.width - dino.width - 10) {
-      dino.x += 5;
-    }
-    if (dino.movingLeft && dino.x > 10) {
-      dino.x -= 5;
-    }
-
-    // Move moeda da direita para esquerda constante para desafio
-    coin.x -= 4;
-    if (coin.x < -coin.width) {
+      dino.movingLeft = false;
+      dino.movingRight = false;
       placeCoin();
+      document.getElementById('message').style.display = 'none';
+      gameStarted = true;
     }
 
-    // Verifica colisão com moeda
-    if (isColliding(dino, coin)) {
-      score += 100;
-      coinSound.play();
-      placeCoin();
-      if (score >= 1000) {
-        rocketRising = true;
-        gameOver = true;
-        document.getElementById('message').style.display = 'block';
-        gameStarted = false;
+    // Atualizar física
+    function update() {
+      if (gameOver) {
+        if (rocketY > 50) {
+          rocketY -= 4;
+          if (!rocketSound.playing) rocketSound.play();
+        }
+        return;
       }
-    }
-  }
 
-  // Desenhar tudo no canvas
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+      dino.vy += gravity;
+      dino.y += dino.vy;
+      if (dino.y > 200) {
+        dino.y = 200;
+        dino.vy = 0;
+        dino.jumping = false;
+      }
 
-    drawBackground();
-    drawStars();
+      if (dino.movingRight && dino.x < canvas.width - dino.width - 10) {
+        dino.x += 5;
+      }
+      if (dino.movingLeft && dino.x > 10) {
+        dino.x -= 5;
+      }
 
-    // Se foguete estiver subindo, não desenha o dino (sumiu dentro do foguete)
-    if (!rocketRising) {
-      ctx.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
-    }
-
-    // Desenha a moeda
-    ctx.drawImage(coinImg, coin.x, coin.y, coin.width, coin.height);
-
-    // Desenha foguete se estiver subindo
-    if (rocketRising) {
-      ctx.drawImage(rocketImg, canvas.width - 150, rocketY, 100, 150);
-    }
-
-    // Atualiza texto do score
-    document.getElementById('score').textContent = `Pontos: ${score}`;
-  }
-
-  // Loop principal
-  function gameLoop() {
-    update();
-    draw();
-    requestAnimationFrame(gameLoop);
-  }
-
-  // Carregamento das imagens
-  let imagesLoaded = 0;
-  [dinoImg, coinImg, rocketImg].forEach(img => {
-    img.onload = () => {
-      imagesLoaded++;
-      if (imagesLoaded === 3) {
+      coin.x -= 4;
+      if (coin.x < -coin.width) {
         placeCoin();
-        gameLoop();
       }
-    };
-  });
 
-  // Expor função restart para uso externo
-  window.restartGame = restartGame;
-})();
+      if (isColliding(dino, coin)) {
+        score += 100;
+        coinSound.play();
+        placeCoin();
+        if (score >= 1000) {
+          rocketRising = true;
+          gameOver = true;
+          document.getElementById('message').style.display = 'block';
+          gameStarted = false;
+        }
+      }
+    }
+
+    // Desenhar tudo
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      drawBackground();
+
+      if (!rocketRising) {
+        ctx.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
+      }
+
+      ctx.drawImage(coinImg, coin.x, coin.y, coin.width, coin.height);
+
+      if (rocketRising) {
+        ctx.drawImage(rocketImg, canvas.width - 150, rocketY, 100, 150);
+      }
+
+      document.getElementById('score').textContent = `Pontos: ${score}`;
+    }
+
+    // Loop principal
+    function gameLoop() {
+      update();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Carregar imagens
+    let imagesLoaded = 0;
+    [dinoImg, coinImg, rocketImg].forEach(img => {
+      img.onload = () => {
+        imagesLoaded++;
+        if (imagesLoaded === 3) {
+          placeCoin();
+          gameLoop();
+        }
+      };
+    });
+
+    window.restartGame = restartGame;
+
+  })();
   </script>
 </body>
 </html>
