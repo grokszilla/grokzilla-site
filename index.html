@@ -374,7 +374,6 @@ section.game {
     });
   </script>
 
-<!-- substitua todo o <script> do jogo anterior por este: -->
 <script>
 (() => {
   const canvas = document.getElementById('gameCanvas');
@@ -393,14 +392,17 @@ section.game {
   const rocketImg     = new Image(); rocketImg.src     = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/2209691c-982d-40ef-bd10-ae68c1695175.png';
 
   // Obstáculo: alface, mel, fantasma, baleia
-  const obstacleImgs = {
-    lettuce: new Image(), honey: new Image(),
-    ghost: new Image(),  whale: new Image()
-  };
-  obstacleImgs.lettuce.src = 'https://i.imgur.com/3XK6dQj.png';  // ex: alface
-  obstacleImgs.honey.src   = 'https://i.imgur.com/Pw8G1bA.png';  // pote de mel
-  obstacleImgs.ghost.src   = 'https://i.imgur.com/jSg7m3K.png';  // fantasma
-  obstacleImgs.whale.src   = 'https://i.imgur.com/6YQBtF8.png';  // baleia
+const obstacleImgs = {
+  lettuce: new Image(),
+  honey:   new Image(),
+  ghost:   new Image(),
+  whale:   new Image()
+};
+// aponte para o raw.githubusercontent.com, não para o github.com
+obstacleImgs.lettuce.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d413d41f6d253c3764dc8c3b3ae7412d3714b88d/aface.png';
+obstacleImgs.honey.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d413d41f6d253c3764dc8c3b3ae7412d3714b88d/mel.png';
+obstacleImgs.ghost.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d413d41f6d253c3764dc8c3b3ae7412d3714b88d/fantasma.png';
+obstacleImgs.whale.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d413d41f6d253c3764dc8c3b3ae7412d3714b88d/baleia.png';
 
   // Física
   const gravity = 0.8;
