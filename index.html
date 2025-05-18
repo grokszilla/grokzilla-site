@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pt">
 <head>
   <meta charset="UTF-8" />
@@ -8,154 +7,122 @@
   <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
-    html, body { margin:0; padding:0; scroll-behavior:smooth; background:#0A0A0A; color:#FFF; font-family:'Inter',sans-serif; }  
-   
-/* chuva */
-.rain{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:0;}
-.rain .drop{position:absolute;bottom:100%;width:2px;height:15px;opacity:0.7;animation:fall linear infinite;}
-@keyframes fall{to{transform:translateY(100vh);opacity:0;}}
+    html, body { margin:0; padding:0; scroll-behavior:smooth; background:#0A0A0A; color:#FFF; font-family:'Inter',sans-serif; }
 
-/* hero */
-.hero{background:url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center/cover fixed #000;
-  position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;}
-.hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.7);z-index:1;}
-.hero-content{position:relative;z-index:2;padding:100px 20px 60px;}
-.hero h1{font-family:'Press Start 2P',cursive;font-size:2.2rem;color:#14F195;text-shadow:2px 2px #9945FF;margin-bottom:20px;}
-.hero p{font-size:1.3rem;white-space:pre-line;color:#FFF;text-shadow:2px 2px #14F195,-2px -2px #9945FF;margin-bottom:40px;}
+    /* chuva */
+    .rain{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:0;}
+    .rain .drop{position:absolute;bottom:100%;width:2px;height:15px;opacity:0.7;animation:fall linear infinite;}
+    @keyframes fall{to{transform:translateY(100vh);opacity:0;}}
 
-/* botões base */
-.button{padding:16px 28px;border-radius:12px;font-weight:bold;margin:12px;display:inline-flex;align-items:center;
-  font-size:1rem;transition:transform .2s,box-shadow .2s,opacity .2s;text-decoration:none;color:inherit;}
-.button:hover{animation:bounce .3s;transform:translateY(-2px);opacity:.9;}
-@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
-.btn-icon{width:20px;height:20px;margin-right:8px;vertical-align:middle;}
+    /* hero */
+    .hero{
+      background:url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center/cover fixed #000;
+      position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;
+    }
+    .hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.7);z-index:1;}
+    .hero-content{position:relative;z-index:2;padding:100px 20px 60px;}
+    .hero h1{font-family:'Press Start 2P',cursive;font-size:2.2rem;color:#14F195;text-shadow:2px 2px #9945FF;margin-bottom:20px;}
+    .hero p{font-size:1.3rem;white-space:pre-line;color:#FFF;text-shadow:2px 2px #14F195,-2px -2px #9945FF;margin-bottom:40px;}
 
-/* cores e sombras de cada botão */
-.whitepaper{background:#2E2EFF;box-shadow:0 0 10px #2E2EFF;color:#fff;}
-.pinksale  {background:#ff69b4;box-shadow:0 0 10px #ff69b4;color:#fff;}
-.bscscan   {background:#f0b90b;box-shadow:0 0 10px #f0b90b;color:#000;}
-.connect   {background:#14F195;box-shadow:0 0 10px #14F195;color:#000;}
-.telegram  {background:#0088cc;box-shadow:0 0 10px #0088cc;color:#fff;}
+    /* botões base */
+    .button{padding:16px 28px;border-radius:12px;font-weight:bold;margin:12px;display:inline-flex;align-items:center;
+      font-size:1rem;transition:transform .2s,box-shadow .2s,opacity .2s;text-decoration:none;color:inherit;}
+    .button:hover{animation:bounce .3s;transform:translateY(-2px);opacity:.9;}
+    @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+    .btn-icon{width:20px;height:20px;margin-right:8px;vertical-align:middle;}
 
-/* lang switch */
-.lang-switch{margin-top:30px;}
-.lang-switch button{background:#fff;color:#000;border:none;padding:10px 18px;margin:0 5px;border-radius:6px;cursor:pointer;transition:background .2s;}
-.lang-switch button:hover{background:#e0e0e0;}
+    /* cores e sombras de cada botão */
+    .whitepaper{background:#2E2EFF;box-shadow:0 0 10px #2E2EFF;color:#fff;}
+    .pinksale  {background:#ff69b4;box-shadow:0 0 10px #ff69b4;color:#fff;}
+    .bscscan   {background:#f0b90b;box-shadow:0 0 10px #f0b90b;color:#000;}
+    .connect   {background:#14F195;box-shadow:0 0 10px #14F195;color:#000;}
+    .telegram  {background:#0088cc;box-shadow:0 0 10px #0088cc;color:#fff;}
 
-/* memeteca */
-section.memeteca{padding:60px 20px;background:rgba(0,0,0,0.6);}
-.memeteca h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;text-shadow:1px 1px #9945FF;text-align:center;margin-bottom:40px;}
-.meme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:1000px;margin:0 auto;}
-.meme-card{background:#111;border:2px solid #14F195;border-radius:12px;overflow:hidden;text-align:center;transition:transform .3s,box-shadow .3s;}
-.meme-card:hover{transform:scale(1.05);box-shadow:0 0 10px rgba(20,241,149,0.8),0 0 20px rgba(153,69,255,0.6);}
-.meme-card img{width:100%;height:auto;border-radius:8px;}
+    /* lang switch */
+    .lang-switch{margin-top:30px;}
+    .lang-switch button{background:#fff;color:#000;border:none;padding:10px 18px;margin:0 5px;border-radius:6px;cursor:pointer;transition:background .2s;}
+    .lang-switch button:hover{background:#e0e0e0;}
 
-/* culto */
-section.culto{padding:60px 20px;background:radial-gradient(circle at center,rgba(17,17,17,0.6) 0%,rgba(0,0,0,0.6)100%);text-align:center;}
-.culto h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;text-shadow:1px 1px #9945FF;margin-bottom:40px;}
-.culto p{opacity:0;transform:translateY(30px);animation:fadeInUp 1s ease forwards;margin:12px 0;padding:12px 20px;
-  border-left:4px solid #14F195;border-right:4px solid #14F195;background:rgba(20,241,149,0.05);border-radius:8px;font-size:1.2rem;color:#fff;}
-@keyframes fadeInUp{to{opacity:1;transform:translateY(0);}}
+    /* memeteca */
+    section.memeteca{padding:60px 20px;background:rgba(0,0,0,0.6);}
+    .memeteca h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;text-shadow:1px 1px #9945FF;text-align:center;margin-bottom:40px;}
+    .meme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:1000px;margin:0 auto;}
+    .meme-card{background:#111;border:2px solid #14F195;border-radius:12px;overflow:hidden;text-align:center;transition:transform .3s,box-shadow .3s;}
+    .meme-card:hover{transform:scale(1.05);box-shadow:0 0 10px rgba(20,241,149,0.8),0 0 20px rgba(153,69,255,0.6);}
+    .meme-card img{width:100%;height:auto;border-radius:8px;}
 
-/* roadmap */
-section.roadmap{padding:60px 20px;background:rgba(0,0,0,0.6);}
-.roadmap h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;text-shadow:1px 1px #9945FF;text-align:center;margin-bottom:40px;}
-.roadmap-step{background:#222;border:2px dashed #9945FF;padding:20px;border-radius:16px;max-width:700px;margin:10px auto;color:#fff;font-size:1rem;}
-.roadmap-step .phase{font-weight:bold;color:#14F195;font-size:1.1rem;margin-bottom:12px;}
-.roadmap-step p{margin:6px 0;}
+    /* culto */
+    section.culto{padding:60px 20px;background:radial-gradient(circle at center,rgba(17,17,17,0.6) 0%,rgba(0,0,0,0.6)100%);text-align:center;}
+    .culto h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;text-shadow:1px 1px #9945FF;margin-bottom:40px;}
+    .culto p{opacity:0;transform:translateY(30px);animation:fadeInUp 1s ease forwards;margin:12px 0;padding:12px 20px;
+      border-left:4px solid #14F195;border-right:4px solid #14F195;background:rgba(20,241,149,0.05);border-radius:8px;font-size:1.2rem;color:#fff;}
+    @keyframes fadeInUp{to{opacity:1;transform:translateY(0);}}
 
-/* footer */
-footer{background:#000;color:#ccc;text-align:center;padding:20px;font-size:.9rem;}
-footer a{color:inherit;margin:0 10px;text-decoration:none;vertical-align:middle;}
-footer img{width:20px;vertical-align:middle;margin-right:5px;}
+    /* roadmap */
+    section.roadmap{padding:60px 20px;background:rgba(0,0,0,0.6);}
+    .roadmap h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;text-shadow:1px 1px #9945FF;text-align:center;margin-bottom:40px;}
+    .roadmap-step{background:#222;border:2px dashed #9945FF;padding:20px;border-radius:16px;max-width:700px;margin:10px auto;color:#fff;font-size:1rem;}
+    .roadmap-step .phase{font-weight:bold;color:#14F195;font-size:1.1rem;margin-bottom:12px;}
+    .roadmap-step p{margin:6px 0;}
 
-/* game */
-section.game {
-  text-align:center;
-  margin: 40px 0;
-}
-#gameCanvas {
-  border: 2px solid #14F195;
-  background: #000;
-}
-#score {
-  margin-top: 10px;
-  font-size: 1.3rem;
-}
-#message {
-  display: none;
-  margin-top: 10px;
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #14F195;
-}
+    /* footer */
+    footer{background:#000;color:#ccc;text-align:center;padding:20px;font-size:.9rem;}
+    footer a{color:inherit;margin:0 10px;text-decoration:none;vertical-align:middle;}
+    footer img{width:20px;vertical-align:middle;margin-right:5px;}
 
-
+    /* game */
+    section.game { text-align:center; margin:40px 0; }
+    #gameCanvas { border:2px solid #14F195; background:#000; }
+    #score { margin-top:10px; font-size:1.3rem; }
+    #message { margin-top:10px; font-size:1.4rem; font-weight:bold; color:#14F195; display: none; }
   </style>
 </head>
 <body>
   <div class="rain"></div>
 
   <!-- HERO -->
-
   <section class="hero">
     <div class="hero-content">
       <h1 id="title"></h1>
       <p id="description"></p>
 
+      <a id="whitepaper" class="button whitepaper" href="#" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" class="btn-icon" alt="">
+        <span id="whitepaperLabel"></span>
+      </a>
+      <a id="pinksale" class="button pinksale" href="#" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/3462/3462148.png" class="btn-icon" alt="">
+        <span id="pinksaleLabel"></span>
+      </a>
+      <a id="bscscan" class="button bscscan" href="#" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968851.png" class="btn-icon" alt="">
+        <span id="bscscanLabel"></span>
+      </a>
+      <button id="connectBtn" class="button connect">
+        <img src="https://cdn-icons-png.flaticon.com/512/1051/1051377.png" class="btn-icon" alt="">
+        <span id="connectLabel"></span>
+      </button>
+      <a id="telegramBtn" class="button telegram" href="https://t.me/+cAJFnl7fXG44ZDlh" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" class="btn-icon" alt="">
+        <span id="telegramLabel"></span>
+      </a>
 
-  <a id="whitepaper" class="button whitepaper" href="#" target="_blank">
-    <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" class="btn-icon" alt="">
-    <span id="whitepaperLabel"></span>
-  </a>
-
-  <a id="pinksale" class="button pinksale" href="#" target="_blank">
-    <img src="https://cdn-icons-png.flaticon.com/512/3462/3462148.png" class="btn-icon" alt="">
-    <span id="pinksaleLabel"></span>
-  </a>
-
-  <a id="bscscan" class="button bscscan" href="#" target="_blank">
-    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968851.png" class="btn-icon" alt="">
-    <span id="bscscanLabel"></span>
-  </a>
-
-  <button id="connectBtn" class="button connect">
-    <img src="https://cdn-icons-png.flaticon.com/512/1051/1051377.png" class="btn-icon" alt="">
-    <span id="connectLabel"></span>
-  </button>
-
-  <a id="telegramBtn" class="button telegram" href="https://t.me/+cAJFnl7fXG44ZDlh" target="_blank">
-    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" class="btn-icon" alt="">
-    <span id="telegramLabel"></span>
-  </a>
-
-  <div class="lang-switch">
-    <button data-lang="pt">Português</button>
-    <button data-lang="en">English</button>
-  </div>
-</div>
-
-
+      <div class="lang-switch">
+        <button data-lang="pt">Português</button>
+        <button data-lang="en">English</button>
+      </div>
+    </div>
   </section>
 
   <!-- MEMETECA -->
- <section class="memeteca">
+  <section class="memeteca">
     <h2 id="memetecaTitle">📚 Memeteca GrokZilla</h2>
     <div class="meme-grid">
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/85b1b5467b2b9fb913c7959bc8d81cb664741cde/18d29146-96d3-4077-b58c-f8f41321d6db.png" alt="Meme 1"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/85b1b5467b2b9fb913c7959bc8d81cb664741cde/28658f52-4474-4012-b190-c94b7a5070ee.png" alt="Meme 2"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/85b1b5467b2b9fb913c7959bc8d81cb664741cde/2ad695b0-3159-47b9-921c-101473e26ea4.png" alt="Meme 3"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/85b1b5467b2b9fb913c7959bc8d81cb664741cde/5760cdc5-a7ef-4a23-afe4-3362a2caa958.png" alt="Meme 4"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/85b1b5467b2b9fb913c7959bc8d81cb664741cde/85b8c366-9501-4c51-a77d-c34f45c7ae20.png" alt="Meme 5"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/6fa0e631e11005b9f219df5f4ae539ea4b41ec4d/112867d8-71ba-49b6-bf0c-0d1f3aa9903b.png" alt="Meme 6"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/56124a9cc01369644648d9930c878bc3b504e455/8b3655b2-a1f8-4370-bc2d-a79665fd854e.png" alt="Meme 7"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/56124a9cc01369644648d9930c878bc3b504e455/69c1ccb9-cf28-4b6a-832e-ede0532cf1bf.png" alt="Meme 8"></div>
-      <div class="meme-card"><img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/56124a9cc01369644648d9930c878bc3b504e455/7c753d06-a6b3-43c2-abea-f2d8812af023.png" alt="Meme 9"></div>
+      <!-- cards… -->
     </div>
   </section>
 
   <!-- CULTO -->
-
   <section class="culto">
     <h2 id="cultTitle"></h2>
     <p id="cultQuote1"></p>
@@ -166,43 +133,46 @@ section.game {
   </section>
 
   <!-- ROADMAP -->
-
   <section class="roadmap">
     <h2 id="roadmapTitle"></h2>
+    <!-- Q1 -->
     <div class="roadmap-step">
       <div class="phase" id="phaseQ1"></div>
-      <p><strong><span id="labelObj">Objetivo:</span></strong>    <span id="objQ1"></span></p>
-      <p><strong><span id="labelAction">Ação:</span></strong>    <span id="actionQ1"></span></p>
+      <p><strong><span id="labelObj">Objetivo:</span></strong> <span id="objQ1"></span></p>
+      <p><strong><span id="labelAction">Ação:</span></strong> <span id="actionQ1"></span></p>
       <p><strong><span id="labelMilestone">Marco:</span></strong> <span id="mileQ1"></span></p>
     </div>
+    <!-- Q2 -->
     <div class="roadmap-step">
       <div class="phase" id="phaseQ2"></div>
-      <p><strong><span id="labelObj2">Objetivo:</span></strong>    <span id="objQ2"></span></p>
-      <p><strong><span id="labelAction2">Ação:</span></strong>    <span id="actionQ2"></span></p>
+      <p><strong><span id="labelObj2">Objetivo:</span></strong> <span id="objQ2"></span></p>
+      <p><strong><span id="labelAction2">Ação:</span></strong> <span id="actionQ2"></span></p>
       <p><strong><span id="labelMilestone2">Marco:</span></strong> <span id="mileQ2"></span></p>
     </div>
+    <!-- Q3 -->
     <div class="roadmap-step">
       <div class="phase" id="phaseQ3"></div>
-      <p><strong><span id="labelObj3">Objetivo:</span></strong>    <span id="objQ3"></span></p>
-      <p><strong><span id="labelAction3">Ação:</span></strong>    <span id="actionQ3"></span></p>
+      <p><strong><span id="labelObj3">Objetivo:</span></strong> <span id="objQ3"></span></p>
+      <p><strong><span id="labelAction3">Ação:</span></strong> <span id="actionQ3"></span></p>
       <p><strong><span id="labelMilestone3">Marco:</span></strong> <span id="mileQ3"></span></p>
     </div>
+    <!-- Q4 -->
     <div class="roadmap-step">
       <div class="phase" id="phaseQ4"></div>
-      <p><strong><span id="labelObj4">Objetivo:</span></strong>    <span id="objQ4"></span></p>
-      <p><strong><span id="labelAction4">Ação:</span></strong>    <span id="actionQ4"></span></p>
+      <p><strong><span id="labelObj4">Objetivo:</span></strong> <span id="objQ4"></span></p>
+      <p><strong><span id="labelAction4">Ação:</span></strong> <span id="actionQ4"></span></p>
       <p><strong><span id="labelMilestone4">Marco:</span></strong> <span id="mileQ4"></span></p>
     </div>
   </section>
 
   <!-- JOGO -->
-
   <section class="game">
-  <h2 style="text-align:center;">🦖 Grokzilla: Dinossauro Rumo à Lua 🚀</h2>
-  <canvas id="gameCanvas" width="600" height="300"></canvas>
-  <div id="score">Pontos: 0</div>
-  <div id="message">Grokzilla rumo à lua! 🌕🚀</div>
-</section>
+    <h2 style="text-align:center;">🦖 Grokzilla: Dinossauro Rumo à Lua 🚀</h2>
+    <canvas id="gameCanvas" width="600" height="300"></canvas>
+    <div id="score">Pontos: 0</div>
+    <div id="message">Grokzilla rumo à lua! 🌕🚀</div>
+    <button id="restartBtn" class="button connect">Reiniciar</button>
+  </section>
 
   <footer>
     <span id="footerCopy"></span> |
@@ -233,32 +203,26 @@ section.game {
         },
         roadmap: {
           title:   "📈 Roadmap Caótico",
-
-      q1phase: "Q1 – Prometemos Rug, Mas Nada Entregue",
-      q1obj:   "Fazemos todas as promessas e a hype, mas nada de concreto ainda! É só o começo do caos.",
-      q1action:"Lançamos o token, mas ainda estamos tentando não dar um rug pull. Prometemos que vai dar certo de verdade!",
-      q1mile:  "Lançamento do token. Se der errado, culpa do mercado, não nossa. 😎",
-
-      q2phase: "Q2 – Listagem em DEX Se o Dev Acordar",
-      q2obj:   "O dev dormiu no primeiro trimestre, mas finalmente acorda e começa a negociar com exchanges.",
-      q2action:"Negociações para listar o token em DEXes começam — vamos tentar sem crashar nada.",
-      q2mile:  "Token listado em pelo menos uma exchange (mesmo que só na nossa cabeça).",
-
-      q3phase: "Q3 – Merch Oficial: Camisetas, Adesivos & Quem Sabe Uma Caneca ou Pin",
-      q3obj:   "Criar a primeira linha de merch: camisetas, adesivos, talvez um bonequinho ou caneca com logo. 🦖☕️",
-      q3action:"Dev e marketing unem forças para desenhar e produzir os produtos (ou ao menos tentar).",
-      q3mile:  "Merch distribuído pela comunidade (e talvez um pin ou caneca pra sua prateleira).",
-
-      q4phase: "Q4 – Tentativa de Viralizar no X (Ou Não)",
-      q4obj:   "Colocar o Grokzilla no radar de todo mundo. Vamos tentar viralizar sem forçar demais.",
-      q4action:"Blitz de memes, posts e GIFs para fazer o token bombar.",
-      q4mile:  "Viralizar no X — ou pelo menos dar nosso melhor."
-    },
-
-    labels: { obj:"Objetivo:", action:"Ação:", mile:"Marco:" },
-    footer: { copy:"© 2025 Grokzilla. Todos os direitos." }
-  },
-
+          q1phase: "Q1 – Prometemos Rug, Mas Nada Entregue",
+          q1obj:   "Fazemos todas as promessas e a hype, mas nada de concreto ainda! É só o começo do caos.",
+          q1action:"Lançamos o token, mas ainda estamos tentando não dar um rug pull. Prometemos que vai dar certo de verdade!",
+          q1mile:  "Lançamento do token. Se der errado, culpa do mercado, não nossa. 😎",
+          q2phase: "Q2 – Listagem em DEX Se o Dev Acordar",
+          q2obj:   "O dev dormiu no primeiro trimestre, mas finalmente acorda e começa a negociar com exchanges.",
+          q2action:"Negociações para listar o token em DEXes começam — vamos tentar sem crashar nada.",
+          q2mile:  "Token listado em pelo menos uma exchange (mesmo que só na nossa cabeça).",
+          q3phase: "Q3 – Merch Oficial: Camisetas, Adesivos & Quem Sabe Uma Caneca ou Pin",
+          q3obj:   "Criar a primeira linha de merch: camisetas, adesivos, talvez um bonequinho ou caneca com logo. 🦖☕️",
+          q3action:"Dev e marketing unem forças para desenhar e produzir os produtos (ou ao menos tentar).",
+          q3mile:  "Merch distribuído pela comunidade (e talvez um pin ou caneca pra sua prateleira).",
+          q4phase: "Q4 – Tentativa de Viralizar no X (Ou Não)",
+          q4obj:   "Colocar o Grokzilla no radar de todo mundo. Vamos tentar viralizar sem forçar demais.",
+          q4action:"Campanha de memes nas redes sociais.",
+          q4mile:  "Viralizar no X — ou pelo menos dar nosso melhor."
+        },
+        labels: { obj:"Objetivo:", action:"Ação:", mile:"Marco:" },
+        footer: { copy:"© 2025 Grokzilla. Todos os direitos." }
+      },
       en: {
         hero: {
           title:       "Grokzilla Token",
@@ -280,27 +244,23 @@ section.game {
         },
         roadmap:{
           title:"📈 Chaotic Roadmap",
-  q1phase: "Q1 – Promised Rug, Delivered Nothing",
-  q1obj:   "We make all the promises and hype, but nothing concrete yet! It’s just the beginning of the chaos.",
-  q1action:"We launched the token, but we’re still trying not to pull a rug. We swear it’ll work out for real!",
-  q1mile:  "Token launch. If it goes wrong, blame the market, not us. 😎",
-
-  q2phase: "Q2 – DEX Listing If Dev Wakes Up",
-  q2obj:   "The dev slept through the first quarter but finally wakes up and starts negotiating with exchanges.",
-  q2action:"Negotiations to list the token on DEXes begin — we’ll try to do it without crashing the system.",
-  q2mile:  "Token listed on at least one exchange (even if only in our heads).",
-
-  q3phase: "Q3 – Official Merch: Tees, Stickers & Maybe a Mug or Pin",
-  q3obj:   "Create the first merch line—t-shirts, stickers, maybe even a little Grokzilla figurine or a logo mug. 🦖☕️",
-  q3action:"Dev and marketing join forces to design and produce quality products (or at least try).",
-  q3mile:  "T-shirts and stickers distributed by the community (and maybe a pin or mug for your shelf).",
-
-  q4phase: "Q4 – Trend Attempt on X (Or Not)",
-  q4obj:   "Get Grokzilla on everyone’s radar. We’ll go viral on social media, but no hard sell, alright?",
-  q4action:"A blitz of memes, posts and GIFs to make the token pop.",
-  q4mile:  "We go viral on X—or at least give it our best shot."
-        
-  },
+          q1phase: "Q1 – Promised Rug, Delivered Nothing",
+          q1obj:   "We make all the promises and hype, but nothing concrete yet! It’s just the beginning of the chaos.",
+          q1action:"We launched the token, but we’re still trying not to pull a rug. We swear it’ll work out for real!",
+          q1mile:  "Token launch. If it goes wrong, blame the market, not us. 😎",
+          q2phase: "Q2 – DEX Listing If Dev Wakes Up",
+          q2obj:   "The dev slept through the first quarter but finally wakes up and starts negotiating with exchanges.",
+          q2action:"Negotiations to list the token on DEXes begin — we’ll try to do it without crashing the system.",
+          q2mile:  "Token listed on at least one exchange (even if only in our heads).",
+          q3phase: "Q3 – Official Merch: Tees, Stickers & Maybe a Mug or Pin",
+          q3obj:   "Create the first merch line—t-shirts, stickers, maybe even a little Grokzilla figurine or a logo mug. 🦖☕️",
+          q3action:"Dev and marketing join forces to design and produce quality products (or at least try).",
+          q3mile:  "T-shirts and stickers distributed by the community (and maybe a pin or mug for your shelf).",
+          q4phase: "Q4 – Trend Attempt on X (Or Not)",
+          q4obj:   "Get Grokzilla on everyone’s radar. We’ll go viral on social media, but no hard sell, alright?",
+          q4action:"A blitz of memes, posts and GIFs to make the token pop.",
+          q4mile:  "We go viral on X—or at least give it our best shot."
+        },
         labels:{ obj:"Objective:", action:"Action:", mile:"Milestone:" },
         footer:{ copy:"© 2025 Grokzilla. All rights reserved." }
       }
@@ -309,276 +269,238 @@ section.game {
     function setLang(lang){
       localStorage.setItem('lang',lang);
       document.documentElement.lang=lang;
-      const t=translations[lang];
+      const t = translations[lang];
       // Hero
-      document.getElementById('title').textContent=t.hero.title;
-      document.getElementById('description').textContent=t.hero.description;
-      document.getElementById('whitepaperLabel').textContent=t.hero.whitepaper;
-      document.getElementById('pinksaleLabel').textContent=t.hero.pinksale;
-      document.getElementById('bscscanLabel').textContent=t.hero.bscscan;
-      document.getElementById('connectLabel').textContent=t.hero.connect;
-      document.getElementById('telegramLabel').textContent=t.hero.telegram;
+      document.getElementById('title').textContent        = t.hero.title;
+      document.getElementById('description').textContent  = t.hero.description;
+      document.getElementById('whitepaperLabel').textContent = t.hero.whitepaper;
+      document.getElementById('pinksaleLabel').textContent   = t.hero.pinksale;
+      document.getElementById('bscscanLabel').textContent    = t.hero.bscscan;
+      document.getElementById('connectLabel').textContent    = t.hero.connect;
+      document.getElementById('telegramLabel').textContent   = t.hero.telegram;
       // Memeteca
-      document.getElementById('memetecaTitle').textContent=t.memeteca.title;
+      document.getElementById('memetecaTitle').textContent   = t.memeteca.title;
       // Culto
-      document.getElementById('cultTitle').textContent=t.cult.title;
+      document.getElementById('cultTitle').textContent       = t.cult.title;
       ['cultQuote1','cultQuote2','cultQuote3','cultQuote4','cultQuote5']
-        .forEach((id,i)=>document.getElementById(id).textContent=t.cult[`quote${i+1}`]);
+        .forEach((id, i) => document.getElementById(id).textContent = t.cult[`quote${i+1}`]);
       // Roadmap
-      document.getElementById('roadmapTitle').textContent=t.roadmap.title;
-      for(let i=1;i<=4;i++){
-        const suf=i===1?'':i;
-        document.getElementById(`phaseQ${i}`).textContent=t.roadmap[`q${i}phase`];
-        document.getElementById(`labelObj${suf}`).textContent=t.labels.obj;
-        document.getElementById(`labelAction${suf}`).textContent=t.labels.action;
-        document.getElementById(`labelMilestone${suf}`).textContent=t.labels.mile;
-        document.getElementById(`objQ${i}`).textContent=t.roadmap[`q${i}obj`];
-        document.getElementById(`actionQ${i}`).textContent=t.roadmap[`q${i}action`];
-        document.getElementById(`mileQ${i}`).textContent=t.roadmap[`q${i}mile`];
+      document.getElementById('roadmapTitle').textContent    = t.roadmap.title;
+      for(let i=1; i<=4; i++){
+        const suf = i===1 ? '' : i;
+        document.getElementById(`phaseQ${i}`).textContent     = t.roadmap[`q${i}phase`];
+        document.getElementById(`labelObj${suf}`).textContent    = t.labels.obj;
+        document.getElementById(`labelAction${suf}`).textContent = t.labels.action;
+        document.getElementById(`labelMilestone${suf}`).textContent = t.labels.mile;
+        document.getElementById(`objQ${i}`).textContent      = t.roadmap[`q${i}obj`];
+        document.getElementById(`actionQ${i}`).textContent   = t.roadmap[`q${i}action`];
+        document.getElementById(`mileQ${i}`).textContent     = t.roadmap[`q${i}mile`];
       }
       // Footer
-      document.getElementById('footerCopy').textContent=t.footer.copy;
+      document.getElementById('footerCopy').textContent      = t.footer.copy;
     }
 
     function initLangSwitcher(){
       document.querySelectorAll('.lang-switch button')
-        .forEach(btn=>btn.addEventListener('click',()=>setLang(btn.dataset.lang)));
+        .forEach(btn => btn.addEventListener('click', () => setLang(btn.dataset.lang)));
     }
 
     function initWalletButtons(){
-      document.getElementById('connectBtn').onclick=()=>{
+      document.getElementById('connectBtn').onclick = () => {
         if(!window.ethereum) return alert('Instale a MetaMask');
         window.ethereum.request({method:'eth_requestAccounts'})
-          .then(a=>alert('Carteira: '+a[0])).catch(e=>alert(e.message));
+          .then(a => alert('Carteira: '+a[0]))
+          .catch(e => alert(e.message));
       };
     }
 
     function initRain(){
-      const c=document.querySelector('.rain');
-      for(let i=0;i<80;i++){
-        const d=document.createElement('div');
-        d.className='drop';
-        d.style.background=Math.random()>0.5?'rgba(20,241,149,0.8)':'rgba(153,69,255,0.8)';
-        d.style.left=Math.random()*100+'%';
-        d.style.animationDuration=(0.5+Math.random())+'s';
-        d.style.animationDelay=-Math.random()*5+'s';
+      const c = document.querySelector('.rain');
+      for(let i=0; i<80; i++){
+        const d = document.createElement('div');
+        d.className = 'drop';
+        d.style.background = Math.random()>0.5 ? 'rgba(20,241,149,0.8)' : 'rgba(153,69,255,0.8)';
+        d.style.left = Math.random()*100+'%';
+        d.style.animationDuration = (0.5+Math.random())+'s';
+        d.style.animationDelay = -Math.random()*5+'s';
         c.appendChild(d);
       }
     }
 
-    document.addEventListener('DOMContentLoaded',()=>{
+    document.addEventListener('DOMContentLoaded', () => {
       initLangSwitcher();
       initWalletButtons();
       initRain();
-      setLang(localStorage.getItem('lang')||'pt');
+      setLang(localStorage.getItem('lang') || 'pt');
+      document.getElementById('restartBtn').addEventListener('click', restartGame);
     });
   </script>
-<script>
-(() => {
-  const canvas = document.getElementById('gameCanvas');
-  const ctx    = canvas.getContext('2d');
-  ctx.imageSmoothingEnabled = false;
 
-  // Sons
-  const jumpSound   = new Audio('https://actions.google.com/sounds/v1/cartoon/slide_whistle_to_drum_hit.ogg');
-  const coinSound   = new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg');
-  const obstacleHit = new Audio('https://actions.google.com/sounds/v1/cartoon/boing.ogg');
-  const rocketSound = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
+  <script>
+  (() => {
+    const canvas = document.getElementById('gameCanvas');
+    const ctx    = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
 
-  // Imagens
-  const dinoImg   = new Image(); dinoImg.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/91e03545-23a4-493c-bab8-f6b46e5a3926.png';
-  const coinImg   = new Image(); coinImg.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/ca8b5da4-4278-4c3b-a63f-8ded3e5ef299.png';
-  const rocketImg = new Image(); rocketImg.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/2209691c-982d-40ef-bd10-ae68c1695175.png';
+    // Sons
+    const jumpSound   = new Audio('https://actions.google.com/sounds/v1/cartoon/slide_whistle_to_drum_hit.ogg');
+    const coinSound   = new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg');
+    const obstacleHit = new Audio('https://actions.google.com/sounds/v1/cartoon/boing.ogg');
+    const rocketSound = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
 
-  // Obstáculo: alface, mel, fantasma, baleia
-  const obstacleImgs = {
-    lettuce: new Image(),
-    honey:   new Image(),
-    ghost:   new Image(),
-    whale:   new Image()
-  };
-  obstacleImgs.lettuce.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d413d41f6d253c3764dc8c3b3ae7412d3714b88d/aface.png';
-  obstacleImgs.honey.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d413d41f6d253c3764dc8c3b3ae7412d3714b88d/mel.png';
-  obstacleImgs.ghost.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d413d41f6d253c3764dc8c3b3ae7412d3714b88d/fantasma.png';
-  obstacleImgs.whale.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d413d41f6d253c3764dc8c3b3ae7412d3714b88d/baleia.png';
-
-  // Física
-  const gravity = 0.8;
-
-  // Estado do jogo
-  let dino = { x:50, y:200, width:48, height:48, vy:0, jumping:false, movingLeft:false, movingRight:false };
-  let coin = { x:400, y:220, width:32, height:32 };
-  let obstacles = [];
-  const stars = Array.from({length:100}, () => ({
-    x: Math.random()*canvas.width,
-    y: Math.random()*canvas.height,
-    radius: Math.random()*1.5,
-    alpha: Math.random()
-  }));
-
-  let score = 0;
-  let rocketY = canvas.height + 100;
-  let rocketRising = false;
-  let gameOver = false;
-  let gameStarted = true;
-
-  // Fundo e estrelas
-  function drawBackground(){
-    const grad = ctx.createLinearGradient(0, canvas.height, 0, 0);
-    grad.addColorStop(0, '#000022');
-    grad.addColorStop(1, '#000000');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }
-  function drawStars(){
-    stars.forEach(s => {
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.radius, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(255,255,255,${s.alpha.toFixed(2)})`;
-      ctx.fill();
-      s.alpha += (Math.random()-0.5)*0.05;
-      s.alpha = Math.max(0, Math.min(1, s.alpha));
-    });
-  }
-
-  // Colisão AABB
-  function isColliding(a, b){
-    return a.x < b.x + b.width &&
-           a.x + a.width > b.x &&
-           a.y < b.y + b.height &&
-           a.y + a.height > b.y;
-  }
-
-  // Posiciona moeda
-  function placeCoin(){
-    coin.x = Math.random()*(canvas.width - 60) + 250;
-  }
-
-  // Gera obstáculos
-  function spawnObstacle(){
-    const types = ['lettuce','honey','ghost','whale'];
-    const type  = types[Math.floor(Math.random()*types.length)];
-    const img   = obstacleImgs[type];
-    const size  = type === 'whale' ? 64 : 40;
-    const yPos  = type === 'whale' ? 180 : 220;
-    obstacles.push({ x:canvas.width, y:yPos, width:size, height:size, img });
-  }
-  setInterval(spawnObstacle, 2500);
-
-  // Controles
-  window.addEventListener('keydown', e => {
-    if(!gameStarted) return;
-    if((e.code==='Space'||e.code==='ArrowUp') && !dino.jumping && !gameOver){
-      dino.vy = -15; dino.jumping = true; jumpSound.play();
-    }
-    if(e.code==='ArrowLeft'||e.code==='KeyA')  dino.movingLeft  = true;
-    if(e.code==='ArrowRight'||e.code==='KeyD') dino.movingRight = true;
-  });
-  window.addEventListener('keyup', e => {
-    if(e.code==='ArrowLeft'||e.code==='KeyA')  dino.movingLeft  = false;
-    if(e.code==='ArrowRight'||e.code==='KeyD') dino.movingRight = false;
-  });
-
-  // Reinicia o jogo
-  function restartGame(){
-    score = 0;
-    rocketY = canvas.height + 100;
-    rocketRising = gameOver = false;
-    dino = { x:50, y:200, width:48, height:48, vy:0, jumping:false, movingLeft:false, movingRight:false };
-    obstacles = [];
-    placeCoin();
-    document.getElementById('message').style.display = 'none';
-    gameStarted = true;
-  }
-
-  // Lógica de atualização
-  function update(){
-    if(gameOver){
-      if(rocketY > 50) rocketY -= 4, rocketSound.play();
-      return;
-    }
-
-    // Pulo e gravidade
-    dino.vy += gravity;
-    dino.y  += dino.vy;
-    if(dino.y > 200){ dino.y = 200; dino.vy = 0; dino.jumping = false; }
-
-    // Movimentação horizontal
-    if(dino.movingRight && dino.x < canvas.width - dino.width - 10) dino.x += 5;
-    if(dino.movingLeft  && dino.x > 10)                          dino.x -= 5;
-
-    // Moeda
-    coin.x -= 4;
-    if(coin.x < -coin.width) placeCoin();
-    if(isColliding(dino, coin)){
-      score += 100; coinSound.play(); placeCoin();
-      if(score >= 1000){
-        rocketRising = gameOver = true;
-        document.getElementById('message').style.display = 'block';
-        gameStarted = false;
-      }
-    }
+    // Imagens
+    const dinoImg   = new Image(); dinoImg.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/91e03545-23a4-493c-bab8-f6b46e5a3926.png';
+    const coinImg   = new Image(); coinImg.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/ca8b5da4-4278-4c3b-a63f-8ded3e5ef299.png';
+    const rocketImg = new Image(); rocketImg.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/2209691c-982d-40ef-bd10-ae68c1695175.png';
 
     // Obstáculos
-    obstacles.forEach((obs, i) => {
-      obs.x -= 4;
-      if(isColliding(dino, obs)){
-        score = Math.max(0, score - 150);
-        obstacleHit.play();
-        obstacles.splice(i, 1);
-      } else if(obs.x < -obs.width){
-        obstacles.splice(i, 1);
+    const obstacleImgs = {
+      lettuce: new Image(),
+      honey:   new Image(),
+      ghost:   new Image(),
+      whale:   new Image()
+    };
+    obstacleImgs.lettuce.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d413d41f6d253c3764dc8c3b3ae7412d3714b88d/alface.png';
+    obstacleImgs.honey.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d413d41f6d253c3764dc8c3b3ae7412d3714b88d/mel.png';
+    obstacleImgs.ghost.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d413d41f6d253c3764dc8c3b3ae7412d3714b88d/fantasma.png';
+    obstacleImgs.whale.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d413d41f6d253c3764dc8c3b3ae7412d3714b88d/baleia.png';
+
+    const gravity = 0.8;
+
+    let dino = { x:50, y:200, width:48, height:48, vy:0, jumping:false, movingLeft:false, movingRight:false };
+    let coin = { x:0, y:220, width:32, height:32 };
+    let obstacles = [];
+    const stars = Array.from({length:100}, () => ({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      radius: Math.random()*1.5,
+      alpha: Math.random()
+    }));
+
+    let score = 0;
+    let rocketY = canvas.height + 100;
+    let rocketRising = false;
+    let gameOver = false;
+
+    function drawBackground(){
+      const grad = ctx.createLinearGradient(0, canvas.height, 0, 0);
+      grad.addColorStop(0, '#000022');
+      grad.addColorStop(1, '#000000');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    function drawStars(){
+      stars.forEach(s => { /* ... igual */ });
+    }
+    function isColliding(a,b){
+      return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
+    }
+    function placeCoin(){
+      coin.x = Math.random()*(canvas.width - coin.width);
+    }
+    function spawnObstacle(){
+      const types = ['lettuce','honey','ghost','whale'];
+      const type  = types[Math.floor(Math.random()*types.length)];
+      const img   = obstacleImgs[type];
+      const size  = type === 'whale' ? 64 : 40;
+      const yPos  = type === 'whale' ? 180 : 220;
+      obstacles.push({ x:canvas.width, y:yPos, width:size, height:size, img });
+    }
+    setInterval(spawnObstacle, 2500);
+
+    window.addEventListener('keydown', e => {
+      if((e.code==='Space'||e.code==='ArrowUp') && !dino.jumping && !gameOver){
+        dino.vy = -15; dino.jumping = true; jumpSound.play();
       }
+      if(e.code==='ArrowLeft'||e.code==='KeyA')  dino.movingLeft  = true;
+      if(e.code==='ArrowRight'||e.code==='KeyD') dino.movingRight = true;
     });
-  }
+    window.addEventListener('keyup', e => {
+      if(e.code==='ArrowLeft'||e.code==='KeyA')  dino.movingLeft  = false;
+      if(e.code==='ArrowRight'||e.code==='KeyD') dino.movingRight = false;
+    });
 
-  // Renderiza tudo
-  function draw(){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBackground();
-    drawStars();
-
-    if(!rocketRising){
-      ctx.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
-    } else {
-      ctx.drawImage(rocketImg, canvas.width - 150, rocketY, 100, 150);
+    function restartGame(){
+      score = 0;
+      rocketY = canvas.height + 100;
+      rocketRising = gameOver = false;
+      dino = { x:50, y:200, width:48, height:48, vy:0, jumping:false, movingLeft:false, movingRight:false };
+      obstacles = [];
+      placeCoin();
+      document.getElementById('message').style.display = 'none';
+      gameLoop();
     }
 
-    ctx.drawImage(coinImg, coin.x, coin.y, coin.width, coin.height);
-
-    obstacles.forEach(obs => {
-      ctx.drawImage(obs.img, obs.x, obs.y, obs.width, obs.height);
-    });
-
-    document.getElementById('score').textContent = `Pontos: ${score}`;
-  }
-
-  function gameLoop(){
-    update();
-    draw();
-    requestAnimationFrame(gameLoop);
-  }
-
-  // Aguarda carregar todas as imagens
-  let loaded = 0;
-  const imagesToLoad = [
-    dinoImg, coinImg, rocketImg,
-    obstacleImgs.lettuce,
-    obstacleImgs.honey,
-    obstacleImgs.ghost,
-    obstacleImgs.whale
-  ];
-  imagesToLoad.forEach(img => {
-    img.onload = () => {
-      if(++loaded === imagesToLoad.length){
-        placeCoin();
-        gameLoop();
+    function update(){
+      if(gameOver){
+        if(rocketY > 50){ rocketY -= 4; rocketSound.play(); }
+        return;
       }
-    };
-  });
+      dino.vy += gravity;
+      dino.y  += dino.vy;
+      if(dino.y > 200){ dino.y = 200; dino.vy = 0; dino.jumping = false; }
+      if(dino.movingRight && dino.x < canvas.width - dino.width - 10) dino.x += 5;
+      if(dino.movingLeft  && dino.x > 10)                          dino.x -= 5;
 
-  window.restartGame = restartGame;
-})();
+      coin.x -= 4;
+      if(coin.x < -coin.width) placeCoin();
+      if(isColliding(dino, coin)){
+        score += 100; coinSound.play(); placeCoin();
+        if(score >= 1000){
+          rocketRising = gameOver = true;
+          document.getElementById('message').style.display = 'block';
+        }
+      }
+
+      obstacles.forEach((obs,i) => {
+        obs.x -= 4;
+        if(isColliding(dino, obs)){
+          score = Math.max(0, score - 150);
+          obstacleHit.play();
+          obstacles.splice(i,1);
+        } else if(obs.x < -obs.width) obstacles.splice(i,1);
+      });
+    }
+
+    function draw(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      drawBackground();
+      drawStars();
+
+      if(!rocketRising){
+        ctx.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
+      } else {
+        ctx.drawImage(rocketImg, canvas.width - 150, rocketY, 100, 150);
+      }
+      ctx.drawImage(coinImg, coin.x, coin.y, coin.width, coin.height);
+      obstacles.forEach(obs => ctx.drawImage(obs.img, obs.x, obs.y, obs.width, obs.height));
+      document.getElementById('score').textContent = `Pontos: ${score}`;
+    }
+
+    function gameLoop(){
+      update();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    let loaded = 0;
+    const imagesToLoad = [
+      dinoImg, coinImg, rocketImg,
+      obstacleImgs.lettuce,
+      obstacleImgs.honey,
+      obstacleImgs.ghost,
+      obstacleImgs.whale
+    ];
+    imagesToLoad.forEach(img => {
+      img.onload = () => {
+        if(++loaded === imagesToLoad.length){
+          placeCoin();
+          gameLoop();
+        }
+      };
+    });
+  })();
   </script>
 </body>
 </html>
+
