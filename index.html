@@ -94,7 +94,7 @@
   <div class="rain"></div>
 
   <!-- HERO -->
-  <section class="hero">
+ <section class="hero">
     <div class="hero-content">
       <h1 id="title"></h1>
       <p id="description"></p>
@@ -183,13 +183,12 @@
   </section>
 
   <!-- JOGO -->
-  <section class="game">
-    <h2 style="text-align:center;">🦖 Grokzilla: Dinossauro Rumo à Lua 🚀</h2>
+ <section class="game">
+    <h2>🦖 Grokzilla: Dinossauro Rumo à Lua 🚀</h2>
     <canvas id="gameCanvas" width="600" height="300"></canvas>
     <div id="score">Pontos: 0</div>
     <div id="message">Grokzilla rumo à lua! 🌕🚀</div>
   </section>
-
   <!-- SCRIPTS DE TRADUÇÃO E RAIN -->
   <script>
     const translations = {
@@ -368,31 +367,37 @@
       let gameWin   = false;
 
       // —————— CARREGAR SPRITES ——————
-      const imgDino       = new Image();
-      imgDino.src         = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino1.png';
-      const imgCoin       = new Image();
-      imgCoin.src         = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/moeda_real_transparente.png';
-      const imgBackground = new Image();
-      imgBackground.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/pasaisgem%20.png';
-      const obstacleImgs  = [
-        (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/tapete.png'; return i; })(),
-        (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/urso.png';   return i; })(),
-        (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/baleia.png'; return i; })()
-      ];
-      const imgRocket     = new Image();
-      imgRocket.src       = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino_foguete_transparente_final.png';
+     const imgDino       = new Image();
+imgDino.src         = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino1.png';
 
-      // lista de todos os assets para pré-load
-      const assets = [ imgDino, imgCoin, imgBackground, imgRocket, ...obstacleImgs ];
-      let   loaded = 0;
-      assets.forEach(img => {
-        img.onload = () => {
-          if (++loaded === assets.length) {
-            resetGame();
-            loop();
-          }
-        };
-      });
+const imgCoin       = new Image();
+imgCoin.src         = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/moeda_real_transparente.png';
+
+const imgBackground = new Image();
+imgBackground.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/pasaisgem.png';
+
+const imgRocket     = new Image();
+imgRocket.src       = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino_foguete_transparente_final.png';
+
+// Obstáculos: tapete, urso, baleia e agora a mão de alface
+const obstacleImgs  = [
+  (() => { const i = new Image(); i.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/tapete.png'; return i; })(),
+  (() => { const i = new Image(); i.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/urso.png';   return i; })(),
+  (() => { const i = new Image(); i.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/baleia.png'; return i; })(),
+  (() => { const i = new Image(); i.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d660c790375cb4a33daf5156f1ff7b8b073af5a2/96710ea3-ff0d-4379-bb9c-ab93334e368d.png'; return i; })()
+];
+
+// Pré-load de todos os assets
+const assets = [ imgDino, imgCoin, imgBackground, imgRocket, ...obstacleImgs ];
+let loaded = 0;
+assets.forEach(img => {
+  img.onload = () => {
+    if (++loaded === assets.length) {
+      resetGame();
+      loop();
+    }
+  };
+});
 
       // —————— FUNÇÕES DE JOGO ——————
 
