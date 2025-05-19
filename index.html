@@ -6,60 +6,41 @@
   <title>Token Grokzilla</title>
   <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
-
   <style>
+    html, body { margin:0; padding:0; scroll-behavior:smooth; background:#0A0A0A; color:#FFF; font-family:'Inter',sans-serif; }
 
-   /* chuva */
+    /* chuva */
     .rain{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:0;}
     .rain .drop{position:absolute;bottom:100%;width:2px;height:15px;opacity:0.7;animation:fall linear infinite;}
     @keyframes fall{to{transform:translateY(100vh);opacity:0;}}
-    
 
     /* hero */
-    .hero {
-      background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/c1df9791-6857-4bf2-bac9-291fabdc8a45.png')
-                  no-repeat center/cover fixed #000;
-      position: relative; min-height: 100vh;
-      display: flex; align-items: center; justify-content: center; text-align: center;
-    }
-    .hero::after {
-      content:""; position:absolute; inset:0;
-      background:rgba(0,0,0,0.7); z-index:1;
-    }
-    .hero-content { position: relative; z-index:2; padding:100px 20px 60px; }
-    .hero h1 {
-      font-family:'Press Start 2P',cursive; font-size:2.2rem; color:#14F195;
-      text-shadow:2px 2px #9945FF; margin-bottom:20px;
-    }
-    .hero p {
-      font-size:1.3rem; white-space:pre-line; color:#FFF;
-      text-shadow:2px 2px #14F195,-2px -2px #9945FF;
-      margin-bottom:40px;
-    }
+    .hero{background:url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/c1df9791-6857-4bf2-bac9-291fabdc8a45.png') no-repeat center/cover fixed #000;
+      position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;}
+    .hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.7);z-index:1;}
+    .hero-content{position:relative;z-index:2;padding:100px 20px 60px;}
+    .hero h1{font-family:'Press Start 2P',cursive;font-size:2.2rem;color:#14F195;text-shadow:2px 2px #9945FF;margin-bottom:20px;}
+    .hero p{font-size:1.3rem;white-space:pre-line;color:#FFF;text-shadow:2px 2px #14F195,-2px -2px #9945FF;margin-bottom:40px;}
 
-  /* botões */
-    .button {
-      padding:16px 28px; border-radius:12px; font-weight:bold;
-      margin:12px; display:inline-flex; align-items:center;
-      font-size:1rem; transition:transform .2s,box-shadow .2s,opacity .2s;
-      text-decoration:none; color:inherit;
-    }
-    .button:hover { animation:bounce .3s; transform:translateY(-2px); opacity:.9; }
-    @keyframes bounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);} }
-    .btn-icon { width:20px; height:20px; margin-right:8px; vertical-align:middle; }
-    .whitepaper { background:#2E2EFF; box-shadow:0 0 10px #2E2EFF; color:#fff; }
-    .pinksale   { background:#ff69b4; box-shadow:0 0 10px #ff69b4; color:#fff; }
-    .bscscan    { background:#f0b90b; box-shadow:0 0 10px #f0b90b; color:#000; }
-    .connect    { background:#14F195; box-shadow:0 0 10px #14F195; color:#000; }
-    .telegram   { background:#0088cc; box-shadow:0 0 10px #0088cc; color:#fff; }
-    
-  /* lang switch */
-    .lang-switch { margin-top:30px; }
-    .lang-switch button {
-      background:#fff; color:#000; border:none; padding:10px 18px;
-      margin:0 5px; border-radius:6px; cursor:pointer; transition:background .2s;
-    }
-    .lang-switch button:hover { background:#e0e0e0; }
+    /* botões base */
+    .button{padding:16px 28px;border-radius:12px;font-weight:bold;margin:12px;display:inline-flex;align-items:center;
+      font-size:1rem;transition:transform .2s,box-shadow .2s,opacity .2s;text-decoration:none;color:inherit;}
+    .button:hover{animation:bounce .3s;transform:translateY(-2px);opacity:.9;}
+    @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+    .btn-icon{width:20px;height:20px;margin-right:8px;vertical-align:middle;}
+
+    /* cores e sombras de cada botão */
+    .whitepaper{background:#2E2EFF;box-shadow:0 0 10px #2E2EFF;color:#fff;}
+    .pinksale  {background:#ff69b4;box-shadow:0 0 10px #ff69b4;color:#fff;}
+    .bscscan   {background:#f0b90b;box-shadow:0 0 10px #f0b90b;color:#000;}
+    .connect   {background:#14F195;box-shadow:0 0 10px #14F195;color:#000;}
+    .telegram  {background:#0088cc;box-shadow:0 0 10px #0088cc;color:#fff;}
+
+    /* lang switch */
+    .lang-switch{margin-top:30px;}
+    .lang-switch button{background:#fff;color:#000;border:none;padding:10px 18px;margin:0 5px;border-radius:6px;cursor:pointer;transition:background .2s;}
+    .lang-switch button:hover{background:#e0e0e0;}
+
     /* memeteca */
     section.memeteca{padding:60px 20px;background:rgba(0,0,0,0.6);}
     .memeteca h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;text-shadow:1px 1px #9945FF;text-align:center;margin-bottom:40px;}
@@ -84,59 +65,24 @@
 
     /* game */
     section.game {
-    position: relative;
-    width: 600px;
-    max-width: 100%;
-    margin: 40px auto;
-    text-align: center;
-  }
-  #gameCanvas {
-    border: 2px solid #14F195;
-    display: block;
-    width: 100%;
-    height: auto;
-    background: #000;
-  }
-  #score {
-    margin-top: 10px;
-    font-size: 1.3rem;
-  }
-  #message {
-    display: none;
-    margin-top: 10px;
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: #14F195;
-  }
-
-  /* splash tirado do full‐screen e encaixado sobre o canvas */
-  #splash {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 600px;
-    max-width: 100%;
-    height: 300px;
-    background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/pasaisgem%20.png')
-                no-repeat center/cover;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    z-index: 10;
-    transform: translateX(-50%);
-  }
-  #playBtn {
-    margin-bottom: 20px;
-    padding: 12px 24px;
-    font-family: 'Press Start 2P', cursive;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    background: #14F195;
-    color: #000;
-    cursor: pointer;
-  }
-<style>
+      text-align:center;
+      margin: 40px 0;
+    }
+    #gameCanvas {
+      border: 2px solid #14F195;
+      background: #000;
+    }
+    #score {
+      margin-top: 10px;
+      font-size: 1.3rem;
+    }
+    #message {
+      display: none;
+      margin-top: 10px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #14F195;
+    }
 
     /* footer */
     footer{background:#000;color:#ccc;text-align:center;padding:20px;font-size:.9rem;}
@@ -234,21 +180,17 @@
       <p><strong><span id="labelAction4">Ação:</span></strong>    <span id="actionQ4"></span></p>
       <p><strong><span id="labelMilestone4">Marco:</span></strong> <span id="mileQ4"></span></p>
     </div>
-    </section>    
-  
-<section class="game">
-  <div id="splash">
-    <button id="playBtn" disabled>Carregando…</button>
-  </div>
+  </section>
 
+  <!-- JOGO -->
+<section class="game">
   <h2>🦖 Grokzilla: Dinossauro Rumo à Lua 🚀</h2>
+  <button id="startBtn" disabled>Carregando...</button>
   <canvas id="gameCanvas" width="600" height="300"></canvas>
   <div id="score">Pontos: 0</div>
   <div id="message">Grokzilla rumo à lua! 🌕🚀</div>
 </section>
-
   <!-- SCRIPTS DE TRADUÇÃO E RAIN -->
-  
   <script>
     const translations = {
       pt: {
@@ -271,32 +213,27 @@
           quote5:"Todo pump começa com fé e um bom meme."
         },
         roadmap: {
-          title: "📈 Roadmap Caótico",
-
-      q1phase: "Q1 – Prometemos Rug, Mas Nada Entregue",
-      q1obj:   "Fazemos todas as promessas e a hype, mas nada de concreto ainda! É só o começo do caos.",
-      q1action:"Lançamos o token, mas ainda estamos tentando não dar um rug pull. Prometemos que vai dar certo de verdade!",
-      q1mile:  "Lançamento do token. Se der errado, culpa do mercado, não nossa. 😎",
-
-      q2phase: "Q2 – Listagem em DEX Se o Dev Acordar",
-      q2obj:   "O dev dormiu no primeiro trimestre, mas finalmente acorda e começa a negociar com exchanges.",
-      q2action:"Negociações para listar o token em DEXes começam — vamos tentar sem crashar nada.",
-      q2mile:  "Token listado em pelo menos uma exchange (mesmo que só na nossa cabeça).",
-
-      q3phase: "Q3 – Merch Oficial: Camisetas, Adesivos & Quem Sabe Uma Caneca ou Pin",
-      q3obj:   "Criar a primeira linha de merch: camisetas, adesivos, talvez um bonequinho ou caneca com logo. 🦖☕️",
-      q3action:"Dev e marketing unem forças para desenhar e produzir os produtos (ou ao menos tentar).",
-      q3mile:  "Merch distribuído pela comunidade (e talvez um pin ou caneca pra sua prateleira).",
-
-      q4phase: "Q4 – Tentativa de Viralizar no X (Ou Não)",
-      q4obj:   "Colocar o Grokzilla no radar de todo mundo. Vamos tentar viralizar sem forçar demais.",
-      q4action:"Blitz de memes, posts e GIFs para fazer o token bombar.",
-      q4mile:  "Viralizar no X — ou pelo menos dar nosso melhor."
-    },
-
-    labels: { obj:"Objetivo:", action:"Ação:", mile:"Marco:" },
-    footer: { copy:"© 2025 Grokzilla. Todos os direitos." }
-  },
+          title:"📈 Roadmap Caótico",
+          q1phase:"Q1 – Prometemos Rug, Mas Nada Entregue",
+          q1obj:"Fazemos as promessas e a hype, mas nada de concreto ainda! É só o começo do caos.",
+          q1action:"Lançamos o token, mas ainda estamos tentando não fazer um rug pull.",
+          q1mile:"O lançamento do token. Se der errado, culpa do mercado, não nossa.",
+          q2phase:"Q2 – Listagem em DEX Se o Dev Acordar",
+          q2obj:"O dev estava dormindo no primeiro trimestre, mas finalmente acorda e começa a negociar.",
+          q2action:"As negociações para listar o token nas DEX começam.",
+          q2mile:"Token listado em pelo menos uma exchange.",
+          q3phase:"Q3 – Merch Oficial: Camisetas, Adesivos e Quem Sabe Uma Caneca ou Botão",
+          q3obj:"Criar a primeira linha de merch. Camisetas, adesivos e quem sabe uma caneca.",
+          q3action:"Dev e marketing trabalham juntos na criação dos produtos.",
+          q3mile:"Merch distribuído à comunidade.",
+          q4phase:"Q4 – Tentativa de Virar Trend no X (Ou Não)",
+          q4obj:"Colocar o Grokzilla no radar de todo mundo.",
+          q4action:"Campanha de memes, posts e Gifs.",
+          q4mile:"Viralizar no X (ou tentar)."
+        },
+        labels:{ obj:"Objetivo:", action:"Ação:", mile:"Marco:" },
+        footer:{ copy:"© 2025 Grokzilla. Todos os direitos." }
+      },
       en: {
         hero: {
           title:       "Grokzilla Token",
@@ -318,27 +255,23 @@
         },
         roadmap:{
           title:"📈 Chaotic Roadmap",
-  q1phase: "Q1 – Promised Rug, Delivered Nothing",
-  q1obj:   "We make all the promises and hype, but nothing concrete yet! It’s just the beginning of the chaos.",
-  q1action:"We launched the token, but we’re still trying not to pull a rug. We swear it’ll work out for real!",
-  q1mile:  "Token launch. If it goes wrong, blame the market, not us. 😎",
-
-  q2phase: "Q2 – DEX Listing If Dev Wakes Up",
-  q2obj:   "The dev slept through the first quarter but finally wakes up and starts negotiating with exchanges.",
-  q2action:"Negotiations to list the token on DEXes begin — we’ll try to do it without crashing the system.",
-  q2mile:  "Token listed on at least one exchange (even if only in our heads).",
-
-  q3phase: "Q3 – Official Merch: Tees, Stickers & Maybe a Mug or Pin",
-  q3obj:   "Create the first merch line—t-shirts, stickers, maybe even a little Grokzilla figurine or a logo mug. 🦖☕️",
-  q3action:"Dev and marketing join forces to design and produce quality products (or at least try).",
-  q3mile:  "T-shirts and stickers distributed by the community (and maybe a pin or mug for your shelf).",
-
-  q4phase: "Q4 – Trend Attempt on X (Or Not)",
-  q4obj:   "Get Grokzilla on everyone’s radar. We’ll go viral on social media, but no hard sell, alright?",
-  q4action:"A blitz of memes, posts and GIFs to make the token pop.",
-  q4mile:  "We go viral on X—or at least give it our best shot."
-        
-  },
+          q1phase:"Q1 – Promised Rug, Delivered Nothing",
+          q1obj:"We make the promises and hype, but nothing concrete yet! It's just the beginning of chaos.",
+          q1action:"We launch the token, but we're still trying not to pull a rug.",
+          q1mile:"Token launch. If it goes wrong, blame the market.",
+          q2phase:"Q2 – DEX Listing if Dev Wakes Up",
+          q2obj:"The dev was sleeping during the first quarter, but finally wakes up and starts negotiating with exchanges.",
+          q2action:"Negotiations to list the token on DEXes begin.",
+          q2mile:"Token listed on at least one exchange.",
+          q3phase:"Q3 – Official Merch: Tees, Stickers, Maybe a Mug or Pin",
+          q3obj:"Create the first merch line: t-shirts, stickers, maybe even a mug.",
+          q3action:"Dev and marketing collaborate on the products.",
+          q3mile:"Merch distributed to the community.",
+          q4phase:"Q4 – Trend on X (Or Try and Fail)",
+          q4obj:"Get Grokzilla on everyone’s radar.",
+          q4action:"Meme campaign across social media.",
+          q4mile:"Go viral on X (or try)."
+        },
         labels:{ obj:"Objective:", action:"Action:", mile:"Milestone:" },
         footer:{ copy:"© 2025 Grokzilla. All rights reserved." }
       }
@@ -415,13 +348,12 @@
 
 <script>
 (() => {
-  // ——— referências DOM ———
-  const splash   = document.getElementById('splash');
-  const playBtn  = document.getElementById('playBtn');
+  // —— REFERÊNCIAS AO DOM ——
   const canvas   = document.getElementById('gameCanvas');
   const ctx      = canvas.getContext('2d');
+  const startBtn = document.getElementById('startBtn');
 
-  // ——— configuração ———
+  // —— CONFIGURAÇÃO ——
   const GROUND_Y     = canvas.height - 20;
   const GRAVITY      = 0.8;
   const JUMP_POWER   = 15;
@@ -432,15 +364,20 @@
   const GAME_SPEED   = 2;
   const BG_SPEED     = 0.5;
 
-  // ——— estado ———
-  let coins = [], obstacles = [], rocket = null;
-  let frame = 0, coinCount = 0;
-  let gameOver = false, gameWin = false, bgX = 0, gameStarted = false;
+  let coins       = [];
+  let obstacles   = [];
+  let rocket      = null;
+  let frame       = 0;
+  let coinCount   = 0;
+  let gameOver    = false;
+  let gameWin     = false;
+  let bgX         = 0;
+  let gameStarted = false;
 
-  // ——— carregar sprites ———
+  // —— CARREGAR SPRITES ——
   const imgDino       = new Image(); imgDino.src       = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino1.png';
   const imgCoin       = new Image(); imgCoin.src       = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/moeda_real_transparente.png';
-  const imgBackground = new Image(); imgBackground.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/pasaisgem%20.png';
+  const imgBackground = new Image(); imgBackground.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/pasaisgem%20.png';
   const imgRocket     = new Image(); imgRocket.src     = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino_foguete_transparente_final.png';
   const obstacleImgs  = [
     (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/tapete.png'; return i; })(),
@@ -449,89 +386,114 @@
     (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/d660c790375cb4a33daf5156f1ff7b8b073af5a2/96710ea3-ff0d-4379-bb9c-ab93334e368d.png'; return i; })()
   ];
 
-  // pré-load e habilita botão
-  const assets = [imgDino, imgCoin, imgBackground, imgRocket, ...obstacleImgs];
+  // —— PRÉ-LOAD E HABILITA START ——
+  const assets = [ imgDino, imgCoin, imgBackground, imgRocket, ...obstacleImgs ];
   let loaded = 0;
   assets.forEach(img => {
     img.onload = () => {
       if (++loaded === assets.length) {
-        playBtn.disabled = false;
-        playBtn.textContent = 'Começar Jogo';
+        startBtn.disabled    = false;
+        startBtn.textContent = 'Começar Jogo';
+        startBtn.style.display = 'inline-block';
       }
     };
+    img.onerror = () => console.error('Falha ao carregar', img.src);
   });
 
-  // ——— dino ———
+  // —— COLISÃO COM MARGEM ——
+  function collide(a,b) {
+    const mX = 10, mY = 8;
+    return (a.x + mX) < (b.x + b.w - mX)
+        && (a.x + a.w - mX) > (b.x + mX)
+        && (a.y + mY) < (b.y + b.h)
+        && (a.y + a.h) > (b.y);
+  }
+
+  // —— DINOSSAURO ——
   const dino = {
-    x: 50, y: GROUND_Y - 50, w:48, h:48, vy:0, onGround:true, moving:false,
-    reset() { this.x=50; this.y=GROUND_Y-this.h; this.vy=0; this.onGround=true; this.moving=false; },
+    x: 50, y: GROUND_Y - 50, w: 48, h: 48,
+    vy: 0,
+    onGround:   true,
+    movingRight:false,
+    movingLeft: false,
+    reset() {
+      this.x = 50;
+      this.y = GROUND_Y - this.h;
+      this.vy= 0;
+      this.onGround = true;
+      this.movingRight = this.movingLeft = false;
+    },
     update() {
-      if (this.moving && this.x + this.w < canvas.width) this.x += DINO_SPEED;
+      if (this.movingRight && this.x + this.w < canvas.width) {
+        this.x += DINO_SPEED;
+        bgX = (bgX - BG_SPEED + canvas.width) % canvas.width;
+      }
+      if (this.movingLeft && this.x > 0) {
+        this.x -= DINO_SPEED;
+        bgX = (bgX + BG_SPEED + canvas.width) % canvas.width;
+      }
       this.vy += GRAVITY;
       this.y  += this.vy;
       if (this.y > GROUND_Y - this.h) {
         this.y = GROUND_Y - this.h;
-        this.vy = 0;
+        this.vy= 0;
         this.onGround = true;
       }
     },
-    draw() { ctx.drawImage(imgDino, this.x, this.y, this.w, this.h); },
-    jump() { 
-      if (this.onGround && !gameOver && !gameWin && gameStarted) {
+    draw() {
+      ctx.drawImage(imgDino, this.x, this.y, this.w, this.h);
+    },
+    jump() {
+      if (this.onGround && gameStarted && !gameOver && !gameWin) {
         this.vy = -JUMP_POWER;
         this.onGround = false;
       }
     }
   };
 
-  // cria moedas e foguete
+  // —— MOEDAS E FOGUETE ——
   function initCoinsAndRocket() {
     coins = [];
-    for (let i=0; i<TOTAL_COINS; i++) {
-      coins.push({ x: canvas.width + COIN_SPACING*i, y: GROUND_Y-30, w:24, h:24, collected:false });
+    for (let i = 0; i < TOTAL_COINS; i++) {
+      coins.push({ x: canvas.width + COIN_SPACING*i, y: GROUND_Y - 30, w:24, h:24, collected:false });
     }
     rocket = { x: canvas.width + COIN_SPACING*TOTAL_COINS + 200, y:GROUND_Y-60, w:48, h:48, launched:false };
   }
 
-  // reinicia jogo
   function resetGame() {
-    frame = 0;
+    frame     = 0;
     obstacles = [];
     coinCount = 0;
-    gameOver = gameWin = false;
-    bgX = 0;
-    document.getElementById('score').textContent = 'Pontos: 0';
-    document.getElementById('message').style.display = 'none';
+    gameOver  = false;
+    gameWin   = false;
+    bgX       = 0;
     dino.reset();
     initCoinsAndRocket();
+    document.getElementById('score').textContent    = 'Pontos: 0';
+    document.getElementById('message').style.display = 'none';
+
+    // re-exibe botão
+    startBtn.style.display = 'inline-block';
+    startBtn.disabled      = false;
+    startBtn.textContent   = 'Reiniciar Jogo';
   }
 
-  // AABB colisão
-  function collide(a,b){
-    return a.x < b.x+b.w && a.x+a.w > b.x &&
-           a.y < b.y+b.h && a.y+a.h > b.y;
-  }
-
-  // loop principal
+  // —— LOOP PRINCIPAL ——
   function loop() {
     frame++;
-    // fundo parallax
-    bgX = (bgX - BG_SPEED + canvas.width) % canvas.width;
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.drawImage(imgBackground, bgX-canvas.width, 0, canvas.width, canvas.height);
-    ctx.drawImage(imgBackground, bgX, 0, canvas.width, canvas.height);
-
+    // fundo parallax
+    ctx.drawImage(imgBackground, bgX - canvas.width, 0, canvas.width, canvas.height);
+    ctx.drawImage(imgBackground, bgX,           0, canvas.width, canvas.height);
     // chão
     ctx.fillStyle = 'rgba(0,0,0,0.4)';
     ctx.fillRect(0, GROUND_Y, canvas.width, 20);
-
     // dino
     dino.update(); dino.draw();
-
-    // gerar e mover obstáculos
+    // obstáculos
     if (frame % OBST_FREQ === 0) {
       const img = obstacleImgs[Math.floor(Math.random()*obstacleImgs.length)];
-      obstacles.push({ x: canvas.width, y: GROUND_Y-48, w:48, h:48, img });
+      obstacles.push({ x:canvas.width, y:GROUND_Y-48, w:48, h:48, img });
     }
     obstacles = obstacles.filter(o => {
       o.x -= GAME_SPEED;
@@ -539,7 +501,6 @@
       if (collide(dino, o)) gameOver = true;
       return o.x + o.w > 0;
     });
-
     // moedas
     coins.forEach(c => {
       if (!c.collected) {
@@ -552,7 +513,6 @@
         }
       }
     });
-
     // foguete
     if (coinCount === TOTAL_COINS) {
       if (!rocket.launched) {
@@ -568,45 +528,46 @@
         ctx.drawImage(imgRocket, rocket.x, rocket.y, rocket.w, rocket.h);
       }
     }
-
-    // próximo frame ou overlay de fim
+    // continua ou overlay
     if (!gameOver && !gameWin) {
       requestAnimationFrame(loop);
     } else {
       ctx.fillStyle = 'rgba(0,0,0,0.5)';
       ctx.fillRect(0,0,canvas.width,canvas.height);
+      setTimeout(() => startBtn.disabled = false, 1000);
     }
   }
 
-  // controles
+  // —— CONTROLES ——  
   document.addEventListener('keydown', e => {
+    // impede o scroll da página
+    if (['ArrowLeft','ArrowRight','ArrowUp','Space'].includes(e.code)) {
+      e.preventDefault();
+    }
     if (!gameStarted) return;
-    if (e.code === 'ArrowRight') dino.moving = true;
+    if (e.code === 'ArrowRight') dino.movingRight = true;
+    if (e.code === 'ArrowLeft')  dino.movingLeft  = true;
     if (e.code === 'ArrowUp' || e.code === 'Space') dino.jump();
   });
   document.addEventListener('keyup', e => {
-    if (e.code === 'ArrowRight') dino.moving = false;
+    if (['ArrowLeft','ArrowRight'].includes(e.code)) {
+      e.preventDefault();
+    }
+    if (e.code === 'ArrowRight') dino.movingRight = false;
+    if (e.code === 'ArrowLeft')  dino.movingLeft  = false;
   });
 
-  // iniciar jogo
-  playBtn.onclick = () => {
-    splash.style.display = 'none';
-    gameStarted = true;
+  // —— START / RESTART ——  
+  startBtn.disabled = true;
+  startBtn.onclick = () => {
+    gameStarted       = true;
+    startBtn.style.display = 'none';
+    startBtn.disabled      = true;
     resetGame();
     requestAnimationFrame(loop);
   };
 })();
 </script>
 
-<!-- Rodapé -->
- <footer>
-    <span id="footerCopy"></span> |
-    <a href="https://x.com/Grokszilla" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter">
-    </a>
-    <a href="https://t.me/+cAJFnl7fXG44ZDlh" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram">
-    </a>
-  </footer>
 </body>
 </html>
