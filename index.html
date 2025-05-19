@@ -83,47 +83,60 @@
     .roadmap-step p{margin:6px 0;}
 
     /* game */
-     section.game {
-      text-align:center;
-      margin: 40px 0;
-    }
-    #gameCanvas {
-      border: 2px solid #14F195;
-      background: #000;
-    }
-    #score {
-      margin-top: 10px;
-      font-size: 1.3rem;
-    }
-    #message {
-      display: none;
-      margin-top: 10px;
-      font-size: 1.4rem;
-      font-weight: bold;
-      color: #14F195;
-    }
+    section.game {
+    position: relative;
+    width: 600px;
+    max-width: 100%;
+    margin: 40px auto;
+    text-align: center;
+  }
+  #gameCanvas {
+    border: 2px solid #14F195;
+    display: block;
+    width: 100%;
+    height: auto;
+    background: #000;
+  }
+  #score {
+    margin-top: 10px;
+    font-size: 1.3rem;
+  }
+  #message {
+    display: none;
+    margin-top: 10px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #14F195;
+  }
 
-   /* splash screen — dentro da section.game */
-#splash {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/capa.png')
-              no-repeat center/cover;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 10;
-}
-#playBtn {
-  margin-bottom: 20px;
-  padding: 12px 24px;
-  font-family: 'Press Start 2P', cursive;
-  font-size: 1rem;
-  border: none; border-radius: 8px;
-  background: #14F195; color: #000;
-  cursor: pointer;
-}
+  /* splash tirado do full‐screen e encaixado sobre o canvas */
+  #splash {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 600px;
+    max-width: 100%;
+    height: 300px;
+    background: url('https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/pasaisgem%20.png')
+                no-repeat center/cover;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 10;
+    transform: translateX(-50%);
+  }
+  #playBtn {
+    margin-bottom: 20px;
+    padding: 12px 24px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background: #14F195;
+    color: #000;
+    cursor: pointer;
+  }
+<style>
 
     /* footer */
     footer{background:#000;color:#ccc;text-align:center;padding:20px;font-size:.9rem;}
@@ -223,9 +236,9 @@
     </div>
     </section>    
   
-<section class="game" style="position:relative;">
+<section class="game">
   <div id="splash">
-    <button id="playBtn" disabled>Carregando...</button>
+    <button id="playBtn" disabled>Carregando…</button>
   </div>
 
   <h2>🦖 Grokzilla: Dinossauro Rumo à Lua 🚀</h2>
