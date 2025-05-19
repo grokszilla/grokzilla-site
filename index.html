@@ -346,205 +346,203 @@
 
   <!-- SCRIPTS DO JOGO -->
   <script>
-    (() => {
-      const canvas = document.getElementById('gameCanvas');
-      const ctx    = canvas.getContext('2d');
+(() => {
+  const canvas = document.getElementById('gameCanvas');
+  const ctx    = canvas.getContext('2d');
 
-      // —————— CONFIGURAÇÃO DE JOGO ——————
-      const GROUND_Y     = canvas.height - 20;
-      const GRAVITY      = 0.8;
-      const JUMP_POWER   = 15;
-      const TOTAL_COINS  = 20;
-      const COIN_SPACING = 300;
-      const OBST_FREQ    = 150;
+  // ————— CONFIGURAÇÃO GERAL —————
+  const GROUND_Y     = canvas.height - 20;
+  const GRAVITY      = 0.8;
+  const JUMP_POWER   = 15;
+  const TOTAL_COINS  = 20;
+  const COIN_SPACING = 300;
+  const OBST_FREQ    = 180;    // gera obstáculo a cada 180 frames
+  const GAME_SPEED   = 2;      // pixels por frame
+  const BG_SPEED     = 0.5;    // parallax
 
-      let coins     = [];
-      let obstacles = [];
-      let rocket    = null;
-      let frame     = 0;
-      let coinCount = 0;
-      let gameOver  = false;
-      let gameWin   = false;
+  let coins     = [];
+  let obstacles = [];
+  let rocket    = null;
+  let frame     = 0;
+  let coinCount = 0;
+  let gameOver  = false;
+  let gameWin   = false;
+  let bgX       = 0;
 
-      // —————— CARREGAR SPRITES ——————
-     const imgDino       = new Image();
-imgDino.src         = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino1.png';
+  // ————— CARREGAR SPRITES —————
+  const imgDino       = new Image(); imgDino.src       = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino1.png';
+  const imgCoin       = new Image(); imgCoin.src       = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/moeda_real_transparente.png';
+  const imgBackground = new Image(); imgBackground.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/pasaisgem.png';
+  const imgRocket     = new Image(); imgRocket.src     = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino_foguete_transparente_final.png';
+  const obstacleImgs  = [
+    (() => { const i = new Image(); i.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/tapete.png'; return i; })(),
+    (() => { const i = new Image(); i.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/urso.png';   return i; })(),
+    (() => { const i = new Image(); i.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/baleia.png'; return i; })(),
+    (() => { const i = new Image(); i.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d660c790375cb4a33daf5156f1ff7b8b073af5a2/96710ea3-ff0d-4379-bb9c-ab93334e368d.png'; return i; })()
+  ];
 
-const imgCoin       = new Image();
-imgCoin.src         = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/moeda_real_transparente.png';
+  // pré-load
+  const assets = [ imgDino, imgCoin, imgBackground, imgRocket, ...obstacleImgs ];
+  let   loaded = 0;
+  assets.forEach(img => {
+    img.onload = () => {
+      console.log('✔️ loaded', img.src);
+      if (++loaded === assets.length) {
+        console.log('🚀 todos os assets carregados');
+        resetGame();
+        loop();
+      }
+    };
+    img.onerror = () => console.error('❌ falha ao carregar', img.src);
+  });
 
-const imgBackground = new Image();
-imgBackground.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/pasaisgem%20.png';
+  // ————— FUNÇÕES DE JOGO —————
+  function initCoinsAndRocket() {
+    coins = [];
+    for (let i = 0; i < TOTAL_COINS; i++) {
+      coins.push({
+        x: canvas.width + COIN_SPACING * i,
+        y: GROUND_Y - 30,
+        w: 24, h: 24,
+        collected: false
+      });
+    }
+    rocket = {
+      x: canvas.width + COIN_SPACING * TOTAL_COINS + 200,
+      y: GROUND_Y - 60,
+      w: 48, h: 48,
+      launched: false
+    };
+  }
 
-const imgRocket     = new Image();
-imgRocket.src       = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino_foguete_transparente_final.png';
+  function resetGame() {
+    console.log('🔄 resetGame()');
+    frame     = 0;
+    obstacles = [];
+    coinCount = 0;
+    gameOver  = false;
+    gameWin   = false;
+    bgX       = 0;
+    document.getElementById('score').textContent   = 'Pontos: 0';
+    document.getElementById('message').style.display = 'none';
+    dino.reset();
+    initCoinsAndRocket();
+  }
 
-// Obstáculos: tapete, urso, baleia e agora a mão de alface
-const obstacleImgs  = [
-  (() => { const i = new Image(); i.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/tapete.png'; return i; })(),
-  (() => { const i = new Image(); i.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/urso.png';   return i; })(),
-  (() => { const i = new Image(); i.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/baleia.png'; return i; })(),
-  (() => { const i = new Image(); i.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/d660c790375cb4a33daf5156f1ff7b8b073af5a2/96710ea3-ff0d-4379-bb9c-ab93334e368d.png'; return i; })()
-];
+  function collide(a,b) {
+    return a.x < b.x + b.w &&
+           a.x + a.w > b.x &&
+           a.y < b.y + b.h &&
+           a.y + a.h > b.y;
+  }
 
-// Pré-load de todos os assets
-const assets = [ imgDino, imgCoin, imgBackground, imgRocket, ...obstacleImgs ];
-let loaded = 0;
-assets.forEach(img => {
-  img.onload = () => {
-    if (++loaded === assets.length) {
-      resetGame();
-      loop();
+  // ————— O DINOSSAURO —————
+  const dino = {
+    x: 50, y: GROUND_Y - 50, w: 48, h: 48,
+    vy: 0, onGround: true,
+    reset() {
+      this.y = GROUND_Y - this.h;
+      this.vy= 0;
+      this.onGround = true;
+    },
+    update() {
+      this.vy += GRAVITY;
+      this.y  += this.vy;
+      if (this.y > GROUND_Y - this.h) {
+        this.y = GROUND_Y - this.h;
+        this.vy= 0;
+        this.onGround = true;
+      }
+    },
+    draw() {
+      ctx.drawImage(imgDino, this.x, this.y, this.w, this.h);
+    },
+    jump() {
+      if (this.onGround && !gameOver && !gameWin) {
+        console.log('🦖 jump!');
+        this.vy = -JUMP_POWER;
+        this.onGround = false;
+      }
     }
   };
-});
 
-      // —————— FUNÇÕES DE JOGO ——————
+  // ————— LOOP PRINCIPAL —————
+  function loop() {
+    frame++;
+    console.log('frame', frame, 'gameOver=', gameOver, 'gameWin=', gameWin);
 
-      // cria posições de moedas e foguete
-      function initCoinsAndRocket() {
-        coins = [];
-        for (let i = 0; i < TOTAL_COINS; i++) {
-          coins.push({
-            x: canvas.width + COIN_SPACING * i,
-            y: GROUND_Y - 30,
-            w: 24, h: 24,
-            collected: false
-          });
-        }
-        rocket = {
-          x: canvas.width + COIN_SPACING * TOTAL_COINS + 200,
-          y: GROUND_Y - 60,
-          w: 48, h: 48,
-          launched: false
-        };
-      }
+    // parallax do fundo
+    bgX = (bgX - BG_SPEED + canvas.width) % canvas.width;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(imgBackground, bgX - canvas.width, 0, canvas.width, canvas.height);
+    ctx.drawImage(imgBackground, bgX, 0, canvas.width, canvas.height);
 
-      // reinicia estado
-      function resetGame() {
-        frame      = 0;
-        obstacles  = [];
-        coinCount  = 0;
-        gameOver   = false;
-        gameWin    = false;
-        document.getElementById('score').textContent   = `Pontos: 0`;
-        document.getElementById('message').style.display = 'none';
-        dino.reset();
-        initCoinsAndRocket();
-      }
+    // chão
+    ctx.fillStyle = 'rgba(0,0,0,0.4)';
+    ctx.fillRect(0, GROUND_Y, canvas.width, 20);
 
-      // verifica AABB
-      function collide(a,b){
-        return a.x < b.x+b.w && a.x+a.w > b.x &&
-               a.y < b.y+b.h && a.y+a.h > b.y;
-      }
+    // atualiza / desenha dino
+    dino.update();
+    dino.draw();
 
-      // —————— OBJETO JOGADOR ——————
-      const dino = {
-        x: 50, y: GROUND_Y - 50, w: 48, h: 48,
-        vy: 0, onGround: true,
-        reset() {
-          this.y = GROUND_Y - this.h;
-          this.vy= 0;
-          this.onGround = true;
-        },
-        update() {
-          this.vy += GRAVITY;
-          this.y  += this.vy;
-          if (this.y > GROUND_Y - this.h) {
-            this.y = GROUND_Y - this.h;
-            this.vy= 0;
-            this.onGround = true;
-          }
-        },
-        draw() {
-          ctx.drawImage(imgDino, this.x, this.y, this.w, this.h);
-        },
-        jump() {
-          if (this.onGround && !gameOver && !gameWin) {
-            this.vy = -JUMP_POWER;
-            this.onGround = false;
-          }
-        }
-      };
+    // gerar obstáculos
+    if (frame % OBST_FREQ === 0) {
+      const img = obstacleImgs[Math.floor(Math.random()*obstacleImgs.length)];
+      obstacles.push({ x: canvas.width, y: GROUND_Y - 48, w:48, h:48, img });
+    }
+    // move + desenha obstáculos
+    obstacles = obstacles.filter(o => {
+      o.x -= GAME_SPEED;
+      ctx.drawImage(o.img, o.x, o.y, o.w, o.h);
+      if (collide(dino, o)) gameOver = true;
+      return o.x + o.w > 0;
+    });
 
-      // —————— LOOP PRINCIPAL ——————
-      function loop(){
-        frame++;
-        // fundo
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.drawImage(imgBackground, 0,0,canvas.width,canvas.height);
-
-        // chão
-        ctx.fillStyle = 'rgba(0,0,0,0.4)';
-        ctx.fillRect(0, GROUND_Y, canvas.width, 20);
-
-        // atualiza e desenha dino
-        dino.update();
-        dino.draw();
-
-        // gera obstáculos
-        if (frame % OBST_FREQ === 0) {
-          obstacles.push({
-            x: canvas.width,
-            y: GROUND_Y - 48,
-            w: 48, h: 48,
-            img: obstacleImgs[Math.floor(Math.random()*obstacleImgs.length)]
-          });
-        }
-        // move e desenha
-        obstacles = obstacles.filter(o=>{
-          o.x -= 4;
-          ctx.drawImage(o.img, o.x, o.y, o.w, o.h);
-          if (collide(dino,o)) gameOver = true;
-          return o.x+o.w>0;
-        });
-
-        // moedas
-        coins.forEach(c=>{
-          if (!c.collected){
-            c.x -= 4;
-            ctx.drawImage(imgCoin, c.x, c.y, c.w, c.h);
-            if (collide(dino,c)){
-              c.collected = true;
-              coinCount++;
-              document.getElementById('score').textContent = `Pontos: ${coinCount*100}`;
-            }
-          }
-        });
-
-        // foguete
-        if (coinCount === TOTAL_COINS){
-          if (!rocket.launched){
-            rocket.x -= 4;
-            ctx.drawImage(imgRocket, rocket.x, rocket.y, rocket.w, rocket.h);
-            if (collide(dino, rocket)){
-              rocket.launched = true;
-              gameWin = true;
-              document.getElementById('message').style.display = 'block';
-            }
-          } else {
-            rocket.y -= 6;
-            ctx.drawImage(imgRocket, rocket.x, rocket.y, rocket.w, rocket.h);
-          }
-        }
-
-        if (!gameOver && !gameWin) {
-          requestAnimationFrame(loop);
-        } else {
-          // overlay semi-transparente no fim
-          ctx.fillStyle = 'rgba(0,0,0,0.5)';
-          ctx.fillRect(0,0,canvas.width,canvas.height);
+    // move + desenha moedas
+    coins.forEach(c => {
+      if (!c.collected) {
+        c.x -= GAME_SPEED;
+        ctx.drawImage(imgCoin, c.x, c.y, c.w, c.h);
+        if (collide(dino, c)) {
+          c.collected = true;
+          coinCount++;
+          document.getElementById('score').textContent = `Pontos: ${coinCount*100}`;
         }
       }
+    });
 
-      // —————— CONTROLES ——————
-      document.addEventListener('keydown', e=>{
-        if (e.code==='Space'||e.code==='ArrowUp') dino.jump();
-        if (e.code==='KeyR') { resetGame(); loop(); }
-      });
+    // foguete
+    if (coinCount === TOTAL_COINS) {
+      if (!rocket.launched) {
+        rocket.x -= GAME_SPEED;
+        ctx.drawImage(imgRocket, rocket.x, rocket.y, rocket.w, rocket.h);
+        if (collide(dino, rocket)) {
+          rocket.launched = true;
+          gameWin = true;
+          document.getElementById('message').style.display = 'block';
+        }
+      } else {
+        rocket.y -= 4; // subindo mais devagar
+        ctx.drawImage(imgRocket, rocket.x, rocket.y, rocket.w, rocket.h);
+      }
+    }
 
-    })();
-  </script>
+    // continua ou finaliza
+    if (!gameOver && !gameWin) {
+      requestAnimationFrame(loop);
+    } else {
+      ctx.fillStyle = 'rgba(0,0,0,0.5)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+
+  // ————— CONTROLES —————
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space' || e.code === 'ArrowUp') dino.jump();
+    if (e.code === 'KeyR')     { resetGame(); loop(); }
+  });
+})();
+</script>
+
 </body>
 </html>
