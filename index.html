@@ -391,6 +391,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   
 <script>
 (() => {
+  // DOM
   const cover     = document.getElementById('gameCover');
   const startBtn  = document.getElementById('startBtn');
   const canvas    = document.getElementById('gameCanvas');
@@ -398,7 +399,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const score     = document.getElementById('score');
   const message   = document.getElementById('message');
 
-  // Áudios do Google Actions
+  // Sons
   function createAudio(src) {
     const audio = new Audio(src);
     audio.load();
@@ -409,34 +410,34 @@ document.addEventListener('DOMContentLoaded',()=>{
   const sndGameOver = createAudio('https://actions.google.com/sounds/v1/cartoon/clown_horn.ogg');
   const sndWin      = createAudio('https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg');
 
-  // Inicialização
-  function showCover() {
-    cover.style.display = 'flex';
-    startBtn.style.display = 'inline-block';
-    startBtn.disabled = false;
-    canvas.style.display = 'none';
-    score.style.display = 'none';
-    message.style.display = 'none';
-  }
-  showCover();
+  // Imagens Dino
+  const imgDino1 = new Image(); imgDino1.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/dinoo1.png';
+  const imgDino2 = new Image(); imgDino2.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/dinoo2.png';
 
-  // Ao clicar "Jogar Agora"
-  startBtn.onclick = () => {
-    cover.style.display   = 'none';
-    canvas.style.display  = 'block';
-    score.style.display   = 'block';
-    message.style.display = 'none';
-    startGame();
-  };
+  // Imagens cenários (paisagens)
+  const bgImages = [
+    (() => { let i = new Image(); i.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/paisagem2.png'; return i; })(),
+    (() => { let i = new Image(); i.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/pasaisgem%20.png'; return i; })(),
+  ];
 
-  // CONFIGURAÇÃO
+  // Sprites
+  const imgCoin   = new Image(); imgCoin.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/moeda_real_transparente.png';
+  const imgRocket = new Image(); imgRocket.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino_foguete_transparente_final.png';
+  const obstacleImgs  = [
+    (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/tapete.png'; return i; })(),
+    (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/urso.png';   return i; })(),
+    (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/baleia.png'; return i; })(),
+    (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/d660c790375cb4a33daf5156f1ff7b8b073af5a2/96710ea3-ff0d-4379-bb9c-ab93334e368d.png'; return i; })()
+  ];
+
+  // Variáveis globais
   const GROUND_Y     = canvas.height - 20;
-  const GRAVITY      = 0.8;
-  const JUMP_POWER   = 15;
+  const GRAVITY      = 0.78;
+  const JUMP_POWER   = 13.8;
   const TOTAL_COINS  = 20;
   const COIN_SPACING = 300;
   const OBST_FREQ    = 120;
-  let GAME_SPEED     = 2.4; // Velocidade inicial
+  let GAME_SPEED     = 2.4;
   const BG_SPEED     = 0.5;
 
   let obstacles   = [];
@@ -449,20 +450,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   let bgX         = 0;
   let gameStarted = false;
   let points      = 0;
+  let dinoAnimFrame = 0;
+  let bgIndex = 0; // alterna cenário
 
-  // SPRITES
-  const imgDino       = new Image(); imgDino.src       = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino1.png';
-  const imgCoin       = new Image(); imgCoin.src       = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/moeda_real_transparente.png';
-  const imgBackground = new Image(); imgBackground.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/pasaisgem%20.png';
-  const imgRocket     = new Image(); imgRocket.src     = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino_foguete_transparente_final.png';
-  const obstacleImgs  = [
-    (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/tapete.png'; return i; })(),
-    (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/urso.png';   return i; })(),
-    (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/baleia.png'; return i; })(),
-    (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/d660c790375cb4a33daf5156f1ff7b8b073af5a2/96710ea3-ff0d-4379-bb9c-ab93334e368d.png'; return i; })()
-  ];
-
-  // DINO (parado em x, só pula)
+  // DINO (anima perninhas)
   const dino = {
     x: 50, y: GROUND_Y - 50, w: 48, h: 48,
     vy: 0,
@@ -483,7 +474,9 @@ document.addEventListener('DOMContentLoaded',()=>{
       }
     },
     draw() {
-      ctx.drawImage(imgDino, this.x, this.y, this.w, this.h);
+      // Alterna sprite das pernas
+      let sprite = dinoAnimFrame % 20 < 10 ? imgDino1 : imgDino2;
+      ctx.drawImage(sprite, this.x, this.y, this.w, this.h);
     },
     jump() {
       if (this.onGround && gameStarted && !gameOver && !gameWin) {
@@ -512,7 +505,22 @@ document.addEventListener('DOMContentLoaded',()=>{
     rocket = { x: canvas.width + COIN_SPACING*TOTAL_COINS + 200, y:GROUND_Y-60, w:48, h:48, launched:false, show:false };
   }
 
-  // RESET
+  function showCover() {
+    // Para todos os sons que podem estar tocando:
+    [sndJump, sndCoin, sndGameOver, sndWin].forEach(s => {
+      s.pause();
+      s.currentTime = 0;
+    });
+    cover.style.display = 'flex';
+    startBtn.style.display = 'inline-block';
+    startBtn.disabled = false;
+    canvas.style.display = 'none';
+    score.style.display = 'none';
+    message.style.display = 'none';
+  }
+  showCover();
+
+  // Reset
   function resetGame() {
     frame     = 0;
     obstacles = [];
@@ -522,6 +530,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     bgX       = 0;
     points    = 0;
     GAME_SPEED= 2.4;
+    dinoAnimFrame = 0;
+    bgIndex   = 0;
     dino.reset();
     initCoinsAndRocket();
     score.textContent    = 'Pontos: 0';
@@ -530,24 +540,33 @@ document.addEventListener('DOMContentLoaded',()=>{
     score.style.display   = 'block';
   }
 
-  // LOOP PRINCIPAL
+  // Loop
   function loop() {
     if (!gameStarted) return;
     frame++;
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    dinoAnimFrame++;
 
-    // Fundo infinito
-    for (let i = 0; i <= canvas.width / imgBackground.width + 1; i++) {
+    // Fundo infinito com alternância de imagens
+    let bgImg1 = bgImages[bgIndex % bgImages.length];
+    let bgImg2 = bgImages[(bgIndex + 1) % bgImages.length];
+    let imgW = bgImg1.width || 600, imgH = canvas.height;
+
+    // Desenha dois cenários alternados (side-by-side)
+    for (let i = 0; i <= canvas.width / imgW + 1; i++) {
+      let bg = (i % 2 === 0) ? bgImg1 : bgImg2;
       ctx.drawImage(
-        imgBackground,
-        ((bgX + i * imgBackground.width) % (imgBackground.width * 2)) - imgBackground.width,
+        bg,
+        ((bgX + i * imgW) % (imgW * 2)) - imgW,
         0,
-        imgBackground.width,
-        canvas.height
+        imgW,
+        imgH
       );
     }
     bgX -= BG_SPEED;
-    if (bgX <= -imgBackground.width) bgX = 0;
+    if (bgX <= -imgW) {
+      bgX = 0;
+      bgIndex++; // alterna cenário
+    }
 
     // Chão
     ctx.fillStyle = 'rgba(0,0,0,0.4)';
@@ -583,9 +602,8 @@ document.addEventListener('DOMContentLoaded',()=>{
       }
     });
 
-    // Foguete aparece a partir de 400 pontos
-    if (points >= 400) rocket.show = true;
-
+    // Foguete aparece a partir de 2000 pontos
+    if (points >= 2000) rocket.show = true;
     if (rocket.show) {
       if (!rocket.launched) {
         rocket.x -= GAME_SPEED;
@@ -605,18 +623,13 @@ document.addEventListener('DOMContentLoaded',()=>{
     // Dino update/draw
     dino.update(); dino.draw();
 
-    // Aumenta dificuldade progressivamente
+    // Dificuldade progressiva
     if (frame % 600 === 0 && GAME_SPEED < 6) GAME_SPEED += 0.3;
 
     if (!gameOver && !gameWin) {
       requestAnimationFrame(loop);
     } else {
       setTimeout(() => {
-        // Para todos os sons que podem estar tocando:
-        [sndJump, sndCoin, sndGameOver, sndWin].forEach(s => {
-          s.pause();
-          s.currentTime = 0;
-        });
         gameStarted = false;
         showCover();
       }, 1000);
@@ -624,11 +637,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
   // Start Game
-  function startGame() {
+  startBtn.onclick = () => {
+    cover.style.display   = 'none';
+    canvas.style.display  = 'block';
+    score.style.display   = 'block';
+    message.style.display = 'none';
     resetGame();
     gameStarted = true;
     requestAnimationFrame(loop);
-  }
+  };
 
   // CONTROLES
   document.addEventListener('keydown', e => {
@@ -640,7 +657,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   canvas.addEventListener('touchend', () => dino.jump());
 
 })();
-
 </script>
 </body>
 </html>
