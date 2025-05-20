@@ -45,7 +45,24 @@
 /* memeteca */
 section.memeteca{padding:60px 20px;background:rgba(0,0,0,0.6);}
 .memeteca h2{font-family:'Press Start 2P';color:#14F195;font-size:1.8rem;text-shadow:1px 1px #9945FF;text-align:center;margin-bottom:40px;}
-.meme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:1000px;margin:0 auto;}
+.meme-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+@media (min-width: 700px) {
+  .meme-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 1000px) {
+  .meme-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .meme-card{background:#111;border:2px solid #14F195;border-radius:12px;overflow:hidden;text-align:center;transition:transform .3s,box-shadow .3s;}
 .meme-card:hover{transform:scale(1.05);box-shadow:0 0 10px rgba(20,241,149,0.8),0 0 20px rgba(153,69,255,0.6);}
 .meme-card img{width:100%;height:auto;border-radius:8px;}
@@ -188,15 +205,32 @@ footer img{width:20px;vertical-align:middle;margin-right:5px;}
     </div>
   </section>
 
-  <!-- JOGO -->
-
-<section class="game" id="gameSection">
-  <h2>🦖 Grokzilla: Rumo à Lua 🚀</h2>
-  <button id="startBtn">Começar Jogo</button>
-  <canvas id="gameCanvas" width="600" height="300" style="display:none; margin: 0 auto;"></canvas>
-  <div id="score" style="display:none;">Pontos: 0</div>
-  <div id="message" style="display:none;">Grokzilla rumo à lua! 🌕🚀</div>
+<!-- JOGO GROKZILLA -->
+<section class="game" id="gameSection" style="text-align:center; margin: 40px 0;">
+  <div id="gameCover" style="
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto 30px auto;
+      background: #0A0A0A;
+      border-radius: 32px;
+      box-shadow: 0 0 32px #14F19522;
+      padding: 32px 16px 24px 16px;
+    ">
+    <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/capa.png" alt="Capa Grokzilla" style="width:90%;max-width:340px;border-radius:20px;box-shadow:0 0 32px #14F195cc;margin-bottom:25px;">
+    <button id="startBtn" style="padding:20px 60px;font-size:1.6rem;background:#14F195;color:#111;border-radius:18px;border:none;cursor:pointer;box-shadow:0 0 14px #9945FFcc;font-family:'Press Start 2P',cursive;">
+      ▶️ Jogar Agora
+    </button>
+  </div>
+  <canvas id="gameCanvas" width="600" height="300" style="display:none; margin:0 auto;"></canvas>
+  <div id="score" style="display:none; margin-top:12px;font-size:1.2rem;">Pontos: 0</div>
+  <div id="message" style="display:none; margin-top:10px;font-size:1.2rem;font-weight:bold;color:#14F195;">Grokzilla rumo à lua! 🌕🚀</div>
 </section>
+
 
   <!-- SCRIPTS DE TRADUÇÃO E RAIN -->
   <script>
@@ -355,32 +389,32 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   </script>
   
-<!-- SCRIPTS DO JOGO -->
 <script>
 (() => {
-  // Pegando elementos DOM
+  // DOM
+  const cover     = document.getElementById('gameCover');
   const startBtn  = document.getElementById('startBtn');
   const canvas    = document.getElementById('gameCanvas');
   const ctx       = canvas.getContext('2d');
   const score     = document.getElementById('score');
   const message   = document.getElementById('message');
 
-  // SONS
-  const sndJump     = new Audio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa4c7f.mp3');
-  const sndCoin     = new Audio('https://cdn.pixabay.com/audio/2022/10/16/audio_12b8699c54.mp3');
-  const sndGameOver = new Audio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa4c7f.mp3');
-  const sndWin      = new Audio('https://cdn.pixabay.com/audio/2022/10/16/audio_12b8699c54.mp3');
+ // Sons
+  const jumpSound = new Audio('https://actions.google.com/sounds/v1/cartoon/slide_whistle_to_drum_hit.ogg');
+  const coinSound = new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg');
+  const rocketSound = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
 
-  // Inicialização: apenas o botão aparece, o resto escondido!
+
+  // Inicialização
   canvas.style.display = "none";
   score.style.display = "none";
   message.style.display = "none";
 
-  // Ao clicar "Começar Jogo"
+  // Quando clica em Jogar Agora
   startBtn.onclick = () => {
-    startBtn.style.display = 'none';
-    canvas.style.display = 'block';
-    score.style.display = 'block';
+    cover.style.display   = 'none';
+    canvas.style.display  = 'block';
+    score.style.display   = 'block';
     message.style.display = 'none';
     startGame();
   };
@@ -425,7 +459,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     img.onload = () => {
       if (++loaded === assets.length) {
         startBtn.disabled    = false;
-        startBtn.textContent = 'Começar Jogo';
+        startBtn.textContent = '▶️ Jogar Agora';
       }
     };
     img.onerror = () => console.error('Falha ao carregar', img.src);
@@ -506,7 +540,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     message.style.display = 'none';
     canvas.style.display  = 'block';
     score.style.display   = 'block';
-    message.style.display = 'none';
+    message.style.display = 'none'; // só aparece ao ganhar
   }
 
   // INICIA o loop do jogo
@@ -572,6 +606,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       ctx.fillStyle = 'rgba(0,0,0,0.5)';
       ctx.fillRect(0,0,canvas.width,canvas.height);
       setTimeout(() => {
+        cover.style.display = 'flex'; // Volta para a capa depois de perder/ganhar
         startBtn.style.display = 'inline-block';
         startBtn.disabled = false;
         gameStarted = false;
@@ -593,7 +628,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.addEventListener('keyup', e => {
     if (['ArrowLeft','ArrowRight'].includes(e.code)) e.preventDefault();
     if (e.code === 'ArrowRight') dino.movingRight = false;
-    if (e.code === 'ArrowLeft')  dino.movingLeft  = false;
+    if (e.code === 'ArrowLeft')  dino.movingLeft = false;
   });
 
 })();
