@@ -405,10 +405,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     audio.load();
     return audio;
   }
-const sndJump     = createAudio('https://cdn.jsdelivr.net/gh/rafaelalmeidatk/chatgpt-sfx/jump.wav');
-const sndCoin     = createAudio('https://cdn.jsdelivr.net/gh/rafaelalmeidatk/chatgpt-sfx/coin.wav');
-const sndGameOver = createAudio('https://cdn.jsdelivr.net/gh/rafaelalmeidatk/chatgpt-sfx/gameover.wav');
-const sndWin      = createAudio('https://cdn.jsdelivr.net/gh/rafaelalmeidatk/chatgpt-sfx/win.wav');
+const sndJump     = new Audio('https://actions.google.com/sounds/v1/cartoon/goofy_spring_bounces.ogg');
+const sndCoin     = new Audio('https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg');
+const sndGameOver = new Audio('https://actions.google.com/sounds/v1/cartoon/deflate.ogg');
+const sndWin      = new Audio('https://actions.google.com/sounds/v1/cartoon/punchline_drum.ogg');
 
 
   // Inicialização
