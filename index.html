@@ -572,20 +572,23 @@ document.addEventListener('DOMContentLoaded',()=>{
     ctx.fillStyle = 'rgba(0,0,0,0.4)';
     ctx.fillRect(0, GROUND_Y, canvas.width, 20);
 
+  
     // Obstáculos
-    if (frame % OBST_FREQ === 0) {
-      const img = obstacleImgs[Math.floor(Math.random()*obstacleImgs.length)];
-      obstacles.push({ x:canvas.width, y:GROUND_Y-48, w:48, h:48, img });
-    }
-    obstacles = obstacles.filter(o => {
-      o.x -= GAME_SPEED;
-      ctx.drawImage(o.img, o.x, o.y, o.w, o.h);
-      if (collide(dino, o)) {
-        gameOver = true;
-        try { sndGameOver.currentTime = 0; sndGameOver.play(); } catch(e){}
-      }
-      return o.x + o.w > 0;
-    });
+if (frame % OBST_FREQ === 0) {
+  const img = obstacleImgs[Math.floor(Math.random()*obstacleImgs.length)];
+  const speed = GAME_SPEED + (Math.random() * 1.5 - 0.7); // velocidade de cada obstáculo
+  obstacles.push({ x:canvas.width, y:GROUND_Y-48, w:48, h:48, img, speed });
+}
+obstacles = obstacles.filter(o => {
+  o.x -= o.speed;
+  ctx.drawImage(o.img, o.x, o.y, o.w, o.h);
+  if (collide(dino, o)) {
+    gameOver = true;
+    try { sndGameOver.currentTime = 0; sndGameOver.play(); } catch(e){}
+  }
+  return o.x + o.w > 0;
+});
+
 
     // Moedas
     coins.forEach(c => {
