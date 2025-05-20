@@ -519,12 +519,26 @@ const sndWin      = createAudio('https://cdn.jsdelivr.net/gh/rafaelalmeidatk/cha
 
   // MOEDAS E FOGUETE
   function initCoinsAndRocket() {
-    coins = [];
-    for (let i = 0; i < TOTAL_COINS; i++) {
-      coins.push({ x: canvas.width + COIN_SPACING*i, y: GROUND_Y - 30, w:24, h:24, collected:false });
-    }
-    rocket = { x: canvas.width + COIN_SPACING*TOTAL_COINS + 200, y:GROUND_Y-60, w:48, h:48, launched:false, show:false };
+  coins = [];
+  for (let i = 0; i < TOTAL_COINS; i++) {
+    coins.push({
+      x: canvas.width + COIN_SPACING * i,
+      y: GROUND_Y - 30,
+      w: 24,
+      h: 24,
+      collected: false
+    });
   }
+  // Corrigido: foguete logo após a última moeda!
+  rocket = {
+    x: coins.length > 0 ? coins[coins.length - 1].x + 200 : canvas.width + 200,
+    y: GROUND_Y - 60,
+    w: 48,
+    h: 48,
+    launched: false,
+    show: false
+  };
+}
 
   // RESET do jogo
   function resetGame() {
