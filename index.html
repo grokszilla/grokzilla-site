@@ -531,14 +531,33 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
   // LOOP
-  function loop() {
-    if (!gameStarted) return;
-    frame++;
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    // Fundo se movendo
-    ctx.drawImage(imgBackground, bgX - canvas.width, 0, canvas.width, canvas.height);
-    ctx.drawImage(imgBackground, bgX, 0, canvas.width, canvas.height);
-    bgX = (bgX - BG_SPEED) % canvas.width;
+  if (!gameOver && !gameWin) {
+  requestAnimationFrame(loop);
+} else {
+  setTimeout(() => {
+    // Para todos os sons que podem estar tocando:
+    [sndJump, sndCoin, sndGameOver, sndWin].forEach(s => {
+      s.pause();
+      s.currentTime = 0;
+    });
+    gameStarted = false;
+    showCover();
+  }, 1000);
+}
+
+  // Fundo infinito
+for (let i = 0; i <= canvas.width / imgBackground.width + 1; i++) {
+  ctx.drawImage(
+    imgBackground,
+    ((bgX + i * imgBackground.width) % (imgBackground.width * 2)) - imgBackground.width,
+    0,
+    imgBackground.width,
+    canvas.height
+  );
+}
+bgX -= BG_SPEED;
+if (bgX <= -imgBackground.width) bgX = 0;
+
     // Chão
     ctx.fillStyle = 'rgba(0,0,0,0.4)';
     ctx.fillRect(0, GROUND_Y, canvas.width, 20);
