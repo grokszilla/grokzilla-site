@@ -191,13 +191,13 @@ footer img{width:20px;vertical-align:middle;margin-right:5px;}
 
   <!-- JOGO -->
 
-<section class="game">
-  <h2>🦖 Grokzilla: Dinossauro Rumo à Lua 🚀</h2>
-  <button id="startBtn" disabled style="display:none;">Carregando...</button>
-  <canvas id="gameCanvas" width="600" height="300"></canvas>
-  <div id="score">Pontos: 0</div>
-  <div id="message">Grokzilla rumo à lua! 🌕🚀</div>
-</section>
+  <section class="game">
+    <h2>🦖 Grokzilla: Rumo à Lua 🚀</h2>
+    <button id="startBtn" style="display:none;" disabled>Começar Jogo</button>
+    <canvas id="gameCanvas" width="600" height="300"></canvas>
+    <div id="score">Pontos: 0</div>
+    <div id="message">Grokzilla rumo à lua! 🌕🚀</div>
+  </section>
 
   <!-- SCRIPTS DE TRADUÇÃO E RAIN -->
   <script>
@@ -355,31 +355,40 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   </script>
 
-<div id="gameCover" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+ <div id="gameCover" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;">
     <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/capa.png" style="max-width:80vw;max-height:60vh;border-radius:20px;box-shadow:0 0 32px #14F195cc;">
     <button id="coverPlayBtn" style="margin-top:30px;padding:20px 60px;font-size:1.6rem;background:#14F195;color:#111;border-radius:18px;border:none;cursor:pointer;box-shadow:0 0 14px #9945FFcc;font-family:'Press Start 2P',cursive;">
       ▶️ JOGAR
     </button>
   </div>
 
+
 <!-- SCRIPTS DO JOGO -->
 
   <script>
 (() => {
-  // ——— DOM ———
-  const canvas   = document.getElementById('gameCanvas');
-  const ctx      = canvas.getContext('2d');
-  const startBtn = document.getElementById('startBtn');
+  const canvas    = document.getElementById('gameCanvas');
+  const ctx       = canvas.getContext('2d');
+  const startBtn  = document.getElementById('startBtn');
+  const cover     = document.getElementById('gameCover');
+  const coverBtn  = document.getElementById('coverPlayBtn');
 
-  // ——— CAPA ———
-  const cover    = document.getElementById('gameCover');
-  const coverBtn = document.getElementById('coverPlayBtn');
+  // SONS
+  const sndJump     = new Audio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa4c7f.mp3');
+  const sndCoin     = new Audio('https://cdn.pixabay.com/audio/2022/10/16/audio_12b8699c54.mp3');
+  const sndGameOver = new Audio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa4c7f.mp3');
+  const sndWin      = new Audio('https://cdn.pixabay.com/audio/2022/10/16/audio_12b8699c54.mp3');
+
+  // CAPA
+  cover.style.display = "flex";
+  startBtn.style.display = "none";
   coverBtn.onclick = () => {
     cover.style.display = 'none';
     startBtn.style.display = 'inline-block';
+    startBtn.disabled = false;
   };
 
-  // ——— CONFIG ———
+  // CONFIG
   const GROUND_Y     = canvas.height - 20;
   const GRAVITY      = 0.8;
   const JUMP_POWER   = 15;
@@ -387,8 +396,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   const TOTAL_COINS  = 20;
   const COIN_SPACING = 300;
   const OBST_FREQ    = 180;
-  const GAME_SPEED   = 1.2;      // << velocidade reduzida!
-  const BG_SPEED     = 0.4;      // << velocidade fundo reduzida
+  const GAME_SPEED   = 1.2;
+  const BG_SPEED     = 0.4;
 
   let coins       = [];
   let obstacles   = [];
@@ -400,7 +409,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   let bgX         = 0;
   let gameStarted = false;
 
-  // ——— SPRITES ———
+  // SPRITES
   const imgDino       = new Image(); imgDino.src       = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino1.png';
   const imgCoin       = new Image(); imgCoin.src       = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/moeda_real_transparente.png';
   const imgBackground = new Image(); imgBackground.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/pasaisgem%20.png';
@@ -412,27 +421,20 @@ document.addEventListener('DOMContentLoaded',()=>{
     (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/d660c790375cb4a33daf5156f1ff7b8b073af5a2/96710ea3-ff0d-4379-bb9c-ab93334e368d.png'; return i; })()
   ];
 
-  // ——— SONS ———
-  const sndJump     = new Audio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa4c7f.mp3');
-  const sndCoin     = new Audio('https://cdn.pixabay.com/audio/2022/10/16/audio_12b8699c54.mp3');
-  const sndGameOver = new Audio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa4c7f.mp3');
-  const sndWin      = new Audio('https://cdn.pixabay.com/audio/2022/10/16/audio_12b8699c54.mp3');
-
-  // ——— PRELOAD ———
+  // PRELOAD
   const assets = [ imgDino, imgCoin, imgBackground, imgRocket, ...obstacleImgs ];
   let loaded = 0;
   assets.forEach(img => {
-  img.onload = () => {
-    if (++loaded === assets.length) {
-      startBtn.disabled    = false;
-      startBtn.textContent = 'Começar Jogo';
-    }
-  };
-  img.onerror = () => console.error('Falha ao carregar', img.src);
-});
+    img.onload = () => {
+      if (++loaded === assets.length) {
+        startBtn.disabled    = false;
+        startBtn.textContent = 'Começar Jogo';
+      }
+    };
+    img.onerror = () => console.error('Falha ao carregar', img.src);
+  });
 
-
-  // ——— COLISÃO ———
+  // COLISÃO
   function collide(a,b) {
     const mX = 10, mY = 8;
     return (a.x + mX) < (b.x + b.w - mX)
@@ -441,7 +443,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         && (a.y + a.h) > (b.y);
   }
 
-  // ——— DINO ———
+  // DINO
   const dino = {
     x: 50, y: GROUND_Y - 50, w: 48, h: 48,
     vy: 0,
@@ -484,7 +486,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   };
 
-  // ——— MOEDAS E FOGUETE ———
+  // MOEDAS E FOGUETE
   function initCoinsAndRocket() {
     coins = [];
     for (let i = 0; i < TOTAL_COINS; i++) {
@@ -505,25 +507,20 @@ document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('score').textContent    = 'Pontos: 0';
     document.getElementById('message').style.display = 'none';
 
-    // re-exibe botão
     startBtn.style.display = 'inline-block';
     startBtn.disabled      = false;
     startBtn.textContent   = 'Reiniciar Jogo';
   }
 
-  // ——— LOOP ———
+  // LOOP
   function loop() {
     frame++;
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    // fundo parallax
     ctx.drawImage(imgBackground, bgX - canvas.width, 0, canvas.width, canvas.height);
-    ctx.drawImage(imgBackground, bgX,           0, canvas.width, canvas.height);
-    // chão
+    ctx.drawImage(imgBackground, bgX, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'rgba(0,0,0,0.4)';
     ctx.fillRect(0, GROUND_Y, canvas.width, 20);
-    // dino
     dino.update(); dino.draw();
-    // obstáculos
     if (frame % OBST_FREQ === 0) {
       const img = obstacleImgs[Math.floor(Math.random()*obstacleImgs.length)];
       obstacles.push({ x:canvas.width, y:GROUND_Y-48, w:48, h:48, img });
@@ -537,7 +534,6 @@ document.addEventListener('DOMContentLoaded',()=>{
       }
       return o.x + o.w > 0;
     });
-    // moedas
     coins.forEach(c => {
       if (!c.collected) {
         c.x -= GAME_SPEED;
@@ -550,10 +546,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         }
       }
     });
-    // foguete aparece só com 2 mil pontos
-    if (coinCount*100 >= 2000) {
-      rocket.show = true;
-    }
+    if (coinCount*100 >= 2000) rocket.show = true;
     if (rocket.show) {
       if (!rocket.launched) {
         rocket.x -= GAME_SPEED;
@@ -569,7 +562,6 @@ document.addEventListener('DOMContentLoaded',()=>{
         ctx.drawImage(imgRocket, rocket.x, rocket.y, rocket.w, rocket.h);
       }
     }
-    // continua ou overlay
     if (!gameOver && !gameWin) {
       requestAnimationFrame(loop);
     } else {
@@ -579,45 +571,29 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   }
 
-  // ——— CONTROLES ———  
+  // CONTROLES  
   document.addEventListener('keydown', e => {
-    // impede o scroll da página
-    if (['ArrowLeft','ArrowRight','ArrowUp','Space'].includes(e.code)) {
-      e.preventDefault();
-    }
+    if (['ArrowLeft','ArrowRight','ArrowUp','Space'].includes(e.code)) e.preventDefault();
     if (!gameStarted) return;
     if (e.code === 'ArrowRight') dino.movingRight = true;
     if (e.code === 'ArrowLeft')  dino.movingLeft  = true;
     if (e.code === 'ArrowUp' || e.code === 'Space') dino.jump();
   });
   document.addEventListener('keyup', e => {
-    if (['ArrowLeft','ArrowRight'].includes(e.code)) {
-      e.preventDefault();
-    }
+    if (['ArrowLeft','ArrowRight'].includes(e.code)) e.preventDefault();
     if (e.code === 'ArrowRight') dino.movingRight = false;
     if (e.code === 'ArrowLeft')  dino.movingLeft  = false;
   });
-coverBtn.onclick = () => {
-  cover.style.display = 'none';
-  startBtn.style.display = 'inline-block';
-  startBtn.disabled = false; // <-- Garante que o botão está liberado
-};
-  coverBtn.onclick = () => {
-  cover.style.display = 'none';
-  startBtn.style.display = 'inline-block';
-  startBtn.disabled = false; // Habilita o botão "Começar Jogo"
-};
-  // ——— START / RESTART ———  
-  startBtn.disabled = true;
+
+  // START / RESTART
   startBtn.onclick = () => {
-    gameStarted       = true;
     startBtn.style.display = 'none';
     startBtn.disabled      = true;
+    gameStarted = true;
     resetGame();
     requestAnimationFrame(loop);
   };
 })();
 </script>
-
 </body>
 </html>
