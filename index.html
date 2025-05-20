@@ -521,14 +521,11 @@ const sndWin      = new Audio('https://actions.google.com/sounds/v1/cartoon/punc
   function initCoinsAndRocket() {
   coins = [];
   for (let i = 0; i < TOTAL_COINS; i++) {
-    coins.push({
-      x: canvas.width + COIN_SPACING * i,
-      y: GROUND_Y - 30,
-      w: 24,
-      h: 24,
-      collected: false
-    });
+    coins.push({ x: canvas.width + COIN_SPACING*i, y: GROUND_Y - 30, w:24, h:24, collected:false });
   }
+  // Coloque o foguete mais perto para aparecer logo após a pontuação
+  rocket = { x: canvas.width + 300, y:GROUND_Y-60, w:48, h:48, launched:false, show:false };
+}
   // Corrigido: foguete logo após a última moeda!
   rocket = {
     x: coins.length > 0 ? coins[coins.length - 1].x + 200 : canvas.width + 200,
