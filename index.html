@@ -191,9 +191,9 @@ footer img{width:20px;vertical-align:middle;margin-right:5px;}
   <!-- JOGO -->
 
 <section class="game" id="gameSection">
-  <h2>🦖 Grokzilla:  Rumo à Lua 🚀</h2>
+  <h2>🦖 Grokzilla: Rumo à Lua 🚀</h2>
   <button id="startBtn">Começar Jogo</button>
-  <canvas id="gameCanvas" width="600" height="300" style="display:none;"></canvas>
+  <canvas id="gameCanvas" width="600" height="300" style="display:none; margin: 0 auto;"></canvas>
   <div id="score" style="display:none;">Pontos: 0</div>
   <div id="message" style="display:none;">Grokzilla rumo à lua! 🌕🚀</div>
 </section>
@@ -367,13 +367,13 @@ document.addEventListener('DOMContentLoaded',()=>{
 <script>
 (() => {
   // Pegando elementos DOM
-const startBtn  = document.getElementById('startBtn');
-const cover     = document.getElementById('gameCover');
-const coverBtn  = document.getElementById('coverPlayBtn');
-const canvas    = document.getElementById('gameCanvas');
-const ctx       = canvas.getContext('2d'); // <-- ADICIONE AQUI!
-const score     = document.getElementById('score');
-const message   = document.getElementById('message');
+  const startBtn  = document.getElementById('startBtn');
+  const cover     = document.getElementById('gameCover');
+  const coverBtn  = document.getElementById('coverPlayBtn');
+  const canvas    = document.getElementById('gameCanvas');
+  const ctx       = canvas.getContext('2d');
+  const score     = document.getElementById('score');
+  const message   = document.getElementById('message');
 
   // SONS
   const sndJump     = new Audio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa4c7f.mp3');
@@ -381,28 +381,25 @@ const message   = document.getElementById('message');
   const sndGameOver = new Audio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa4c7f.mp3');
   const sndWin      = new Audio('https://cdn.pixabay.com/audio/2022/10/16/audio_12b8699c54.mp3');
 
-  // Inicial: só o botão aparece, tudo do jogo escondido!
+  // Inicialização: apenas o botão aparece, o resto escondido!
   canvas.style.display = "none";
-score.style.display = "none";
-message.style.display = "none";
+  score.style.display = "none";
+  message.style.display = "none";
 
-  // Quando clica "Começar Jogo"
+  // Exibe a capa ao clicar "Começar Jogo"
   startBtn.onclick = () => {
     cover.style.display   = 'flex';  // Mostra a capa
     startBtn.style.display = 'none'; // Esconde o botão
-    canvas.style.display  = 'none';  // Canvas ainda fica escondido
-    score.style.display   = 'none';
-    message.style.display = 'none';
+    // O resto já está escondido
   };
 
   // Quando clica "JOGAR" na capa
   coverBtn.onclick = () => {
-  cover.style.display = 'none';      // Some o overlay/capa
-  canvas.style.display = 'block';    // Mostra o jogo
-  score.style.display = 'block';     // Mostra a pontuação
-  message.style.display = 'block';   // Mensagem de vitória, se quiser exibir ao final do jogo
-  // Chame aqui sua função para iniciar o jogo:   // Desabilita botão (segurança extra)
-    startGame();                    // Começa o jogo de verdade
+    cover.style.display = 'none';      // Some o overlay/capa
+    canvas.style.display = 'block';    // Mostra o jogo
+    score.style.display = 'block';     // Mostra a pontuação
+    message.style.display = 'none';    // Mensagem só no fim
+    startGame();                       // Começa o jogo de verdade
   };
 
   // ======== CONFIGURAÇÕES DO JOGO ========
@@ -527,7 +524,7 @@ message.style.display = "none";
     // reexibe canvas/score/message se voltar do reset
     canvas.style.display  = 'block';
     score.style.display   = 'block';
-    message.style.display = 'block';
+    message.style.display = 'none'; // só aparece ao ganhar
   }
 
   // INICIA o loop do jogo (só chamado ao clicar "JOGAR" na capa)
@@ -619,6 +616,5 @@ message.style.display = "none";
 
 })();
 </script>
-
 </body>
 </html>
