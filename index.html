@@ -219,8 +219,7 @@ footer img{width:20px;vertical-align:middle;margin-right:5px;}
       background: #0A0A0A;
       border-radius: 32px;
       box-shadow: 0 0 32px #14F19522;
-      padding: 32px 16px 24px 16px;
-    ">
+      padding: 32px 16px 24px 16px;">
     <img src="https://raw.githubusercontent.com/grokszilla/grokzilla-site/main/capa.png" alt="Capa Grokzilla" style="width:90%;max-width:340px;border-radius:20px;box-shadow:0 0 32px #14F195cc;margin-bottom:25px;">
     <button id="startBtn" style="padding:20px 60px;font-size:1.6rem;background:#14F195;color:#111;border-radius:18px;border:none;cursor:pointer;box-shadow:0 0 14px #9945FFcc;font-family:'Press Start 2P',cursive;">
       ▶️ Jogar Agora
@@ -230,6 +229,7 @@ footer img{width:20px;vertical-align:middle;margin-right:5px;}
   <div id="score" style="display:none; margin-top:12px;font-size:1.2rem;">Pontos: 0</div>
   <div id="message" style="display:none; margin-top:10px;font-size:1.2rem;font-weight:bold;color:#14F195;">Grokzilla rumo à lua! 🌕🚀</div>
 </section>
+
 
 
   <!-- SCRIPTS DE TRADUÇÃO E RAIN -->
@@ -391,7 +391,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   
 <script>
 (() => {
-  // DOM
   const cover     = document.getElementById('gameCover');
   const startBtn  = document.getElementById('startBtn');
   const canvas    = document.getElementById('gameCanvas');
@@ -399,17 +398,16 @@ document.addEventListener('DOMContentLoaded',()=>{
   const score     = document.getElementById('score');
   const message   = document.getElementById('message');
 
-  // SONS (carregam no clique!)
+  // Áudios do Google Actions
   function createAudio(src) {
     const audio = new Audio(src);
     audio.load();
     return audio;
   }
-const sndJump     = new Audio('https://actions.google.com/sounds/v1/cartoon/goofy_spring_bounces.ogg');
-const sndCoin     = new Audio('https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg');
-const sndGameOver = new Audio('https://actions.google.com/sounds/v1/cartoon/deflate.ogg');
-const sndWin      = new Audio('https://actions.google.com/sounds/v1/cartoon/punchline_drum.ogg');
-
+  const sndJump     = createAudio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg');
+  const sndCoin     = createAudio('https://actions.google.com/sounds/v1/cartoon/jingle_bells.ogg');
+  const sndGameOver = createAudio('https://actions.google.com/sounds/v1/cartoon/clown_horn.ogg');
+  const sndWin      = createAudio('https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg');
 
   // Inicialização
   function showCover() {
@@ -422,7 +420,7 @@ const sndWin      = new Audio('https://actions.google.com/sounds/v1/cartoon/punc
   }
   showCover();
 
-  // Quando clica em Jogar Agora
+  // Ao clicar "Jogar Agora"
   startBtn.onclick = () => {
     cover.style.display   = 'none';
     canvas.style.display  = 'block';
@@ -431,19 +429,18 @@ const sndWin      = new Audio('https://actions.google.com/sounds/v1/cartoon/punc
     startGame();
   };
 
-  // ======== CONFIGURAÇÕES DO JOGO ========
+  // CONFIGURAÇÃO
   const GROUND_Y     = canvas.height - 20;
   const GRAVITY      = 0.8;
   const JUMP_POWER   = 15;
-  const DINO_SPEED   = 3;
   const TOTAL_COINS  = 20;
   const COIN_SPACING = 300;
-  const OBST_FREQ    = 180;
-  const GAME_SPEED   = 1.2;
-  const BG_SPEED     = 0.4;
+  const OBST_FREQ    = 120;
+  let GAME_SPEED     = 2.4; // Velocidade inicial
+  const BG_SPEED     = 0.5;
 
-  let coins       = [];
   let obstacles   = [];
+  let coins       = [];
   let rocket      = null;
   let frame       = 0;
   let coinCount   = 0;
@@ -451,6 +448,7 @@ const sndWin      = new Audio('https://actions.google.com/sounds/v1/cartoon/punc
   let gameWin     = false;
   let bgX         = 0;
   let gameStarted = false;
+  let points      = 0;
 
   // SPRITES
   const imgDino       = new Image(); imgDino.src       = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino1.png';
@@ -464,38 +462,18 @@ const sndWin      = new Audio('https://actions.google.com/sounds/v1/cartoon/punc
     (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/d660c790375cb4a33daf5156f1ff7b8b073af5a2/96710ea3-ff0d-4379-bb9c-ab93334e368d.png'; return i; })()
   ];
 
-  // COLISÃO
-  function collide(a,b) {
-    const mX = 10, mY = 8;
-    return (a.x + mX) < (b.x + b.w - mX)
-        && (a.x + a.w - mX) > (b.x + mX)
-        && (a.y + mY) < (b.y + b.h)
-        && (a.y + a.h) > (b.y);
-  }
-
-  // DINO
+  // DINO (parado em x, só pula)
   const dino = {
     x: 50, y: GROUND_Y - 50, w: 48, h: 48,
     vy: 0,
-    onGround:   true,
-    movingRight:false,
-    movingLeft: false,
+    onGround: true,
     reset() {
       this.x = 50;
       this.y = GROUND_Y - this.h;
       this.vy= 0;
       this.onGround = true;
-      this.movingRight = this.movingLeft = false;
     },
     update() {
-      if (this.movingRight && this.x + this.w < canvas.width) {
-        this.x += DINO_SPEED;
-        bgX = (bgX - BG_SPEED + canvas.width) % canvas.width;
-      }
-      if (this.movingLeft && this.x > 0) {
-        this.x -= DINO_SPEED;
-        bgX = (bgX + BG_SPEED + canvas.width) % canvas.width;
-      }
       this.vy += GRAVITY;
       this.y  += this.vy;
       if (this.y > GROUND_Y - this.h) {
@@ -511,33 +489,30 @@ const sndWin      = new Audio('https://actions.google.com/sounds/v1/cartoon/punc
       if (this.onGround && gameStarted && !gameOver && !gameWin) {
         this.vy = -JUMP_POWER;
         this.onGround = false;
-        // Só tenta tocar áudio se já interagiu
         try { sndJump.currentTime = 0; sndJump.play(); } catch(e){}
       }
     }
   };
 
+  // COLISÃO
+  function collide(a,b) {
+    const mX = 10, mY = 8;
+    return (a.x + mX) < (b.x + b.w - mX)
+        && (a.x + a.w - mX) > (b.x + mX)
+        && (a.y + mY) < (b.y + b.h)
+        && (a.y + a.h) > (b.y);
+  }
+
   // MOEDAS E FOGUETE
   function initCoinsAndRocket() {
-  coins = [];
-  for (let i = 0; i < TOTAL_COINS; i++) {
-    coins.push({ x: canvas.width + COIN_SPACING*i, y: GROUND_Y - 30, w:24, h:24, collected:false });
+    coins = [];
+    for (let i = 0; i < TOTAL_COINS; i++) {
+      coins.push({ x: canvas.width + COIN_SPACING*i, y: GROUND_Y - 30, w:24, h:24, collected:false });
+    }
+    rocket = { x: canvas.width + COIN_SPACING*TOTAL_COINS + 200, y:GROUND_Y-60, w:48, h:48, launched:false, show:false };
   }
-  // Coloque o foguete mais perto para aparecer logo após a pontuação
-  rocket = { x: canvas.width + 300, y:GROUND_Y-60, w:48, h:48, launched:false, show:false };
-}
-  // Corrigido: foguete logo após a última moeda!
-  rocket = {
-    x: coins.length > 0 ? coins[coins.length - 1].x + 200 : canvas.width + 200,
-    y: GROUND_Y - 60,
-    w: 48,
-    h: 48,
-    launched: false,
-    show: false
-  };
-}
 
-  // RESET do jogo
+  // RESET
   function resetGame() {
     frame     = 0;
     obstacles = [];
@@ -545,20 +520,14 @@ const sndWin      = new Audio('https://actions.google.com/sounds/v1/cartoon/punc
     gameOver  = false;
     gameWin   = false;
     bgX       = 0;
+    points    = 0;
+    GAME_SPEED= 2.4;
     dino.reset();
     initCoinsAndRocket();
     score.textContent    = 'Pontos: 0';
     message.style.display = 'none';
     canvas.style.display  = 'block';
     score.style.display   = 'block';
-    message.style.display = 'none'; // só aparece ao ganhar
-  }
-
-  // INICIA o loop do jogo
-  function startGame() {
-    resetGame();
-    gameStarted = true;
-    requestAnimationFrame(loop);
   }
 
   // LOOP
@@ -566,17 +535,19 @@ const sndWin      = new Audio('https://actions.google.com/sounds/v1/cartoon/punc
     if (!gameStarted) return;
     frame++;
     ctx.clearRect(0,0,canvas.width,canvas.height);
+    // Fundo se movendo
     ctx.drawImage(imgBackground, bgX - canvas.width, 0, canvas.width, canvas.height);
     ctx.drawImage(imgBackground, bgX, 0, canvas.width, canvas.height);
+    bgX = (bgX - BG_SPEED) % canvas.width;
+    // Chão
     ctx.fillStyle = 'rgba(0,0,0,0.4)';
     ctx.fillRect(0, GROUND_Y, canvas.width, 20);
-    dino.update(); dino.draw();
 
+    // Obstáculos
     if (frame % OBST_FREQ === 0) {
       const img = obstacleImgs[Math.floor(Math.random()*obstacleImgs.length)];
       obstacles.push({ x:canvas.width, y:GROUND_Y-48, w:48, h:48, img });
     }
-
     obstacles = obstacles.filter(o => {
       o.x -= GAME_SPEED;
       ctx.drawImage(o.img, o.x, o.y, o.w, o.h);
@@ -587,6 +558,7 @@ const sndWin      = new Audio('https://actions.google.com/sounds/v1/cartoon/punc
       return o.x + o.w > 0;
     });
 
+    // Moedas
     coins.forEach(c => {
       if (!c.collected) {
         c.x -= GAME_SPEED;
@@ -594,13 +566,15 @@ const sndWin      = new Audio('https://actions.google.com/sounds/v1/cartoon/punc
         if (collide(dino, c)) {
           c.collected = true;
           coinCount++;
-          score.textContent = `Pontos: ${coinCount*100}`;
+          points += 100;
+          score.textContent = `Pontos: ${points}`;
           try { sndCoin.currentTime = 0; sndCoin.play(); } catch(e){}
         }
       }
     });
 
-    if (coinCount*100 >= 400) rocket.show = true;
+    // Foguete aparece a partir de 2000 pontos
+    if (points >= 2000) rocket.show = true;
 
     if (rocket.show) {
       if (!rocket.launched) {
@@ -618,6 +592,12 @@ const sndWin      = new Audio('https://actions.google.com/sounds/v1/cartoon/punc
       }
     }
 
+    // Dino update/draw
+    dino.update(); dino.draw();
+
+    // Aumenta dificuldade progressivamente
+    if (frame % 600 === 0 && GAME_SPEED < 6) GAME_SPEED += 0.3;
+
     if (!gameOver && !gameWin) {
       requestAnimationFrame(loop);
     } else {
@@ -628,35 +608,22 @@ const sndWin      = new Audio('https://actions.google.com/sounds/v1/cartoon/punc
     }
   }
 
-  // CONTROLES  
-  document.addEventListener('keydown', e => {
-    if (['ArrowLeft','ArrowRight','ArrowUp','Space'].includes(e.code)) e.preventDefault();
-    if (!gameStarted) return;
-    if (e.code === 'ArrowRight') dino.movingRight = true;
-    if (e.code === 'ArrowLeft')  dino.movingLeft  = true;
-    if (e.code === 'ArrowUp' || e.code === 'Space') dino.jump();
-  });
-  document.addEventListener('keyup', e => {
-    if (['ArrowLeft','ArrowRight'].includes(e.code)) e.preventDefault();
-    if (e.code === 'ArrowRight') dino.movingRight = false;
-    if (e.code === 'ArrowLeft')  dino.movingLeft = false;
-  });
+  // Start Game
+  function startGame() {
+    resetGame();
+    gameStarted = true;
+    requestAnimationFrame(loop);
+  }
 
-  // Para mobile: controles touch (básico)
-  let touchStartX = 0;
-  canvas.addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].clientX;
-  });
-  canvas.addEventListener('touchend', e => {
-    let dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 50) {
-      if (dx > 0) dino.movingRight = true;
-      else dino.movingLeft = true;
-      setTimeout(()=>{dino.movingRight=false;dino.movingLeft=false;},150);
-    } else {
+  // CONTROLES
+  document.addEventListener('keydown', e => {
+    if (['ArrowUp','Space'].includes(e.code)) {
+      e.preventDefault();
       dino.jump();
     }
   });
+  canvas.addEventListener('touchend', () => dino.jump());
+
 })();
 </script>
 </body>
