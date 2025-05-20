@@ -399,16 +399,27 @@ document.addEventListener('DOMContentLoaded',()=>{
   const score     = document.getElementById('score');
   const message   = document.getElementById('message');
 
- // Sons
-  const jumpSound = new Audio('https://actions.google.com/sounds/v1/cartoon/slide_whistle_to_drum_hit.ogg');
-  const coinSound = new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg');
-  const rocketSound = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
-
+  // SONS (carregam no clique!)
+  function createAudio(src) {
+    const audio = new Audio(src);
+    audio.load();
+    return audio;
+  }
+  const sndJump     = createAudio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa4c7f.mp3');
+  const sndCoin     = createAudio('https://cdn.pixabay.com/audio/2022/10/16/audio_12b8699c54.mp3');
+  const sndGameOver = createAudio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa4c7f.mp3');
+  const sndWin      = createAudio('https://cdn.pixabay.com/audio/2022/10/16/audio_12b8699c54.mp3');
 
   // Inicialização
-  canvas.style.display = "none";
-  score.style.display = "none";
-  message.style.display = "none";
+  function showCover() {
+    cover.style.display = 'flex';
+    startBtn.style.display = 'inline-block';
+    startBtn.disabled = false;
+    canvas.style.display = 'none';
+    score.style.display = 'none';
+    message.style.display = 'none';
+  }
+  showCover();
 
   // Quando clica em Jogar Agora
   startBtn.onclick = () => {
@@ -451,19 +462,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/baleia.png'; return i; })(),
     (() => { const i=new Image(); i.src='https://raw.githubusercontent.com/grokszilla/grokzilla-site/d660c790375cb4a33daf5156f1ff7b8b073af5a2/96710ea3-ff0d-4379-bb9c-ab93334e368d.png'; return i; })()
   ];
-
-  // PRELOAD dos sprites
-  const assets = [ imgDino, imgCoin, imgBackground, imgRocket, ...obstacleImgs ];
-  let loaded = 0;
-  assets.forEach(img => {
-    img.onload = () => {
-      if (++loaded === assets.length) {
-        startBtn.disabled    = false;
-        startBtn.textContent = '▶️ Jogar Agora';
-      }
-    };
-    img.onerror = () => console.error('Falha ao carregar', img.src);
-  });
 
   // COLISÃO
   function collide(a,b) {
@@ -512,7 +510,8 @@ document.addEventListener('DOMContentLoaded',()=>{
       if (this.onGround && gameStarted && !gameOver && !gameWin) {
         this.vy = -JUMP_POWER;
         this.onGround = false;
-        sndJump.currentTime = 0; sndJump.play();
+        // Só tenta tocar áudio se já interagiu
+        try { sndJump.currentTime = 0; sndJump.play(); } catch(e){}
       }
     }
   };
@@ -552,6 +551,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // LOOP
   function loop() {
+    if (!gameStarted) return;
     frame++;
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.drawImage(imgBackground, bgX - canvas.width, 0, canvas.width, canvas.height);
@@ -559,19 +559,22 @@ document.addEventListener('DOMContentLoaded',()=>{
     ctx.fillStyle = 'rgba(0,0,0,0.4)';
     ctx.fillRect(0, GROUND_Y, canvas.width, 20);
     dino.update(); dino.draw();
+
     if (frame % OBST_FREQ === 0) {
       const img = obstacleImgs[Math.floor(Math.random()*obstacleImgs.length)];
       obstacles.push({ x:canvas.width, y:GROUND_Y-48, w:48, h:48, img });
     }
+
     obstacles = obstacles.filter(o => {
       o.x -= GAME_SPEED;
       ctx.drawImage(o.img, o.x, o.y, o.w, o.h);
       if (collide(dino, o)) {
         gameOver = true;
-        sndGameOver.currentTime = 0; sndGameOver.play();
+        try { sndGameOver.currentTime = 0; sndGameOver.play(); } catch(e){}
       }
       return o.x + o.w > 0;
     });
+
     coins.forEach(c => {
       if (!c.collected) {
         c.x -= GAME_SPEED;
@@ -580,11 +583,13 @@ document.addEventListener('DOMContentLoaded',()=>{
           c.collected = true;
           coinCount++;
           score.textContent = `Pontos: ${coinCount*100}`;
-          sndCoin.currentTime = 0; sndCoin.play();
+          try { sndCoin.currentTime = 0; sndCoin.play(); } catch(e){}
         }
       }
     });
+
     if (coinCount*100 >= 2000) rocket.show = true;
+
     if (rocket.show) {
       if (!rocket.launched) {
         rocket.x -= GAME_SPEED;
@@ -593,26 +598,20 @@ document.addEventListener('DOMContentLoaded',()=>{
           rocket.launched = true;
           gameWin = true;
           message.style.display = 'block';
-          sndWin.currentTime = 0; sndWin.play();
+          try { sndWin.currentTime = 0; sndWin.play(); } catch(e){}
         }
       } else {
         rocket.y -= 4;
         ctx.drawImage(imgRocket, rocket.x, rocket.y, rocket.w, rocket.h);
       }
     }
+
     if (!gameOver && !gameWin) {
       requestAnimationFrame(loop);
     } else {
-      ctx.fillStyle = 'rgba(0,0,0,0.5)';
-      ctx.fillRect(0,0,canvas.width,canvas.height);
       setTimeout(() => {
-        cover.style.display = 'flex'; // Volta para a capa depois de perder/ganhar
-        startBtn.style.display = 'inline-block';
-        startBtn.disabled = false;
         gameStarted = false;
-        canvas.style.display = 'none';
-        score.style.display  = 'none';
-        message.style.display = 'none';
+        showCover();
       }, 1000);
     }
   }
@@ -631,6 +630,21 @@ document.addEventListener('DOMContentLoaded',()=>{
     if (e.code === 'ArrowLeft')  dino.movingLeft = false;
   });
 
+  // Para mobile: controles touch (básico)
+  let touchStartX = 0;
+  canvas.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  });
+  canvas.addEventListener('touchend', e => {
+    let dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) {
+      if (dx > 0) dino.movingRight = true;
+      else dino.movingLeft = true;
+      setTimeout(()=>{dino.movingRight=false;dino.movingLeft=false;},150);
+    } else {
+      dino.jump();
+    }
+  });
 })();
 </script>
 </body>
