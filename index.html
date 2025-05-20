@@ -405,10 +405,11 @@ document.addEventListener('DOMContentLoaded',()=>{
     audio.load();
     return audio;
   }
-  const sndJump     = createAudio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa4c7f.mp3');
-  const sndCoin     = createAudio('https://cdn.pixabay.com/audio/2022/10/16/audio_12b8699c54.mp3');
-  const sndGameOver = createAudio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa4c7f.mp3');
-  const sndWin      = createAudio('https://cdn.pixabay.com/audio/2022/10/16/audio_12b8699c54.mp3');
+const sndJump     = createAudio('https://cdn.jsdelivr.net/gh/rafaelalmeidatk/chatgpt-sfx/jump.wav');
+const sndCoin     = createAudio('https://cdn.jsdelivr.net/gh/rafaelalmeidatk/chatgpt-sfx/coin.wav');
+const sndGameOver = createAudio('https://cdn.jsdelivr.net/gh/rafaelalmeidatk/chatgpt-sfx/gameover.wav');
+const sndWin      = createAudio('https://cdn.jsdelivr.net/gh/rafaelalmeidatk/chatgpt-sfx/win.wav');
+
 
   // Inicialização
   function showCover() {
