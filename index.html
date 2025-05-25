@@ -520,20 +520,28 @@ document.addEventListener('DOMContentLoaded',()=>{
   // COLISÃO
   function collide(a, b) {
   // reduzimos a “inset” do hitbox para 4px em X e Y
-  const insetX = 4;
-  const insetY = 4;
+  // e adicionamos um gap extra de 6px no bottom
+  const insetX   = 4;
+  const insetY   = 4;
+  const gapY     = 6;  // espaço extra acima do obstáculo
 
+  // dino
   const ax1 = a.x + insetX;
   const ay1 = a.y + insetY;
+  // aqui usamos insetY + gapY pra subir mais a caixa inferior
   const ax2 = a.x + a.w - insetX;
-  const ay2 = a.y + a.h - insetY;
+  const ay2 = a.y + a.h - (insetY + gapY);
 
+  // obstáculo
   const bx1 = b.x + insetX;
   const by1 = b.y + insetY;
   const bx2 = b.x + b.w - insetX;
   const by2 = b.y + b.h - insetY;
 
-  return ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 > by1;
+  return ax1 < bx2 &&
+         ax2 > bx1 &&
+         ay1 < by2 &&
+         ay2 > by1;
 }
 
   // MOEDAS E FOGUETE
