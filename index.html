@@ -518,21 +518,25 @@ const BG_SPEED       = 0.5;
     }
   };
 
- function collide(a, b) {
+// COLISÃO
+function collide(a, b) {
   const insetX    = 4;
   const insetY    = 4;
   const gapBottom = 8;
 
+  // Hitbox do dino
   const ax1 = a.x + insetX;
   const ay1 = a.y + insetY;
   const ax2 = a.x + a.w - insetX;
   const ay2 = a.y + a.h - insetY - gapBottom;
 
+  // Hitbox do obstáculo
   const bx1 = b.x + insetX;
   const by1 = b.y + insetY;
   const bx2 = b.x + b.w - insetX;
   const by2 = b.y + b.h - insetY;
 
+  // somente a checagem de overlap, sem desenhos
   return ax1 < bx2 &&
          ax2 > bx1 &&
          ay1 < by2 &&
