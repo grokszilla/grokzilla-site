@@ -518,13 +518,23 @@ document.addEventListener('DOMContentLoaded',()=>{
   };
 
   // COLISÃO
-  function collide(a,b) {
-    const mX = 10, mY = 8;
-    return (a.x + mX) < (b.x + b.w - mX)
-        && (a.x + a.w - mX) > (b.x + mX)
-        && (a.y + mY) < (b.y + b.h)
-        && (a.y + a.h) > (b.y);
-  }
+  function collide(a, b) {
+  // reduzimos a “inset” do hitbox para 4px em X e Y
+  const insetX = 4;
+  const insetY = 4;
+
+  const ax1 = a.x + insetX;
+  const ay1 = a.y + insetY;
+  const ax2 = a.x + a.w - insetX;
+  const ay2 = a.y + a.h - insetY;
+
+  const bx1 = b.x + insetX;
+  const by1 = b.y + insetY;
+  const bx2 = b.x + b.w - insetX;
+  const by2 = b.y + b.h - insetY;
+
+  return ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 > by1;
+}
 
   // MOEDAS E FOGUETE
   function initCoinsAndRocket() {
