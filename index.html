@@ -518,40 +518,26 @@ const BG_SPEED       = 0.5;
     }
   };
 
-  // COLISÃO
-  function collide(a, b) {
-  // inset para reduzir hitbox horizontal e vertical
-  const insetX   = 4;
-  const insetY   = 4;
-  // gap extra só no fundo do dino (para pular mais “alto”)
+ function collide(a, b) {
+  const insetX    = 4;
+  const insetY    = 4;
   const gapBottom = 8;
 
-  // Hitbox do dino
   const ax1 = a.x + insetX;
   const ay1 = a.y + insetY;
   const ax2 = a.x + a.w - insetX;
-  // aqui subimos o limite inferior do dino
   const ay2 = a.y + a.h - insetY - gapBottom;
 
-  // Hitbox do obstáculo
   const bx1 = b.x + insetX;
   const by1 = b.y + insetY;
   const bx2 = b.x + b.w - insetX;
   const by2 = b.y + b.h - insetY;
 
-  // DEBUG: desenha os retângulos (remova depois de ajustar)
-  ctx.strokeStyle = 'rgba(255,0,0,0.7)';
-  ctx.strokeRect(ax1, ay1, ax2-ax1, ay2-ay1);
-  ctx.strokeStyle = 'rgba(0,0,255,0.7)';
-  ctx.strokeRect(bx1, by1, bx2-bx1, by2-by1);
-
-  // checagem de overlap
   return ax1 < bx2 &&
          ax2 > bx1 &&
          ay1 < by2 &&
          ay2 > by1;
 }
-
 
   // MOEDAS E FOGUETE
   function initCoinsAndRocket() {
