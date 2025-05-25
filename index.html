@@ -463,15 +463,16 @@ document.addEventListener('DOMContentLoaded',()=>{
   const imgCoin       = new Image(); imgCoin.src       = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/moeda_real_transparente.png';
   const imgRocket     = new Image(); imgRocket.src     = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino_foguete_transparente_final.png';
 
-  // CONFIGS DO JOGO
-  const GROUND_Y     = canvas.height - 20;
-  const GRAVITY      = 0.8;
-  const JUMP_POWER   = 15;
-  const TOTAL_COINS  = 20;
-  const COIN_SPACING = 300;
-  const OBST_FREQ    = 120;
-  let GAME_SPEED     = 2.4; // Velocidade inicial
-  const BG_SPEED     = 0.5;
+// CONFIGS DO JOGO
+const GROUND_Y       = canvas.height - 20;
+const GRAVITY        = 0.5;    // gravidade menor → queda mais lenta
+const MAX_FALL_SPEED = 12;     // velocidade terminal na queda
+const JUMP_POWER     = 15;
+const TOTAL_COINS    = 20;
+const COIN_SPACING   = 300;
+const OBST_FREQ      = 120;
+let GAME_SPEED       = 2.4;    // Velocidade inicial
+const BG_SPEED       = 0.5;
 
   let obstacles   = [];
   let coins       = [];
