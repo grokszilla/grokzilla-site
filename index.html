@@ -566,118 +566,101 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // LOOP
   function loop() {
-    if (!gameStarted) return;
-    frame++;
+  if (!gameStarted) return;
+  frame++;
 
-    // limpa todo o canvas antes de desenhar
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // 1) Limpa todo o canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // animação do cenário
-    if (frame % 8 === 0) animFrame++;
-    const bgIndex = Math.floor((frame / 1000) % 2);
-    for (let i = 0; i <= canvas.width / bgImg.width + 2; i++) {
-  ctx.drawImage(
-    bgImg,
-    ((bgX + i * bgImg.width) % (bgImg.width * 2)) - bgImg.width,
-    0,
-    bgImg.width,
-    canvas.height
-  );
-}
-    bgX -= BG_SPEED;
-    if (bgX <= -bgImg.width) bgX = 0;
+  // 2) Cenário infinito sem gaps
+  if (frame % 8 === 0) animFrame++;
+  const bgIndex = Math.floor((frame / 1000) % 2);
+  const bgImg   = bgImgs[bgIndex];
+  for (let i = 0; i <= canvas.width / bgImg.width + 2; i++) {
+    ctx.drawImage(
+      bgImg,
+      ((bgX + i * bgImg.width) % (bgImg.width * 2)) - bgImg.width,
+      0,
+      bgImg.width,
+      canvas.height
+    );
+  }
+  bgX -= BG_SPEED;
+  if (bgX <= -bgImg.width) bgX = 0;
 
-    // chão
-    ctx.fillStyle = 'rgba(0,0,0,0.4)';
-    ctx.fillRect(0, GROUND_Y, canvas.width, 20);
+  // 3) Desenha o chão
+  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  ctx.fillRect(0, GROUND_Y, canvas.width, 20);
 
-    // obstáculos
-    if (frame % OBST_FREQ === 0) {
-      const tipo = Math.floor(Math.random() * obstacleImgs.length);
-      obstacles.push({ tipo, x: canvas.width, y: GROUND_Y - 48, w: 48, h: 48 });
+  // 4) Obstáculos
+  if (frame % OBST_FREQ === 0) {
+    const tipo = Math.floor(Math.random() * obstacleImgs.length);
+    obstacles.push({ tipo, x: canvas.width, y: GROUND_Y - 48, w: 48, h: 48 });
+  }
+  obstacles = obstacles.filter(o => {
+    o.x -= GAME_SPEED;
+    ctx.drawImage(obstacleImgs[o.tipo][animFrame % 2], o.x, o.y, o.w, o.h);
+    if (collide(dino, o)) {
+      gameOver = true;
+      try { sndGameOver.currentTime = 0; sndGameOver.play(); } catch(e){}
     }
-    obstacles = obstacles.filter(o => {
-      o.x -= GAME_SPEED;
-      ctx.drawImage(obstacleImgs[o.tipo][animFrame % 2], o.x, o.y, o.w, o.h);
-      if (collide(dino, o)) {
-        gameOver = true;
-        try { sndGameOver.currentTime = 0; sndGameOver.play(); } catch(e){}
-      }
-      return o.x + o.w > 0;
-    });
-
-    // moedas
-    // === DENTRO DO LOOP(), no lugar de “// Moedas” ===
-
-// 1) Spawna uma moeda a cada COIN_SPACING frames
-if (frame % COIN_SPACING === 0) {
-  coins.push({
-    x: canvas.width,
-    y: GROUND_Y - 30,
-    w: 24, h: 24,
-    collected: false
+    return o.x + o.w > 0;
   });
-}
 
-// 2) Atualiza e desenha apenas as moedas ativas
-coins = coins.filter(c => {
-  c.x -= GAME_SPEED;
-  // desenha
-  ctx.drawImage(imgCoin, c.x, c.y, c.w, c.h);
-  
-  // coleta?
-  if (!c.collected && collide(dino, c)) {
-    c.collected = true;
-    points += 100;
-    score.textContent = `Pontos: ${points}`;
-    try { sndCoin.currentTime = 0; sndCoin.play(); } catch(e){}
+  // 5) Moedas infinitas
+  if (frame % COIN_SPACING === 0) {
+    coins.push({ x: canvas.width, y: GROUND_Y - 30, w: 24, h: 24, collected: false });
   }
-  
-  // mantém no array só se ainda estiver visível **e** não coletado
-  return !c.collected && c.x + c.w > 0;
-});
+  coins = coins.filter(c => {
+    c.x -= GAME_SPEED;
+    ctx.drawImage(imgCoin, c.x, c.y, c.w, c.h);
+    if (!c.collected && collide(dino, c)) {
+      c.collected = true;
+      points += 100;
+      score.textContent = `Pontos: ${points}`;
+      try { sndCoin.currentTime = 0; sndCoin.play(); } catch(e){}
+    }
+    return !c.collected && c.x + c.w > 0;
+  });
 
-    // repõe moedas se acabarem
-    if (coins.every(c => c.collected)) initCoinsAndRocket();
-
-    // foguete
-    if (points >= 2000) rocket.show = true;
-    if (rocket.show) {
-      if (!rocket.launched) {
-        rocket.x -= GAME_SPEED;
-        ctx.drawImage(imgRocket, rocket.x, rocket.y, rocket.w, rocket.h);
-        if (collide(dino, rocket)) {
-          rocket.launched = true;
-          gameWin = true;
-          message.style.display = 'block';
-          try { sndWin.currentTime = 0; sndWin.play(); } catch(e){}
-        }
-      } else {
-        rocket.y -= 4;
-        ctx.drawImage(imgRocket, rocket.x, rocket.y, rocket.w, rocket.h);
+  // 6) Foguete aos 2000 pontos
+  if (points >= 2000) rocket.show = true;
+  if (rocket.show) {
+    if (!rocket.launched) {
+      rocket.x -= GAME_SPEED;
+      ctx.drawImage(imgRocket, rocket.x, rocket.y, rocket.w, rocket.h);
+      if (collide(dino, rocket)) {
+        rocket.launched = true;
+        gameWin = true;
+        message.style.display = 'block';
+        try { sndWin.currentTime = 0; sndWin.play(); } catch(e){}
       }
-    }
-
-    // dino
-    dino.update();
-    dino.draw();
-
-    // aumenta dificuldade
-    if (frame % 600 === 0 && GAME_SPEED < 6) GAME_SPEED += 0.3;
-
-    // próximo frame ou fim
-    if (!gameOver && !gameWin) {
-      requestAnimationFrame(loop);
     } else {
-      setTimeout(() => {
-        [sndJump, sndCoin, sndGameOver, sndWin].forEach(s => {
-          s.pause(); s.currentTime = 0;
-        });
-        gameStarted = false;
-        showCover();
-      }, 1000);
+      rocket.y -= 4;
+      ctx.drawImage(imgRocket, rocket.x, rocket.y, rocket.w, rocket.h);
     }
   }
+
+  // 7) Atualiza e desenha o Dino
+  dino.update();
+  dino.draw();
+
+  // 8) Aumenta dificuldade
+  if (frame % 600 === 0 && GAME_SPEED < 6) GAME_SPEED += 0.3;
+
+  // 9) Próximo frame ou fim de jogo
+  if (!gameOver && !gameWin) {
+    requestAnimationFrame(loop);
+  } else {
+    setTimeout(() => {
+      [sndJump, sndCoin, sndGameOver, sndWin].forEach(s => {
+        s.pause(); s.currentTime = 0;
+      });
+      gameStarted = false;
+      showCover();
+    }, 1000);
+  }
+}
 
   // capa inicial
   function showCover() {
