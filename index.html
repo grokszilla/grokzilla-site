@@ -598,18 +598,36 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
 
     // moedas
-    coins.forEach(c => {
-      if (!c.collected) {
-        c.x -= GAME_SPEED;
-        ctx.drawImage(imgCoin, c.x, c.y, c.w, c.h);
-        if (collide(dino, c)) {
-          c.collected = true;
-          points += 100;
-          score.textContent = `Pontos: ${points}`;
-          try { sndCoin.currentTime = 0; sndCoin.play(); } catch(e){}
-        }
-      }
-    });
+    // === DENTRO DO LOOP(), no lugar de “// Moedas” ===
+
+// 1) Spawna uma moeda a cada COIN_SPACING frames
+if (frame % COIN_SPACING === 0) {
+  coins.push({
+    x: canvas.width,
+    y: GROUND_Y - 30,
+    w: 24, h: 24,
+    collected: false
+  });
+}
+
+// 2) Atualiza e desenha apenas as moedas ativas
+coins = coins.filter(c => {
+  c.x -= GAME_SPEED;
+  // desenha
+  ctx.drawImage(imgCoin, c.x, c.y, c.w, c.h);
+  
+  // coleta?
+  if (!c.collected && collide(dino, c)) {
+    c.collected = true;
+    points += 100;
+    score.textContent = `Pontos: ${points}`;
+    try { sndCoin.currentTime = 0; sndCoin.play(); } catch(e){}
+  }
+  
+  // mantém no array só se ainda estiver visível **e** não coletado
+  return !c.collected && c.x + c.w > 0;
+});
+
     // repõe moedas se acabarem
     if (coins.every(c => c.collected)) initCoinsAndRocket();
 
