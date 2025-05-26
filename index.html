@@ -386,8 +386,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
   </script>
-  
-<script>
+  <script>
 (() => {
   const cover     = document.getElementById('gameCover');
   const startBtn  = document.getElementById('startBtn');
@@ -408,71 +407,45 @@ document.addEventListener('DOMContentLoaded',()=>{
   const sndWin      = createAudio('https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg');
 
   // IMAGENS DO DINO (2 frames)
-  const dinoImgs = [
-    new Image(), // Frame 1
-    new Image(), // Frame 2
-  ];
+  const dinoImgs = [ new Image(), new Image() ];
   dinoImgs[0].src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/dinoo1.png';
   dinoImgs[1].src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/dinoo2.png';
 
   // IMAGENS DE CENÁRIO
-  const bgImgs = [
-    new Image(),
-    new Image(),
-  ];
+  const bgImgs = [ new Image(), new Image() ];
   bgImgs[0].src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/pasaisgem%20.png';
   bgImgs[1].src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/paisagem2.png';
 
   // Obstáculos (dois frames cada um)
   const obstacleImgs = [
-    // tapete
-    [
-      new Image(), // frame 1
-      new Image(), // frame 2
-    ],
-    // urso
-    [
-      new Image(),
-      new Image(),
-    ],
-    // baleia
-    [
-      new Image(),
-      new Image(),
-    ],
-    // mão de alface
-    [
-      new Image(),
-      new Image(),
-    ],
+    [ new Image(), new Image() ], // tapete
+    [ new Image(), new Image() ], // urso
+    [ new Image(), new Image() ], // baleia
+    [ new Image(), new Image() ]  // mão de alface
   ];
-  // Tapete
   obstacleImgs[0][0].src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/tapete.png';
   obstacleImgs[0][1].src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/tapete2.png';
-  // Urso
   obstacleImgs[1][0].src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/urso.png';
   obstacleImgs[1][1].src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/urso2.png';
-  // Baleia
   obstacleImgs[2][0].src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/baleia.png';
   obstacleImgs[2][1].src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/baleia2.png';
-  // Mão de alface
   obstacleImgs[3][0].src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/96710ea3-ff0d-4379-bb9c-ab93334e368d.png';
   obstacleImgs[3][1].src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/refs/heads/main/maodealface2.png';
 
   // Outras imagens
-  const imgCoin       = new Image(); imgCoin.src       = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/moeda_real_transparente.png';
-  const imgRocket     = new Image(); imgRocket.src     = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino_foguete_transparente_final.png';
+  const imgCoin   = new Image(); imgCoin.src   = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/moeda_real_transparente.png';
+  const imgRocket = new Image(); imgRocket.src = 'https://raw.githubusercontent.com/grokszilla/grokzilla-site/a1d148b38467c212f06382252950a348f98a9d36/dino_foguete_transparente_final.png';
 
-// CONFIGS DO JOGO
-const GROUND_Y       = canvas.height - 20;
-const GRAVITY        = 0.5;    // gravidade menor → queda mais lenta
-const MAX_FALL_SPEED = 12;     // velocidade terminal na queda
-const JUMP_POWER     = 15;
-const TOTAL_COINS    = 20;
-const COIN_SPACING   = 300;
-const OBST_FREQ      = 120;
-let GAME_SPEED       = 2.4;    // Velocidade inicial
-const BG_SPEED       = 0.5;
+  // CONFIGS DO JOGO
+  const GROUND_Y       = canvas.height - 20;
+  const GRAVITY        = 0.5;    // gravidade menor → queda mais lenta
+  const MAX_FALL_SPEED = 12;     // velocidade terminal na queda
+  const JUMP_POWER     = 15;
+  const TOTAL_COINS    = 20;
+  const COIN_SPACING   = 300;
+  const OBST_FREQ      = 120;
+  let   GAME_SPEED     = 2.4;    // Velocidade inicial
+  const BG_SPEED       = 0.5;
 
   let obstacles   = [];
   let coins       = [];
@@ -488,9 +461,8 @@ const BG_SPEED       = 0.5;
 
   // DINO (2 frames)
   const dino = {
-    x: 50, y: GROUND_Y - 50, w: 48, h: 48,
-    vy: 0,
-    onGround: true,
+    x: 50, y: GROUND_Y - 48, w: 48, h: 48,
+    vy: 0, onGround: true,
     reset() {
       this.x = 50;
       this.y = GROUND_Y - this.h;
@@ -498,8 +470,9 @@ const BG_SPEED       = 0.5;
       this.onGround = true;
     },
     update() {
-      this.vy += GRAVITY;
-      this.y  += this.vy;
+      // aplica gravidade e limita a queda
+      this.vy = Math.min(this.vy + GRAVITY, MAX_FALL_SPEED);
+      this.y += this.vy;
       if (this.y > GROUND_Y - this.h) {
         this.y = GROUND_Y - this.h;
         this.vy= 0;
@@ -518,61 +491,66 @@ const BG_SPEED       = 0.5;
     }
   };
 
-// COLISÃO
-function collide(a, b) {
-  const insetX    = 4;
-  const insetY    = 4;
-  const gapBottom = 8;
+  // COLISÃO
+  function collide(a, b) {
+    const insetX    = 4;
+    const insetY    = 4;
+    const gapBottom = 8;
 
-  // Hitbox do dino
-  const ax1 = a.x + insetX;
-  const ay1 = a.y + insetY;
-  const ax2 = a.x + a.w - insetX;
-  const ay2 = a.y + a.h - insetY - gapBottom;
+    // Hitbox do dino
+    const ax1 = a.x + insetX;
+    const ay1 = a.y + insetY;
+    const ax2 = a.x + a.w - insetX;
+    const ay2 = a.y + a.h - insetY - gapBottom;
 
-  // Hitbox do obstáculo
-  const bx1 = b.x + insetX;
-  const by1 = b.y + insetY;
-  const bx2 = b.x + b.w - insetX;
-  const by2 = b.y + b.h - insetY;
+    // Hitbox do obstáculo / moeda / foguete
+    const bx1 = b.x + insetX;
+    const by1 = b.y + insetY;
+    const bx2 = b.x + b.w - insetX;
+    const by2 = b.y + b.h - insetY;
 
-  // somente a checagem de overlap, sem desenhos
-  return ax1 < bx2 &&
-         ax2 > bx1 &&
-         ay1 < by2 &&
-         ay2 > by1;
-}
+    return ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 > by1;
+  }
 
   // MOEDAS E FOGUETE
   function initCoinsAndRocket() {
     coins = [];
     for (let i = 0; i < TOTAL_COINS; i++) {
-      coins.push({ x: canvas.width + COIN_SPACING*i, y: GROUND_Y - 30, w:24, h:24, collected:false });
+      coins.push({
+        x: canvas.width + COIN_SPACING * i,
+        y: GROUND_Y - 30,
+        w: 24, h: 24,
+        collected: false
+      });
     }
-    rocket = { x: canvas.width + COIN_SPACING*TOTAL_COINS + 200, y:GROUND_Y-60, w:48, h:48, launched:false, show:false };
+    rocket = {
+      x: canvas.width + COIN_SPACING * TOTAL_COINS + 200,
+      y: GROUND_Y - 60,
+      w: 48, h: 48,
+      launched: false,
+      show: false
+    };
   }
 
   // RESET
   function resetGame() {
-    frame     = 0;
-    obstacles = [];
-    coinCount = 0;
-    gameOver  = false;
-    gameWin   = false;
-    bgX       = 0;
-    points    = 0;
-    GAME_SPEED= 2.4;
-    animFrame = 0;
+    frame      = 0;
+    obstacles  = [];
+    coinCount  = 0;
+    gameOver   = false;
+    gameWin    = false;
+    bgX        = 0;
+    points     = 0;
+    GAME_SPEED = 2.4;
+    animFrame  = 0;
     dino.reset();
     initCoinsAndRocket();
-    score.textContent    = 'Pontos: 0';
+    score.textContent     = 'Pontos: 0';
     message.style.display = 'none';
     canvas.style.display  = 'block';
     score.style.display   = 'block';
-    // Pausa todos sons
     [sndJump, sndCoin, sndGameOver, sndWin].forEach(s => {
-      s.pause();
-      s.currentTime = 0;
+      s.pause(); s.currentTime = 0;
     });
   }
 
@@ -581,14 +559,13 @@ function collide(a, b) {
     if (!gameStarted) return;
     frame++;
 
-    // Animação: troca a cada 8 frames
+    // limpa todo o canvas antes de desenhar
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // animação do cenário
     if (frame % 8 === 0) animFrame++;
-
-    // Troca cenário a cada 1000 frames
     const bgIndex = Math.floor((frame / 1000) % 2);
-
-    // Fundo infinito alternando
-    const bgImg = bgImgs[bgIndex];
+    const bgImg   = bgImgs[bgIndex];
     for (let i = 0; i <= canvas.width / bgImg.width + 1; i++) {
       ctx.drawImage(
         bgImg,
@@ -601,19 +578,14 @@ function collide(a, b) {
     bgX -= BG_SPEED;
     if (bgX <= -bgImg.width) bgX = 0;
 
-    // Chão
+    // chão
     ctx.fillStyle = 'rgba(0,0,0,0.4)';
     ctx.fillRect(0, GROUND_Y, canvas.width, 20);
 
-    // Obstáculos
+    // obstáculos
     if (frame % OBST_FREQ === 0) {
       const tipo = Math.floor(Math.random() * obstacleImgs.length);
-      obstacles.push({
-        tipo,
-        x: canvas.width,
-        y: GROUND_Y - 48,
-        w: 48, h: 48
-      });
+      obstacles.push({ tipo, x: canvas.width, y: GROUND_Y - 48, w: 48, h: 48 });
     }
     obstacles = obstacles.filter(o => {
       o.x -= GAME_SPEED;
@@ -625,24 +597,24 @@ function collide(a, b) {
       return o.x + o.w > 0;
     });
 
-    // Moedas
+    // moedas
     coins.forEach(c => {
       if (!c.collected) {
         c.x -= GAME_SPEED;
         ctx.drawImage(imgCoin, c.x, c.y, c.w, c.h);
         if (collide(dino, c)) {
           c.collected = true;
-          coinCount++;
           points += 100;
           score.textContent = `Pontos: ${points}`;
           try { sndCoin.currentTime = 0; sndCoin.play(); } catch(e){}
         }
       }
     });
+    // repõe moedas se acabarem
+    if (coins.every(c => c.collected)) initCoinsAndRocket();
 
-    // Foguete aparece a partir de 2000 pontos
+    // foguete
     if (points >= 2000) rocket.show = true;
-
     if (rocket.show) {
       if (!rocket.launched) {
         rocket.x -= GAME_SPEED;
@@ -659,20 +631,20 @@ function collide(a, b) {
       }
     }
 
-    // Dino update/draw
-    dino.update(); dino.draw();
+    // dino
+    dino.update();
+    dino.draw();
 
-    // Aumenta dificuldade progressivamente
+    // aumenta dificuldade
     if (frame % 600 === 0 && GAME_SPEED < 6) GAME_SPEED += 0.3;
 
+    // próximo frame ou fim
     if (!gameOver && !gameWin) {
       requestAnimationFrame(loop);
     } else {
       setTimeout(() => {
-        // Pausa sons ao finalizar
         [sndJump, sndCoin, sndGameOver, sndWin].forEach(s => {
-          s.pause();
-          s.currentTime = 0;
+          s.pause(); s.currentTime = 0;
         });
         gameStarted = false;
         showCover();
@@ -680,18 +652,18 @@ function collide(a, b) {
     }
   }
 
-  // Mostra capa inicial
+  // capa inicial
   function showCover() {
-    cover.style.display = 'flex';
-    startBtn.style.display = 'inline-block';
-    startBtn.disabled = false;
-    canvas.style.display = 'none';
-    score.style.display = 'none';
+    cover.style.display   = 'flex';
+    startBtn.style.display= 'inline-block';
+    startBtn.disabled     = false;
+    canvas.style.display  = 'none';
+    score.style.display   = 'none';
     message.style.display = 'none';
   }
   showCover();
 
-  // Inicia o jogo
+  // inicia jogo
   startBtn.onclick = () => {
     cover.style.display   = 'none';
     canvas.style.display  = 'block';
@@ -706,7 +678,7 @@ function collide(a, b) {
     requestAnimationFrame(loop);
   }
 
-  // CONTROLES
+  // controles teclado / toque
   document.addEventListener('keydown', e => {
     if (['ArrowUp','Space'].includes(e.code)) {
       e.preventDefault();
@@ -714,7 +686,6 @@ function collide(a, b) {
     }
   });
   canvas.addEventListener('touchend', () => dino.jump());
-
 })();
 </script>
 </body>
