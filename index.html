@@ -534,25 +534,35 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // RESET
   function resetGame() {
-    frame      = 0;
-    obstacles  = [];
-    coinCount  = 0;
-    gameOver   = false;
-    gameWin    = false;
-    bgX        = 0;
-    points     = 0;
-    GAME_SPEED = 2.4;
-    animFrame  = 0;
-    dino.reset();
-    initCoinsAndRocket();
-    score.textContent     = 'Pontos: 0';
-    message.style.display = 'none';
-    canvas.style.display  = 'block';
-    score.style.display   = 'block';
-    [sndJump, sndCoin, sndGameOver, sndWin].forEach(s => {
-      s.pause(); s.currentTime = 0;
-    });
-  }
+  frame      = 0;
+  obstacles  = [];
+  coins      = [];
+  gameOver   = false;
+  gameWin    = false;
+  bgX        = 0;
+  points     = 0;
+  GAME_SPEED = 2.4;
+  animFrame  = 0;
+  dino.reset();
+
+  // AQUI é onde você deve recriar o foguete:
+  rocket = {
+    x: canvas.width + 300,  // ou o offset que você quiser
+    y: GROUND_Y - 60,
+    w: 48,
+    h: 48,
+    launched: false,
+    show: false
+  };
+
+  score.textContent     = 'Pontos: 0';
+  message.style.display = 'none';
+  canvas.style.display  = 'block';
+  score.style.display   = 'block';
+  [sndJump, sndCoin, sndGameOver, sndWin].forEach(s => {
+    s.pause(); s.currentTime = 0;
+  });
+}
 
   // LOOP
   function loop() {
@@ -565,16 +575,15 @@ document.addEventListener('DOMContentLoaded',()=>{
     // animação do cenário
     if (frame % 8 === 0) animFrame++;
     const bgIndex = Math.floor((frame / 1000) % 2);
-    const bgImg   = bgImgs[bgIndex];
-    for (let i = 0; i <= canvas.width / bgImg.width + 1; i++) {
-      ctx.drawImage(
-        bgImg,
-        ((bgX + i * bgImg.width) % (bgImg.width * 2)) - bgImg.width,
-        0,
-        bgImg.width,
-        canvas.height
-      );
-    }
+    for (let i = 0; i <= canvas.width / bgImg.width + 2; i++) {
+  ctx.drawImage(
+    bgImg,
+    ((bgX + i * bgImg.width) % (bgImg.width * 2)) - bgImg.width,
+    0,
+    bgImg.width,
+    canvas.height
+  );
+}
     bgX -= BG_SPEED;
     if (bgX <= -bgImg.width) bgX = 0;
 
