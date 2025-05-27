@@ -853,15 +853,16 @@ document.addEventListener('DOMContentLoaded',()=>{
     message.style.display  = 'none';
   }
   showCover();
-
-  // Inicia
-  // Substitua esta parte no seu código:
+  
+// Inicia o jogo e esconde a tela de cover
 startBtn.onclick = () => {
-  cover.style.display   = 'none';   // esconde a tela de cover
-  canvas.style.display  = 'block';  // mostra o canvas do jogo
+  cover.style.display   = 'none';   // esconde a cover
+  canvas.style.display  = 'block';  // mostra o canvas
+  score.style.display   = 'block';  // mostra o placar
+  message.style.display = 'none';   // garante mensagem oculta
   resetGame();                      // reinicia variáveis e estados
-  gameStarted = true;               // marca jogo como iniciado
-  requestAnimationFrame(loop);      // inicia o loop principal
+  gameStarted = true;               // sinaliza que o jogo começou
+  requestAnimationFrame(loop);      // dispara o loop principal
 };
 
   // Controles
