@@ -855,11 +855,14 @@ document.addEventListener('DOMContentLoaded',()=>{
   showCover();
 
   // Inicia
-  startBtn.onclick = () => {
-    resetGame();
-    gameStarted = true;
-    requestAnimationFrame(loop);
-  };
+  // Substitua esta parte no seu código:
+startBtn.onclick = () => {
+  cover.style.display   = 'none';   // esconde a tela de cover
+  canvas.style.display  = 'block';  // mostra o canvas do jogo
+  resetGame();                      // reinicia variáveis e estados
+  gameStarted = true;               // marca jogo como iniciado
+  requestAnimationFrame(loop);      // inicia o loop principal
+};
 
   // Controles
   document.addEventListener('keydown', e => {
