@@ -711,6 +711,13 @@ document.addEventListener('DOMContentLoaded',()=>{
   const canvas    = document.getElementById('gameCanvas');
   const ctx       = canvas.getContext('2d');
   const score     = document.getElementById('score');
+<script>
+(() => {
+  const cover     = document.getElementById('gameCover');
+  const startBtn  = document.getElementById('startBtn');
+  const canvas    = document.getElementById('gameCanvas');
+  const ctx       = canvas.getContext('2d');
+  const score     = document.getElementById('score');
   const message   = document.getElementById('message');
 
   // Áudios
@@ -982,4 +989,3 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 </body>
 </html>
-  
